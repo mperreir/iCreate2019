@@ -9,18 +9,24 @@ var raycaster = new THREE.Raycaster(),INTERSECTED;
 var mouse = new THREE.Vector2();
 var distance = 400;
 
+var color = {
+	'blue' : 0x45a8e5,
+	'green' : 0x8ec945,
+}
+
 // -- basic initialization -- //
 function init() {
 	renderer = new THREE.WebGLRenderer({
 		antialias: true
 	});
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setClearColor(0x48F9FF, 1);
+	renderer.setClearColor(color.blue, 1);
 	container.appendChild(renderer.domElement);
 
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(100, 100, 2000);
+	camera.position.set(0, 500, 500);
+	camera.rotation.x -= 0.25 * Math.PI;
 	scene.add(camera);
 
 	light = new THREE.PointLight(0xffffff, 1, 4000);
@@ -30,7 +36,7 @@ function init() {
 	lightAmbient = new THREE.AmbientLight(0x404040);
 	scene.add(light, light_two, lightAmbient);
   var geometry = new THREE.PlaneGeometry( 1000, 1000, 2 );
-  var material = new THREE.MeshBasicMaterial( {color: 0x54E87A, side: THREE.DoubleSide} );
+  var material = new THREE.MeshBasicMaterial( {color: color.green, side: THREE.DoubleSide} );
   var plane = new THREE.Mesh( geometry, material );
   plane.rotation.x = 0.5 * Math.PI;
   scene.add( plane );
