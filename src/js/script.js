@@ -37,23 +37,23 @@ function init() {
 	//createSpheres();
 
 	renderer.render(scene, camera);
-  // let tree_path = 'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree.gltf';
-	// var loader = new THREE.GLTFLoader();
-	// loader.load(
-	//    tree_path,
-	//    function ( gltf ) {
-	//       var scale = 5.6;
-	// 			let bus = {};
-	//       bus.body = gltf;
-	//       bus.body.name = 'body';
-	//       bus.body.rotation.set ( 0, -1.5708, 0 );
-	//       bus.body.scale.set (scale,scale,scale);
-	//       bus.body.position.set ( 0, 3.6, 0 );
-	//       bus.body.castShadow = true;
-	//       bus.frame.add(bus.body);
-	// 			scene.add( bus.body );
-	//    },
-	// );
+  let tree_path = 'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree.gltf';
+	var loader = new THREE.GLTFLoader();
+	loader.load(
+	   tree_path,
+	   function ( gltf ) {
+	      var scale = 5.6;
+				console.log(gltf.scenes[0]);
+				let bus = {};
+	      bus.body = gltf.scenes[0];
+	      bus.body.name = 'body';
+	      bus.body.rotation.set ( 0, -1.5708, 0 );
+	      bus.body.scale.set (scale,scale,scale);
+	      bus.body.position.set ( 0, 3.6, 0 );
+	      bus.body.castShadow = true;
+				scene.add( bus.body );
+	   },
+	);
 }
 
 // -- events -- //
