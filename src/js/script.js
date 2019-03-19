@@ -43,16 +43,17 @@ function init() {
 	//    tree_path,
 	//    function ( gltf ) {
 	//       var scale = 5.6;
-	//       bus.body = gltf.scene.children[0];
-	//       bus.body.name = “body”;
+	// 			let bus = {};
+	//       bus.body = gltf;
+	//       bus.body.name = 'body';
 	//       bus.body.rotation.set ( 0, -1.5708, 0 );
 	//       bus.body.scale.set (scale,scale,scale);
 	//       bus.body.position.set ( 0, 3.6, 0 );
 	//       bus.body.castShadow = true;
 	//       bus.frame.add(bus.body);
+	// 			scene.add( bus.body );
 	//    },
 	// );
-	// scene.add( bus.frame )
 }
 
 // -- events -- //
