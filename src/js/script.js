@@ -15,7 +15,7 @@ function init() {
 		antialias: true
 	});
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setClearColor(0x140b33, 1);
+	renderer.setClearColor(0x48F9FF, 1);
 	container.appendChild(renderer.domElement);
 
 	scene = new THREE.Scene();
@@ -34,54 +34,13 @@ function init() {
   var plane = new THREE.Mesh( geometry, material );
   plane.rotation.x = 0.5 * Math.PI;
   scene.add( plane );
-	createSpheres();
+	//createSpheres();
 
 	renderer.render(scene, camera);
 
 	document.addEventListener('mousemove', onMouseMove, false);
 	window.addEventListener('resize', onWindowResize, false);
 }
-
-// -- spheres -- //
-function createSpheres() {
-
-	spheres = new THREE.Object3D();
-
-	for (var i = 0; i < 80; i++) {
-		var sphere = new THREE.SphereGeometry(4, Math.random() * 12, Math.random() * 12);
-		var material = new THREE.MeshPhongMaterial({
-			color: Math.random() * 0xff00000 - 0xff00000,
-			shading: THREE.FlatShading,
-		});
-
-		var particle = new THREE.Mesh(sphere, material);
-		particle.position.x = Math.random() * distance * 10;
-		particle.position.y = Math.random() * -distance * 6;
-		particle.position.z = Math.random() * distance * 4;
-		particle.rotation.y = Math.random() * 2 * Math.PI;
-		particle.scale.x = particle.scale.y = particle.scale.z = Math.random() * 12 + 5;
-		spheres.add(particle);
-	};
-
-	spheres.position.y = 500;
-	spheres.position.x = -2000;
-	spheres.position.z = -100;
-	spheres.rotation.y = Math.PI * 600;
-
-	scene.add(spheres);
-};
-
-
-// -- events -- //
-function onMouseMove(event) {
-	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-	mouseX = event.clientX - window.innerWidth / 2;
-	mouseY = event.clientY - window.innerHeight / 2;
-	camera.position.x += (mouseX - camera.position.x) * 0.01;
-	camera.position.y += (mouseY - camera.position.y) * 0.01;
-	camera.lookAt(scene.position);
-};
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
