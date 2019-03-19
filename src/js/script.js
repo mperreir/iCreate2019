@@ -37,10 +37,34 @@ function init() {
 	//createSpheres();
 
 	renderer.render(scene, camera);
-
-	document.addEventListener('mousemove', onMouseMove, false);
-	window.addEventListener('resize', onWindowResize, false);
+  // let tree_path = 'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree.gltf';
+	// var loader = new THREE.GLTFLoader();
+	// loader.load(
+	//    tree_path,
+	//    function ( gltf ) {
+	//       var scale = 5.6;
+	//       bus.body = gltf.scene.children[0];
+	//       bus.body.name = “body”;
+	//       bus.body.rotation.set ( 0, -1.5708, 0 );
+	//       bus.body.scale.set (scale,scale,scale);
+	//       bus.body.position.set ( 0, 3.6, 0 );
+	//       bus.body.castShadow = true;
+	//       bus.frame.add(bus.body);
+	//    },
+	// );
+	// scene.add( bus.frame )
 }
+
+// -- events -- //
+function onMouseMove(event) {
+	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+	mouseX = event.clientX - window.innerWidth / 2;
+	mouseY = event.clientY - window.innerHeight / 2;
+	camera.position.x += (mouseX - camera.position.x) * 0.01;
+	camera.position.y += (mouseY - camera.position.y) * 0.01;
+	camera.lookAt(scene.position);
+};
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
