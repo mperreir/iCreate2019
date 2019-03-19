@@ -29,7 +29,11 @@ function init() {
 	light_two.position.set(-100, 800, 800);
 	lightAmbient = new THREE.AmbientLight(0x404040);
 	scene.add(light, light_two, lightAmbient);
-
+  var geometry = new THREE.PlaneGeometry( 1000, 1000, 2 );
+  var material = new THREE.MeshBasicMaterial( {color: 0x54E87A, side: THREE.DoubleSide} );
+  var plane = new THREE.Mesh( geometry, material );
+  plane.rotation.x = 0.5 * Math.PI;
+  scene.add( plane );
 	createSpheres();
 
 	renderer.render(scene, camera);
