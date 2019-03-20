@@ -9,13 +9,19 @@ async function loadEveryModels(paths, models3D){
 		loader.load(
 			paths[p],
 			function(res){
+				console.log('Hey')
 				console.log(res);
-				models3D[p] = res.scene.children[0];
 				loader_count--;
+				let castleTexture = new THREE.TextureLoader().load(`https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/textures/Material.001_diffuse.png`)
+				let castleMaterial = new THREE.MeshBasicMaterial({ map: castleTexture })
+
+				models3D[p] = new THREE.Mesh(res.scenes[0], castleMaterial);
+
 			}
 		);
 	}
 
 	while(loader_count != 0)	await sleep(50);
+	console.log('fin')
 	console.log(models3D);
 }

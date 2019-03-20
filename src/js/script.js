@@ -12,7 +12,7 @@ let color = {
 
 let models_paths = {
 	'tree':'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree/tree.gltf',
-	'house':'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/scene.gltf',
+	//'house':'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/castle/scene.gltf',
 };
 
 async function init() {

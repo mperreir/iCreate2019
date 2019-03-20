@@ -48,13 +48,13 @@ function getCirclePitSteps(width, length, object_width, object_length){
       res.push([]);
     }
   }
-  console.log(counter);
   return res;
 }
 
 
 async function expansion(model, scene, width=300, length=300, rand=2, padding=2){
   let box = new THREE.Box3().setFromObject(model);
+  console.log(box);
   steps = getCirclePitSteps(width, length, (2*box.max.x)+padding, (2*box.max.z)+padding);
   console.log(steps);
 
