@@ -11,6 +11,7 @@ def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_c
 	s = oalOpen(filepath)
 	s.set_looping(loop)
 	s.set_position((left_center_right, CENTER, back_center_front))
+	# TODO cône 360
 	s.play()
 	if until_end:
 		while s.get_state() == AL_PLAYING:
