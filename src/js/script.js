@@ -1,5 +1,3 @@
-console.clear();
-
 let renderer, scene, camera, projector;
 let models3D = {};
 
@@ -45,8 +43,7 @@ async function init() {
 
 	// Loading every models
 	await loadEveryModels(models_paths, models3D);
-	models3D.tree.rotation.set (0, -1.5708, 0);
-	scene.add(models3D.tree);
+	treeMap(scene, models3D);
 
 	renderer.render(scene, camera);
 	//animate();
