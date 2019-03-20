@@ -24,7 +24,7 @@ async function init() {
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(0, 50, 50);
+	camera.position.set(0, 500, 500);
 	camera.rotation.x -= 0.25 * Math.PI;
 	scene.add(camera);
 	// TODO: Revoir les parametres des lumiéres
