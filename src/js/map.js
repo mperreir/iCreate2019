@@ -53,15 +53,14 @@ function getCirclePitSteps(width, length, object_width, object_length){
 }
 
 
-async function expansion(model, scene){
+async function expansion(model, scene, width=300, length=300, rand=2, padding=2){
   let box = new THREE.Box3().setFromObject(model);
-  steps = getCirclePitSteps(300, 300, (box.max.x - box.min.x) * 1.5, (box.max.y - box.min.y)/1.5);
+  steps = getCirclePitSteps(width, length, (2*box.max.x)+padding, (2*box.max.z)+padding);
   console.log(steps);
 
   let add_model = async () => {
       let new_model = model.clone();
-      //new_model.position.set(pos.y, 0, pos.x);
-      new_model.position.set(pos.x + Math.random() * 2, 0, pos.y + Math.random() * 2);
+      new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
       await sleep(Math.random() * 1000);
       scene.add(new_model);
   };
@@ -76,5 +75,5 @@ async function expansion(model, scene){
 
 function treeMap(scene, models3D){
 	models3D.tree.rotation.set(0, -1.5708, 0);
-  expansion(models3D.tree, scene);
+  expansion(models3D.tree, scene, 200, 200, 3);
 }
