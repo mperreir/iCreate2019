@@ -1,8 +1,10 @@
 import websockets.*;
+import java.net.*;
 
 WebsocketServer ws;
 int now;
 float x, y;
+String address;
 
 void setup() {
   size(200,200);
@@ -12,10 +14,20 @@ void setup() {
   now = millis();
   x = 0;
   y = 0;
+  
+  try {
+    address = InetAddress.getLocalHost().toString();
+  } catch (UnknownHostException e) {
+    
+  }
 }
 
 void draw() {
   background(0);
+  
+  textSize(14);
+  text(address.toString(), 10,20);
+  
   ellipse(x,y, 10,10);
   
   //Send message to all clients very 5 seconds
