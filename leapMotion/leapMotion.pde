@@ -11,20 +11,19 @@ import de.voidplus.leapmotion.*;
 
 LeapMotion leap;
 
-void setup(){
-  size(800, 500);
-  background(255);
-  // ...
-    print(q.x);
-  //leap = new LeapMotion(this).allowGestures();  // All gestures
-  // leap = new LeapMotion(this).allowGestures("circle, swipe, screen_tap, key_tap");
-   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
-}
+//void setup(){
+//  size(800, 500);
+//  background(255);
+//  // ...
+//  //leap = new LeapMotion(this).allowGestures();  // All gestures
+//  // leap = new LeapMotion(this).allowGestures("circle, swipe, screen_tap, key_tap");
+//   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
+//}
 
-void draw(){
-  background(255);
-  // ...
-}
+//void draw(){
+//  background(255);
+//  // ...
+//}
 
 
 // ======================================================
