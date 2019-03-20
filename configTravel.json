@@ -1,0 +1,54 @@
+{
+  "brazil":{
+    "star": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "end": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "path": "assets/pathToBrazil"
+  },
+  "russia": {
+    "star":{
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "end":{
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "path": "assets/pathToRussia"
+  },
+  "japan": {
+    "star": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "end": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "path": "assets/pathToJapan"
+  },
+  "usa": {
+    "star": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "end": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "path": "assets/pathToUSA"
+  }
+}
