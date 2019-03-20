@@ -48,7 +48,7 @@ function getCirclePitSteps(width, length, object_width, object_length){
       res.push([]);
     }
   }
-
+  console.log(counter);
   return res;
 }
 

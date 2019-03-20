@@ -46,13 +46,24 @@ async function init() {
 	treeMap(scene, models3D);
 
 	renderer.render(scene, camera);
-	//animate();
+	document.addEventListener('mousemove', onMouseMove, false);
+	animate();
 }
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	camera.updateProjectionMatrix();
+};
+
+function onMouseMove(event) {
+	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+	mouseX = event.clientX - window.innerWidth / 2;
+	mouseY = event.clientY - window.innerHeight / 2;
+	camera.position.x += (mouseX - camera.position.x) * 0.001;
+	camera.position.y += (mouseY - camera.position.y) * 0.001;
+	camera.lookAt(scene.position);
 };
 
 function animate() {
