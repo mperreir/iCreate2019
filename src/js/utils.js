@@ -9,8 +9,8 @@ async function loadEveryModels(paths, models3D){
 		loader.load(
 			paths[p],
 			function(res){
-				console.log(p);
-				models3D[p] = res.scenes[0];
+				console.log(res);
+				models3D[p] = res.scene.children[0];
 				loader_count--;
 			}
 		);
