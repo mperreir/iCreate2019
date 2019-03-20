@@ -9,6 +9,7 @@ async function loadEveryModels(paths, models3D){
 		loader.load(
 			paths[p],
 			function(res){
+				console.log(p);
 				models3D[p] = res.scenes[0];
 				loader_count--;
 			}
@@ -16,4 +17,5 @@ async function loadEveryModels(paths, models3D){
 	}
 
 	while(loader_count != 0)	await sleep(50);
+	console.log(models3D);
 }

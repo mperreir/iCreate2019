@@ -3,24 +3,24 @@
     {
       "bufferView": 2,
       "componentType": 5126,
-      "count": 942,
+      "count": 349,
       "max": [
-        185.38189697265625,
-        151.1907958984375,
-        120.01950073242188
+        10,
+        20,
+        10
       ],
       "min": [
-        0,
-        0,
-        0
+        -10,
+        -0,
+        -10
       ],
       "type": "VEC3"
     },
     {
       "bufferView": 2,
-      "byteOffset": 11304,
+      "byteOffset": 4188,
       "componentType": 5126,
-      "count": 942,
+      "count": 349,
       "max": [
         1,
         1,
@@ -36,7 +36,7 @@
     {
       "bufferView": 3,
       "componentType": 5126,
-      "count": 942,
+      "count": 349,
       "max": [
         1,
         1,
@@ -47,30 +47,30 @@
         -1,
         -1,
         -1,
-        -1
+        1
       ],
       "type": "VEC4"
     },
     {
       "bufferView": 1,
       "componentType": 5126,
-      "count": 942,
+      "count": 349,
       "max": [
-        0.99779999256134033,
-        0.99570000171661377
+        1,
+        1
       ],
       "min": [
-        0.0031999999191612005,
-        0.011599999852478504
+        0,
+        0
       ],
       "type": "VEC2"
     },
     {
       "bufferView": 0,
       "componentType": 5125,
-      "count": 1761,
+      "count": 684,
       "max": [
-        941
+        348
       ],
       "min": [
         0
@@ -80,42 +80,42 @@
   ],
   "asset": {
     "extras": {
-      "author": "basti_931 (https://sketchfab.com/basti_931)",
+      "author": "YunXi Zheng (SamMi) (https://sketchfab.com/yunxizheng)",
       "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
-      "source": "https://sketchfab.com/models/3f2431b6c0a8440a87ec0fb1f40798e2",
-      "title": "House_Low Poly"
+      "source": "https://sketchfab.com/models/eca007778f0b4e9f9fe2ec5bd6e2d607",
+      "title": "lowpoly texture baked house"
     },
-    "generator": "Sketchfab-3.18.5",
+    "generator": "Sketchfab-3.18.7",
     "version": "2.0"
   },
   "bufferViews": [
     {
       "buffer": 0,
-      "byteLength": 7044,
+      "byteLength": 2736,
       "byteOffset": 0,
       "name": "floatBufferViews",
       "target": 34963
     },
     {
       "buffer": 0,
-      "byteLength": 7536,
-      "byteOffset": 7044,
+      "byteLength": 2792,
+      "byteOffset": 2736,
       "byteStride": 8,
       "name": "floatBufferViews",
       "target": 34962
     },
     {
       "buffer": 0,
-      "byteLength": 22608,
-      "byteOffset": 14580,
+      "byteLength": 8376,
+      "byteOffset": 5528,
       "byteStride": 12,
       "name": "floatBufferViews",
       "target": 34962
     },
     {
       "buffer": 0,
-      "byteLength": 15072,
-      "byteOffset": 37188,
+      "byteLength": 5584,
+      "byteOffset": 13904,
       "byteStride": 16,
       "name": "floatBufferViews",
       "target": 34962
@@ -123,37 +123,57 @@
   ],
   "buffers": [
     {
-      "byteLength": 52260,
+      "byteLength": 19488,
       "uri": "scene.bin"
     }
   ],
+  "extensionsRequired": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
+  "extensionsUsed": [
+    "KHR_materials_pbrSpecularGlossiness"
+  ],
   "images": [
     {
-      "uri": "textures/Material__23_baseColor.jpg"
+      "uri": "textures/Material.001_diffuse.png"
+    },
+    {
+      "uri": "textures/Material.001_specularGlossiness.png"
     }
   ],
   "materials": [
     {
-      "doubleSided": true,
-      "name": "Material__23",
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          1,
-          1,
-          1,
-          1
-        ],
-        "baseColorTexture": {
-          "index": 0,
-          "texCoord": 0
-        },
-        "metallicFactor": 0,
-        "roughnessFactor": 0.59999999999999998
-      }
+      "doubleSided": false,
+      "extensions": {
+        "KHR_materials_pbrSpecularGlossiness": {
+          "diffuseFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "diffuseTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "glossinessFactor": 0.18441656159999997,
+          "specularFactor": [
+            1,
+            1,
+            1
+          ],
+          "specularGlossinessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      },
+      "name": "Material.001"
     }
   ],
   "meshes": [
     {
+      "name": "house.000_0",
       "primitives": [
         {
           "attributes": {
@@ -192,35 +212,35 @@
       "children": [
         3
       ],
+      "name": "Root"
+    },
+    {
+      "children": [
+        4
+      ],
       "matrix": [
         1,
         0,
         0,
         0,
         0,
+        -0,
         1,
         0,
         0,
+        -1,
+        -0,
         0,
         0,
-        1,
         0,
-        -92.105796813964844,
-        -75.366096496582031,
-        -0.48590001463890076,
+        0,
         1
       ],
-      "name": "Haus.obj.cleaner.materialmerger.gles"
-    },
-    {
-      "children": [
-        4
-      ],
-      "name": ""
+      "name": "house.000"
     },
     {
       "mesh": 0,
-      "name": ""
+      "name": "house.000_0"
     }
   ],
   "samplers": [
@@ -244,6 +264,10 @@
     {
       "sampler": 0,
       "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
     }
   ]
 }

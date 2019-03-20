@@ -74,6 +74,6 @@ async function expansion(model, scene, width=300, length=300, rand=2, padding=2)
 }
 
 function treeMap(scene, models3D){
-	models3D.tree.rotation.set(0, -1.5708, 0);
-  expansion(models3D.tree, scene, 200, 200, 3);
+	models3D.house.rotation.set(0, -1.5708, 0);
+  expansion(models3D.house, scene, 200, 200, 3);
 }
