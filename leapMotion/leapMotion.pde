@@ -13,7 +13,7 @@ LeapMotion leap;
 
 //void setup(){
 //  size(800, 500);
-//  background(255);
+//  backgrounnd(255);
 //  // ...
 //  //leap = new LeapMotion(this).allowGestures();  // All gestures
 //  // leap = new LeapMotion(this).allowGestures("circle, swipe, screen_tap, key_tap");
