@@ -52,17 +52,25 @@ function getCirclePitSteps(width, length, object_width, object_length){
   return res;
 }
 
-function expansion(model, scene){
+
+async function expansion(model, scene){
   let box = new THREE.Box3().setFromObject(model);
-  steps = getCirclePitSteps(300, 300, box.max.x - box.min.x, (box.max.y - box.min.y)/1.5);
+  steps = getCirclePitSteps(300, 300, (box.max.x - box.min.x) * 1.5, (box.max.y - box.min.y)/1.5);
   console.log(steps);
-  for(s of steps){
-    for(pos of s){
+
+  let add_model = async () => {
       let new_model = model.clone();
       //new_model.position.set(pos.y, 0, pos.x);
-      new_model.position.set(pos.x, 0, pos.y);
-    	scene.add(new_model);
+      new_model.position.set(pos.x + Math.random() * 2, 0, pos.y + Math.random() * 2);
+      await sleep(Math.random() * 1000);
+      scene.add(new_model);
+  };
+
+  for(s of steps){
+    for(pos of s){
+      add_model(pos)
     }
+    await sleep(800);
   }
 }
 
