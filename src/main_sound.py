@@ -7,11 +7,14 @@ CENTER = 0
 LEFT = FRONT = -2
 RIGHT = BACK = 2
 
-def play(filepath, loop=False, left_center_right=CENTER, back_center_front=CENTER):
+def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER):
 	s = oalOpen(filepath)
 	s.set_looping(loop)
 	s.set_position((left_center_right, CENTER, back_center_front))
 	s.play()
+	if until_end:
+		while s.get_state() == AL_PLAYING:
+			time.sleep(1)
 
 if __name__ == '__main__':
 
@@ -25,9 +28,6 @@ if __name__ == '__main__':
 	ctx_listener.set_orientation((0, 0, 1, 0, 1, 0))
 
 	play('res/gas.flac', left_center_right=LEFT, back_center_front=BACK)
-	play('res/discord.flac', left_center_right=RIGHT, back_center_front=FRONT)
-
-	while True:
-		time.sleep(1)
+	play('res/discord.flac', until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
 
 	alcCloseDevice(device)
