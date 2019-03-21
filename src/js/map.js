@@ -83,7 +83,6 @@ function houseMap(scene, models3D){
 }
 
 function randomMap(scene, models3D){
-  models3D.house.scale.set(0.1,0.1,0.1);
   let model_arr = Object.values(models3D);
-  expansion(model_arr, scene, 500, 500, 0, 3);
+  expansion(model_arr, scene, 500, 500, 0, 2);
 }

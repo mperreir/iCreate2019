@@ -17,7 +17,7 @@ async function init() {
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(0, 50, 50);
+	camera.position.set(0, 200, 50);
 
 	camera.rotation.x = rotationCamera * Math.PI;
 	scene.add(camera);
@@ -40,8 +40,8 @@ async function init() {
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
 	animate();
-	await sleep(1000);
-	//await moveCamera(0,3,150,0,50,100);
+	await sleep(10000);
+	await moveCamera(0,3,150,0,50,100);
 }
 async function createMap(){
 	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");

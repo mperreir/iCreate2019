@@ -1,13 +1,34 @@
 const sleep = m => new Promise(r => setTimeout(r, m));
 
 function createLocalModels(models3D){
-	var geometry = new THREE.BoxGeometry(1, 1, 1);
-	var material = new THREE.MeshBasicMaterial({color: color.orange});
+	var geometry = new THREE.BoxGeometry(2, 3, 2);
+	var material = new THREE.MeshLambertMaterial({color: color.darkblue});
 	var cube = new THREE.Mesh(geometry, material);
 	models3D.little_house = cube;
+
+	var geometry = new THREE.BoxGeometry(2, 3, 3);
+	var material = new THREE.MeshLambertMaterial({color: color.orange});
+	var cube = new THREE.Mesh(geometry, material);
+	models3D.house2 = cube;
+
+	geometry = new THREE.BoxGeometry(2, 4, 6);
+	material = new THREE.MeshLambertMaterial({color: color.grey2});
+	cube = new THREE.Mesh(geometry, material);
+	models3D.building = cube;
+
+	geometry = new THREE.BoxGeometry(3, 16, 3);
+	material = new THREE.MeshLambertMaterial({color: color.grey});
+	cube = new THREE.Mesh(geometry, material);
+	models3D.skyscraper = cube;
+
+	geometry = new THREE.BoxGeometry(4, 6, 4);
+	material = new THREE.MeshLambertMaterial({color: color.beige});
+	cube = new THREE.Mesh(geometry, material);
+	models3D.building2 = cube;
 }
 
 async function loadEveryModels(paths, models3D){
+	createLocalModels(models3D);
 	var loader = new THREE.GLTFLoader();
 	var loader_count = 0;
 
