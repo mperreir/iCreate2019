@@ -16,7 +16,7 @@ function createLocalModels(models3D){
 	cube = new THREE.Mesh(geometry, material);
 	models3D.building = cube;
 
-	geometry = new THREE.BoxGeometry(3, 16, 3);
+	geometry = new THREE.BoxGeometry(3, 20, 3);
 	material = new THREE.MeshLambertMaterial({color: color.grey});
 	cube = new THREE.Mesh(geometry, material);
 	models3D.skyscraper = cube;
@@ -62,6 +62,7 @@ async function loadEveryModels(paths, models3D){
 	}
 
 	while(loader_count != 0)	await sleep(50);
+	for(e in models3D) models3D[e].userData.name = e;
 	//console.log(models3D);
 }
 

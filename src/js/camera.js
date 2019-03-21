@@ -39,10 +39,6 @@ async function moveCamera(x_end, y_end,z_end,newangle,time,nb_transition){
 		camera.position.z=increment(camera.position.z,z_end,incrz);
 		rotationCamera=increment(rotationCamera,newangle,incrangle);
 		camera.rotation.x = rotationCamera * Math.PI;
-
-		console.log(rotationCamera);
-		console.log("1");
-
 		await sleep(time);
 	}
 

@@ -1,3 +1,5 @@
+let CONTAINER = [];
+
 function getCirclePitSteps(width, length, object_width, object_length){
   let normalized_width = width / object_width;
   let normalized_length = length / object_length;
@@ -52,37 +54,47 @@ function getCirclePitSteps(width, length, object_width, object_length){
 }
 
 
-async function expansion(models, scene, width=300, length=300, rand=2, padding=2){
+async function expansion(models, scene, speed=1, width=300, length=300, rand=2, padding=2){
   let max = getHugestObject(models);
-  console.log(max.userData);
   steps = getCirclePitSteps(width, length, max.userData.length + padding,
       max.userData.width + padding);
   let add_model = async () => {
       let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
       new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
       new_model.rotation.set(0, Math.PI * Math.random(), 0);
-      await sleep(Math.random() * 1000);
+      await sleep(Math.random() * 1000 * speed);
+      let scale = 1 + ((Math.random() * 0.5) - 0.5);
+      new_model.scale.set(scale, scale, scale);
       scene.add(new_model);
+      CONTAINER.push(new_model);
   };
 
-  for(s of steps){
-    for(pos of s){
-      add_model(pos)
-    }
-    await sleep(800);
+  for(var s of steps){
+    for(var pos of s) add_model(pos);
+    await sleep(800*speed);
   }
 }
 
-function treeMap(scene, models3D){
-  expansion([models3D.tree], scene, 500, 500, 4, 5);
+async function treeMap(scene, models3D){
+  await expansion([models3D.tree], scene, 0.4, 200, 200, 5, 4);
 }
 
-function houseMap(scene, models3D){
+async function houseMap(scene, models3D){
   models3D.house.scale.set(0.1,0.1,0.1);
-  expansion([models3D.house], scene, 500, 500, 10, 30);
+  expansion([models3D.house], scene, 1, 500, 500, 10, 30);
 }
 
-function randomMap(scene, models3D){
+async function cityMap(scene, models3D){
   let model_arr = Object.values(models3D);
-  expansion(model_arr, scene, 500, 500, 0, 2);
+  model_arr = model_arr.filter(x => x.userData.name !== 'tree');
+  await expansion(model_arr, scene, 1.7, 200, 200, 2, 2);
+}
+
+async function removeMap(scene, models3D){
+  let max = CONTAINER.length;
+  for(var i = 0; i < max; i++){
+    let temp_object = CONTAINER.shift();
+    scene.remove(temp_object);
+    await sleep(5);
+  }
 }
