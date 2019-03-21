@@ -5,32 +5,19 @@ let container = document.getElementById('container');
 let raycaster = new THREE.Raycaster(),INTERSECTED;
 let mouse = new THREE.Vector2();
 var rotationCamera = -0.45;
-let color = {
-	'blue' : 0x45a8e5,
-	'green' : 0x8ec945,
-}
-
-let models_paths = {
-	tree:{
-		url:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree/tree.gltf'
-	},
-	house:{
-		url:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/scene.gltf',
-		texture:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/textures/Material.001_diffuse.png',
-		seekChild:"house000_0"
-	}
-};
 
 async function init() {
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);
+	renderer.gammaOutput = true;
+	renderer.gammaFactor = 2.2;
 	container.appendChild(renderer.domElement);
 
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(0, 200, 50);
+	camera.position.set(0, 50, 50);
 
 	camera.rotation.x = rotationCamera * Math.PI;
 	scene.add(camera);
@@ -44,18 +31,17 @@ async function init() {
 	await createMap()
 	// Initial map
 
-
 	// Loading every models
 	await loadEveryModels(models_paths, models3D);
-	treeMap(scene, models3D);
-	houseMap(scene, models3D);
+	//treeMap(scene, models3D);
+	//houseMap(scene, models3D);
+	randomMap(scene, models3D);
 
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
 	animate();
 	await sleep(1000);
-	await moveCamera(0,3,150,0,50,100);
-
+	//await moveCamera(0,3,150,0,50,100);
 }
 async function createMap(){
 	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");

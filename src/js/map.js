@@ -52,12 +52,13 @@ function getCirclePitSteps(width, length, object_width, object_length){
 }
 
 
-async function expansion(model, scene, width=300, length=300, rand=2, padding=2){
-  let box = new THREE.Box3().setFromObject(model);
-  steps = getCirclePitSteps(width, length, (2*box.max.x)+padding, (2*box.max.z)+padding);
-
+async function expansion(models, scene, width=300, length=300, rand=2, padding=2){
+  let max = getHugestObject(models);
+  console.log(max.userData);
+  steps = getCirclePitSteps(width, length, max.userData.length + padding,
+      max.userData.width + padding);
   let add_model = async () => {
-      let new_model = model.clone();
+      let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
       new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
       new_model.rotation.set(0, Math.PI * Math.random(), 0);
       await sleep(Math.random() * 1000);
@@ -73,10 +74,16 @@ async function expansion(model, scene, width=300, length=300, rand=2, padding=2)
 }
 
 function treeMap(scene, models3D){
-  expansion(models3D.tree, scene, 500, 500, 4, 5);
+  expansion([models3D.tree], scene, 500, 500, 4, 5);
 }
 
 function houseMap(scene, models3D){
   models3D.house.scale.set(0.1,0.1,0.1);
-  expansion(models3D.house, scene, 500, 500, 10, 30);
+  expansion([models3D.house], scene, 500, 500, 10, 30);
+}
+
+function randomMap(scene, models3D){
+  models3D.house.scale.set(0.1,0.1,0.1);
+  let model_arr = Object.values(models3D);
+  expansion(model_arr, scene, 500, 500, 0, 3);
 }
