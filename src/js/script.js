@@ -23,7 +23,7 @@ async function init() {
 	scene.add(camera);
 	// TODO: Revoir les parametres des lumiéres
 	light = new THREE.PointLight(0xffffff, 1, 4000);
-	light.position.set(1000, 0, 0);
+	light.position.set(1000, -1000, 400);
 	light_two = new THREE.PointLight(0xffffff, 1, 4000);
 	light_two.position.set(-100, 800, 800);
 	lightAmbient = new THREE.AmbientLight(0x404040);

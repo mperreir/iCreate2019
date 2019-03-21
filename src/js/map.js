@@ -64,7 +64,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
       new_model.rotation.set(0, Math.PI * Math.random(), 0);
       await sleep(Math.random() * 1000 * speed);
       let scale = 1 + ((Math.random() * 0.5) - 0.5);
-      // new_model.scale.set(scale, scale, scale);
+      new_model.scale.set(scale, scale, scale);
       scene.add(new_model);
       CONTAINER.push(new_model);
   };
