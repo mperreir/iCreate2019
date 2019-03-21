@@ -26,23 +26,23 @@ function increment(start,end,incr){
 			}
 		}
 	return start;
-	
+
 }
-async function moveCamera(x_end, y_end,z_end,newangle,time){
+async function moveCamera(x_end, y_end,z_end,newangle,time,nb_transition){
+	var incrx = Math.abs(camera.position.x-x_end) / nb_transition;
+	var incry = Math.abs(camera.position.y-y_end)/ nb_transition;
+	var incrz = Math.abs(camera.position.z-z_end) / nb_transition;
+	var incrangle = Math.abs(rotationCamera-newangle)/ nb_transition;
 	while(Math.abs(camera.position.x-x_end) != 0 || Math.abs(camera.position.y-y_end) != 0 || Math.abs(camera.position.z-z_end) != 0  ||Math.abs(rotationCamera-newangle) != 0 ){
-		camera.position.x=increment(camera.position.x,x_end,1);
-		camera.position.y=increment(camera.position.y,y_end,1);
-		camera.position.z=increment(camera.position.z,z_end,1);
-		rotationCamera=increment(rotationCamera,newangle,0.025);
+		camera.position.x=increment(camera.position.x,x_end,incrx);
+		camera.position.y=increment(camera.position.y,y_end,incry);
+		camera.position.z=increment(camera.position.z,z_end,incrz);
+		rotationCamera=increment(rotationCamera,newangle,incrangle);
 		camera.rotation.x = rotationCamera * Math.PI;
-		if (Math.abs(rotationCamera-newangle) != 0){
-			rotationCamera=increment(rotationCamera,newangle,0.00000025);
-			await sleep(50);
-		}
-		
+
 		console.log(rotationCamera);
 		console.log("1");
-		
+
 		await sleep(time);
 	}
 

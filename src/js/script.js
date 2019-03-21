@@ -4,7 +4,7 @@ let models3D = {};
 let container = document.getElementById('container');
 let raycaster = new THREE.Raycaster(),INTERSECTED;
 let mouse = new THREE.Vector2();
-
+var rotationCamera = -0.45;
 let color = {
 	'blue' : 0x45a8e5,
 	'green' : 0x8ec945,
@@ -30,8 +30,9 @@ async function init() {
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(0, 50, 50);
-	camera.rotation.x -= 0.25 * Math.PI;
+	camera.position.set(0, 200, 50);
+
+	camera.rotation.x = rotationCamera * Math.PI;
 	scene.add(camera);
 	// TODO: Revoir les parametres des lumiéres
 	light = new THREE.PointLight(0xffffff, 1, 4000);
@@ -40,13 +41,9 @@ async function init() {
 	light_two.position.set(-100, 800, 800);
 	lightAmbient = new THREE.AmbientLight(0x404040);
 	scene.add(light, light_two, lightAmbient);
-
+	await createMap()
 	// Initial map
-  let geometry = new THREE.PlaneGeometry(1000, 1000, 2);
-  let material = new THREE.MeshBasicMaterial({color: color.green, side: THREE.DoubleSide});
-  let plane = new THREE.Mesh(geometry, material);
-  plane.rotation.x = 0.5 * Math.PI;
-  scene.add(plane);
+
 
 	// Loading every models
 	await loadEveryModels(models_paths, models3D);
@@ -54,10 +51,30 @@ async function init() {
 	houseMap(scene, models3D);
 
 	renderer.render(scene, camera);
-	document.addEventListener('mousemove', onMouseMove, false);
+	//document.addEventListener('mousemove', onMouseMove, false);
 	animate();
-}
+	await sleep(1000);
+	await moveCamera(0,3,150,0,50,100);
 
+}
+async function createMap(){
+	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");
+
+// how many times to repeat in each direction; the default is (1,1),
+//   which is probably why your example wasn't working
+
+	material = new THREE.MeshBasicMaterial( { map: texture} );
+
+	plane = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), material);
+	plane.material.side = THREE.DoubleSide;
+	plane.position.x = 10;
+	//plane.position.y = -40;
+	plane.position.z = -30;
+
+	plane.rotation.x = 0.5 * Math.PI;
+	scene.add(plane);
+
+}
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	renderer.setSize(window.innerWidth, window.innerHeight);
