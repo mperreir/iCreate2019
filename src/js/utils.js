@@ -6,22 +6,29 @@ async function loadEveryModels(paths, models3D){
 
 	for(p in paths){
 		loader_count++;
+		let model = p;
 		loader.load(
-			paths[p],
+			paths[model].url,
 			function(res){
-				console.log('Hey')
-				console.log(res);
+				let geometry = res.scenes[0];
+
+				while(geometry.hasOwnProperty('children') && geometry.children.length > 0 && paths[model].seekChild){
+					if(geometry.name == paths[model].seekChild) paths[model].seekChild = false;
+					geometry = geometry.children[0];
+				}
+
+				if(paths[model].texture){
+					let texture = new THREE.TextureLoader().load(paths[model].texture);
+					let material = new THREE.MeshBasicMaterial({map: texture});
+					geometry.material = material;
+				}
+				geometry.scale.set(1,1,1);
+				models3D[model] = geometry;
 				loader_count--;
-				let castleTexture = new THREE.TextureLoader().load(`https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/textures/Material.001_diffuse.png`)
-				let castleMaterial = new THREE.MeshBasicMaterial({ map: castleTexture })
-
-				models3D[p] = new THREE.Mesh(res.scenes[0], castleMaterial);
-
 			}
 		);
 	}
 
 	while(loader_count != 0)	await sleep(50);
-	console.log('fin')
 	console.log(models3D);
 }

@@ -11,8 +11,14 @@ let color = {
 }
 
 let models_paths = {
-	'tree':'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree/tree.gltf',
-	//'house':'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/castle/scene.gltf',
+	tree:{
+		url:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/tree/tree.gltf'
+	},
+	house:{
+		url:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/scene.gltf',
+		texture:'https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/model/house/textures/Material.001_diffuse.png',
+		seekChild:"house000_0"
+	}
 };
 
 async function init() {
@@ -24,12 +30,12 @@ async function init() {
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
-	camera.position.set(0, 500, 500);
+	camera.position.set(0, 50, 50);
 	camera.rotation.x -= 0.25 * Math.PI;
 	scene.add(camera);
 	// TODO: Revoir les parametres des lumiéres
 	light = new THREE.PointLight(0xffffff, 1, 4000);
-	light.position.set(50, 0, 0);
+	light.position.set(1000, 0, 0);
 	light_two = new THREE.PointLight(0xffffff, 1, 4000);
 	light_two.position.set(-100, 800, 800);
 	lightAmbient = new THREE.AmbientLight(0x404040);
@@ -45,6 +51,7 @@ async function init() {
 	// Loading every models
 	await loadEveryModels(models_paths, models3D);
 	treeMap(scene, models3D);
+	houseMap(scene, models3D);
 
 	renderer.render(scene, camera);
 	document.addEventListener('mousemove', onMouseMove, false);
