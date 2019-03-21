@@ -36,12 +36,13 @@ async function init() {
 	await treeMap(scene, models3D);
 	await sleep(1000);
 	removeMap(scene, models3D);
+	await sleep(50);
 	//houseMap(scene, models3D);
 	cityMap(scene, models3D);
 
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
-	await sleep(10000);
+	await sleep(14000);
 	await moveCamera(0,3,150,0,50,100);
 }
 

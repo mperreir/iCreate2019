@@ -64,7 +64,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
       new_model.rotation.set(0, Math.PI * Math.random(), 0);
       await sleep(Math.random() * 1000 * speed);
       let scale = 1 + ((Math.random() * 0.5) - 0.5);
-      new_model.scale.set(scale, scale, scale);
+      // new_model.scale.set(scale, scale, scale);
       scene.add(new_model);
       CONTAINER.push(new_model);
   };
@@ -87,7 +87,7 @@ async function houseMap(scene, models3D){
 async function cityMap(scene, models3D){
   let model_arr = Object.values(models3D);
   model_arr = model_arr.filter(x => x.userData.name !== 'tree');
-  await expansion(model_arr, scene, 1.7, 200, 200, 2, 2);
+  await expansion(model_arr, scene, 4, 200, 200, 2, 2);
 }
 
 async function removeMap(scene, models3D){
@@ -95,6 +95,6 @@ async function removeMap(scene, models3D){
   for(var i = 0; i < max; i++){
     let temp_object = CONTAINER.shift();
     scene.remove(temp_object);
-    await sleep(5);
+    await sleep(1);
   }
 }
