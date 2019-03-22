@@ -50,14 +50,31 @@ function getCirclePitSteps(width, length, object_width, object_length){
       res.push([]);
     }
   }
+
   return res;
 }
 
+function makeCircle(rayonmax, padding_max){
 
+  var res = [[]];
+  rayon = padding_max;
+  while (rayon < rayonmax){
+    steps = 2 * rayon * Math.PI / padding_max;
+
+    res.push(circle(rayon, steps, 0, 0));
+    inter=[];
+    rayon+=padding_max;
+
+  }
+  console.log(res);
+  return res;
+
+}
 async function expansion(models, scene, speed=1, width=300, length=300, rand=2, padding=2){
   let max = getHugestObject(models);
-  steps = getCirclePitSteps(width, length, max.userData.length + padding,
-      max.userData.width + padding);
+  steps = makeCircle(175,max.userData.length + padding);
+  //getCirclePitSteps(width, length, max.userData.length + padding,
+      //max.userData.width + padding);
   let add_model = async () => {
       let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
       new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
@@ -97,4 +114,18 @@ async function removeMap(scene, models3D){
     scene.remove(temp_object);
     await sleep(1);
   }
+}
+
+function circle (radius, steps, centerX, centerY){
+    var xValues = [centerX];
+    var yValues = [centerY];
+    inter=[];
+    for (var i = 1; i < steps; i++) {
+        xValues = (centerX + radius * Math.cos(Math.PI * i / steps*2-Math.PI/2));
+        yValues = (centerY + radius * Math.sin(Math.PI * i / steps*2-Math.PI/2));
+        inter.push({'x':xValues,'y':yValues})
+   }
+   console.log(inter);
+   return inter;
+
 }

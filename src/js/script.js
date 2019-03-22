@@ -43,7 +43,7 @@ async function init() {
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
 	await sleep(14000);
-	await moveCamera(0,10,50,-0.1,10,350);
+	await moveCamera(0,10,50,-0.1,1,450);
 }
 async function regionOccupated(x,y,x1,y1){
 	for (var  i = x; i<=x1 ;i++) {
