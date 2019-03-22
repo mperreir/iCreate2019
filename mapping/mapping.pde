@@ -29,7 +29,7 @@ void mousePressed() {
 
 void keyPressed() {
   //s = loadShapeFromJson("data/new.json");
-  saveShapeToJson("data/test.json");
+  saveShapeToJson("../leapMotion/data/tronc.json");
   
 }
 
