@@ -6,13 +6,14 @@ WebsocketServer ws;
 String address;
 Serial myPort;
 float valueFromBook, valueFromFlute, valueFromSand = 0;
+int now;
 
 // Initialisation
 void setup() {
   size(200,200);
   
   printArray(Serial.list());
-  String portName = Serial.list()[2];
+  String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n');
   
@@ -49,6 +50,18 @@ void serialEvent (Serial myPort) {
             valueFromBook = json.getInt("book");
             valueFromFlute = json.getInt("flute");
             valueFromSand = json.getInt("sand");
+            
+            if (millis() > now + 100) {// 10 messages par seconde
+              String message = "{";
+              message = message + "\"book\":" + valueFromBook;
+              message = message + ",\"flute\":" + valueFromFlute;
+              message = message + ",\"sand\":" + valueFromSand;
+              message = message + "}";
+              ws.sendMessage(message);
+              
+              now = millis();
+            }
+            
             //println(valueFromBook + " - " + valueFromFlute + " - " + valueFromSand);
           }
         }
