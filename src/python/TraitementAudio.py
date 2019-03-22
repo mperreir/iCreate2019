@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import time
 import threading
 
+from flask import Flask, request
+from flask_restful import Resource, Api
+
 
 #Etat 0 : Initial en attente d'un utilisateur
 #Etat 1 : Initialisation du monde = 1850
@@ -53,16 +56,30 @@ class ArduReader(threading.Thread):
                                 GLOBALSTATE["NbMaisons"] += 1
                             if(tab["A5"] > SEUIL_MINIMAL):
                                 GLOBALSTATE["NbImmeubles"] += 1
-                        print(GLOBALSTATE)
 
 class ApiRest(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        self.app = Flask("API_ICreate")
+        self.api = Api(self.app)
+        self.api.add_resource(Data,'/data')
+        self.api.add_resource(Reset,'/reset')
 
     def run(self):
-        while True:
-            print("Thread 2")
-            time.sleep(0.1)
+        self.app.run(port='5002')
+
+
+class Data(Resource):
+    def get(self):
+        return GLOBALSTATE
+
+class Reset(Resource):
+    def get(self):
+        GLOBALSTATE["Etat"] = 0
+        GLOBALSTATE["NbMaisons"] = 0
+        GLOBALSTATE["NbImmeubles"] = 0
+        return GLOBALSTATE
+
 
 
 
@@ -75,6 +92,7 @@ if __name__ == '__main__':
     t2 = ApiRest()
     t1.start()
     t2.start()
+
 
 
 
