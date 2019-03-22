@@ -2,6 +2,7 @@ import de.voidplus.leapmotion.*;
 
 import fisica.*;
 
+import fisica.*;
 
 FWorld world;
 
@@ -25,7 +26,7 @@ boolean etat_leap = true;
 FenetreQuestion fenetreQuestion = new FenetreQuestion();
 
 void settings() {
-  fullScreen(3);
+  fullScreen();
   
 }
 
@@ -35,13 +36,16 @@ void setup() {
   Fisica.init(this);
   frameRate(30);
   Fisica.init(this);
-  textureArbre = loadImage("img/texturearbre.jpg");
+  bg = loadImage("img/arbre.jpg");
+  textureArbre = loadImage("img/texture-1.png");
   textureArbre.resize(width,height);
   
+  bg.resize(width,height);
+  background(bg);
   world = new FWorld();
   arbre = new Arbre(world);
   
-  shapeArbre = loadGraphicsFromJson("data/tronc.json");
+  shapeArbre = loadGraphicsFromJson("data/test.json");
   textureArbre.mask(shapeArbre);
   
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
@@ -49,22 +53,16 @@ void setup() {
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
 
   fenetreQuestion.setEtat(etatFenetre);
-   
-    runSketch(new String[] { 
-    "fenetreQuestion"
-    }
-    , fenetreQuestion);
-  
-}
 
-void draw(){
-  background(255);
+
+    
+background(bg);
   //shape(shapeArbre,0,0);
   image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   world.draw();
- 
+  
 }
 
 void mousePressed() {

@@ -159,7 +159,8 @@ class FenetreQuestion extends PApplet {
     textSize(textSize);
     textAlign(c, t);
     fill(255, 255, 255, tempT);
-    text(text, widthT, heightT);
+      text(text, widthT, heightT);
+      
     if (tempT < 255) {
       tempT =tempT+ inc;
     }
