@@ -7,8 +7,8 @@ from math import sqrt
 CENTER = 0
 LEFT = FRONT = -2
 RIGHT = BACK = 2
-RADIUS = 3
-STEP = 0.1
+RADIUS = 2
+STEP = 0.2
 LIMIT = RADIUS - STEP
 
 
@@ -31,6 +31,7 @@ def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_c
 				if x >= LIMIT:
 					 inc = False
 				z = sqrt((RADIUS**2)-(x**2))
+				z = z if inc else -z
 				s.set_position((x, CENTER, z))
 				if inc:
 					x += STEP
@@ -49,7 +50,7 @@ if __name__ == '__main__':
 	ctx_listener.set_velocity((0, 0, 0))
 	ctx_listener.set_orientation((0, 0, 1, 0, 1, 0))
 
-	play('res/gas.flac', left_center_right=LEFT, back_center_front=BACK, rotate=True)
+	play('res/gas.flac', rotate=True)
 	play('res/discord.flac', until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
 
 	alcCloseDevice(device)
