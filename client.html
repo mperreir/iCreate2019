@@ -3,18 +3,75 @@
 	<head>
 		<meta charset="utf-8">
 		<title>iCreate</title>
+		<link rel="stylesheet" href="client.css">
 	</head>
 	<body>
+		<div>
+	    <video controls width="100%" class="video" id="book">
+	        <source src="test.mp4" type="video/mp4">
+	        Sorry, your browser doesn't support embedded videos.
+	    </video>
+
+	    <video controls width="100%" class="video" id="flute">
+	        <source src="test.mp4" type="video/mp4">
+	        Sorry, your browser doesn't support embedded videos.
+	    </video>
+
+	    <video controls width="100%" class="video" id="sand">
+	        <source src="test.mp4" type="video/mp4">
+	        Sorry, your browser doesn't support embedded videos.
+	    </video>
+	  </div>
+
 		<script>
-		let connexion = new WebSocket('ws://localhost:8025/musee');
-		
+		let connexion = new WebSocket('ws://192.168.8.104:8025/musee');
+
 		connexion.onopen = function (event) {
-			connexion.send("Bonjour cher serveur !"); 
+			connexion.send("Bonjour cher serveur !");
 		};
-		
+
+		let seuil = 10;
+		let lastSelected = 0;
+		let book = document.getElementById("book");
+		let flute = document.getElementById("flute");
+		let sand = document.getElementById("sand");
+
+
 		connexion.onmessage = function (event) {
-			console.log(event.data);
+			setTimeout(function() {lastSelected = null;}, 30000);
+			let capteurs = JSON.parse(event.data);
+
+			if (capteurs.book > seuil && lastSelected != "book") {
+				book.style.display = 'block'
+				flute.style.display = 'none'
+				sand.style.display = 'none'
+				lastSelected = "book";
+				console.log("book");
+				book.currentTime = 0;
+				book.play();
+			}
+
+			if (capteurs.flute > seuil && lastSelected != "flute") {
+				book.style.display = 'none'
+				flute.style.display = 'block'
+				sand.style.display = 'none'
+				lastSelected = "flute";
+				console.log("flute");
+				flute.currentTime = 0;
+				flute.play();
+			}
+
+			if (capteurs.sand > seuil && lastSelected != "sand") {
+				book.style.display = 'none'
+				flute.style.display = 'none'
+				sand.style.display = 'block'
+				lastSelected = "sand";
+				console.log("sand");
+				sand.currentTime = 0;
+				sand.play();
+			}
 		}
+
 		</script>
 	</body>
 </html>
