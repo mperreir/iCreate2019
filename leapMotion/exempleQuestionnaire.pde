@@ -1,4 +1,4 @@
-  Questionnaire q; 
+  Questionnaire q; // programme de test pour les classes Question et Questionnaire
   Question ques;
   
 String [] Texte;
@@ -14,4 +14,5 @@ String [] Texte;
     for(int i=0; i< Texte.length;i++) println( Texte[i]+" erreurs /20");
     q.stockScore();
   }
+  void draw(){}
  
