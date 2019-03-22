@@ -14,7 +14,7 @@ async function init() {
 	renderer.gammaFactor = 2.2;
 	div.appendChild(renderer.domElement);
 
-	// Scene, lightning and camera organisation
+	// Scene, lightning and camera organisationdd
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
 	camera.position.set(0, 200, 50);
