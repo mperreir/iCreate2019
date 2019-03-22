@@ -43,12 +43,8 @@ async function init() {
 
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
-<<<<<<< HEAD
 	await sleep(21000);
 	await moveCamera(0,3,150,0,20,100);
-=======
-	await sleep(14000);
-	await moveCamera(0,10,50,-0.1,1,450);
 }
 async function regionOccupated(x,y,x1,y1){
 	for (var  i = x; i<=x1 ;i++) {
@@ -81,7 +77,6 @@ async function isOccupated(x,y){
 		}
 	}
 	monImage.src=("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg");
->>>>>>> bdda2051019eb3536f350ceed977c7d5bf22c9fc
 }
 
 async function createMap(){
