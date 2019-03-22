@@ -54,15 +54,16 @@ $ conda update conda
 $ conda config --add channels conda-forge
 ```
 
-Créer l'envionnement virtuel à partir de son export décrit en YAML, puis l'activer.
-
+Créer et activer l'environnement virtuel python.
 ```bash
-$ conda env create -f venv.yml 
+$ conda create -n icreate python=3.7
+$ . activate icreate
+$ pip install websockets pyopenal pyogg 
 ```
 
 ### Lancement de l'application
 
 ```bash
-$ conda activate icreate  # activation de l'environnement virtuel python
-$ python src/main.py      # lancement du programme
+$ cd src
+$ python main.py
 ```
