@@ -45,7 +45,16 @@ async function init() {
 	await sleep(14000);
 	await moveCamera(0,10,150,-0.1,10,350);
 }
-
+async function regionOccupated(x,y,x1,y1){
+	for (var  i = x; i<=x1 ,i++) {
+		for var(j = y; j<=y1;j++){
+			if (isOccupated(i,j)){
+				return false;
+			}
+		}
+	}
+	return false;
+}
 async function isOccupated(x,y){
 	x = x -10;
 	y = y+ 30
