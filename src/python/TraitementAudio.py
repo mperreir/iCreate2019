@@ -4,13 +4,8 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import threading
 
-
-def maximum(a,b):
-    if(a>b):
-        return a
-    else:
-        return b
 
 #Etat 0 : Initial en attente d'un utilisateur
 #Etat 1 : Initialisation du monde = 1850
@@ -23,45 +18,66 @@ GLOBALSTATE = json.loads(globalstate)
 SEUIL_MINIMAL = 50
 
 
-with Serial(port="COM5", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
-    if port_serie.isOpen():
-        while port_serie.isOpen():
-            val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
-            if(val != '' and val[0] == "{"):
-                tab = json.loads(val)
 
-                if(GLOBALSTATE["Etat"] == 3):
-                    if(tab["A3"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["Etat"] = 4
+class ArduReader(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
 
-                if(GLOBALSTATE["Etat"] == 2):
-                    if(tab["A2"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["Etat"] = 3
+    def run(self):
+        with Serial(port="COM5", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
+            if port_serie.isOpen():
+                while port_serie.isOpen():
+                    val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
+                    if(val != '' and val[0] == "{" and val[len(val)-1] == "}"):
+                        tab = json.loads(val)
+                        # if(signalDetected(tab)):
 
-                if(GLOBALSTATE["Etat"] == 1):
-                    if(tab["A1"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["Etat"] = 2
+                        if(GLOBALSTATE["Etat"] == 3):
+                            if(tab["A3"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["Etat"] = 4
 
-                if(GLOBALSTATE["Etat"] == 0):
-                    if(tab["A0"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["Etat"] = 1
+                        if(GLOBALSTATE["Etat"] == 2):
+                            if(tab["A2"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["Etat"] = 3
 
-                if(GLOBALSTATE["Etat"] == 4):
-                    if(tab["A4"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["NbMaisons"] += 1
-                    if(tab["A5"] > SEUIL_MINIMAL):
-                        GLOBALSTATE["NbImmeubles"] += 1
-                print(tab)
-            print(GLOBALSTATE)
+                        if(GLOBALSTATE["Etat"] == 1):
+                            if(tab["A1"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["Etat"] = 2
+
+                        if(GLOBALSTATE["Etat"] == 0):
+                            if(tab["A0"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["Etat"] = 1
+
+                        if(GLOBALSTATE["Etat"] == 4):
+                            if(tab["A4"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["NbMaisons"] += 1
+                            if(tab["A5"] > SEUIL_MINIMAL):
+                                GLOBALSTATE["NbImmeubles"] += 1
+                        print(GLOBALSTATE)
+
+class ApiRest(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+
+    def run(self):
+        while True:
+            print("Thread 2")
+            time.sleep(0.1)
 
 
 
-            # if(val != ''):
-            #     val = int(val)
-            #     if(val >= SEUIL_MINIMAL and not(detected)):
-            #         print("Signal")
-            #         detected = True
-            #     if(val < SEUIL_MINIMAL and detected and number > 100):
-            #         detected = False
-            #     if(detected):
-            #         number = number + 1
+
+
+
+
+if __name__ == '__main__':
+    t1 = ArduReader()
+    t2 = ApiRest()
+    t1.start()
+    t2.start()
+
+
+
+
+#A FAIRE
+# def signalDetected(tab):
