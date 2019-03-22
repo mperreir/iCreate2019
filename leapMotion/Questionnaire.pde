@@ -7,12 +7,12 @@ class Questionnaire{
   }
   
   ;
-  void stockScore(){
+  void stockScore(){// méthode qui ajoute le score au fichier texte
     String Score = String.valueOf(score);
     String []  stScore = append(Texte,Score);
     saveStrings("Score.txt" , stScore);
   }
-  void getClassement(){
+  void getClassement(){// méthode qui trie tous les score et affiche la position de l'utilisateur dans le classement
     int [] scoreTrie= int(Texte);
     int valeurtemporaire, i, j;
  
@@ -20,8 +20,7 @@ class Questionnaire{
      {
         for(j=i; j<scoreTrie.length; j++)
         {
-            if(scoreTrie[j]<scoreTrie[i])  /* si on inverse le signe d'inégalité
-                                          on aura le trie décroissant */
+            if(scoreTrie[j]<scoreTrie[i])  
             {
                 valeurtemporaire = scoreTrie[i];
                 scoreTrie[i] = scoreTrie[j];
@@ -43,5 +42,8 @@ class Questionnaire{
 
   void question1(boolean reponse){
     if (reponse ) score+=1;
+  }
+  void ajouterPoints( int point){//méthode qui incrémente directement le score
+    score+=point;
   }
 }
