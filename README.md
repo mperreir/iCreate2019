@@ -44,7 +44,7 @@ Dans la zone de notification, ouvrir l'utilitaire du driver "USB Multi-Channel A
 
 Toujours dans la zone de notification, clic droit sur l'icône du son > "Son" > "Lecture". Vérifier la présence des hauts-parleurs carte son et de sa sortie numérique. "Configurer" les hauts-parleurs de la carte son externe et régler sur "Surround 5.1". "Suivant"x3 puis "Terminer". 
 
-## Installation du driver du Leap Motion
+### Installation du driver du Leap Motion
 
 **TODO**
 
