@@ -39,11 +39,11 @@ void leapOnSwipeGesture(SwipeGesture g, int state){
   float   speed            = g.getSpeed();
   long    duration         = g.getDuration();
   float   durationSeconds  = g.getDurationInSeconds();
-
   switch(state){
     case 1: // Start
       break;
     case 2: // Update
+      
       break;
     case 3: // Stop
       println("SwipeGesture: " + direction);
@@ -71,7 +71,6 @@ void leapOnCircleGesture(CircleGesture g, int state){
   long    duration         = g.getDuration();
   float   durationSeconds  = g.getDurationInSeconds();
   int     direction        = g.getDirection();
-
   switch(state){
     case 1: // Start
       break;
@@ -101,7 +100,6 @@ void leapOnScreenTapGesture(ScreenTapGesture g){
   PVector direction        = g.getDirection();
   long    duration         = g.getDuration();
   float   durationSeconds  = g.getDurationInSeconds();
-
   println("ScreenTapGesture: " + id);
 }
 
@@ -116,6 +114,5 @@ void leapOnKeyTapGesture(KeyTapGesture g){
   PVector direction        = g.getDirection();
   long    duration         = g.getDuration();
   float   durationSeconds  = g.getDurationInSeconds();
-
   println("KeyTapGesture: " + id);
 }
