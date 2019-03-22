@@ -2,6 +2,7 @@ import json
 import serial
 from Travel import Travel
 from SurroundPlayer import SurroundPlayer
+import time
 
 
 class SerialInput:
@@ -64,9 +65,10 @@ class SerialInput:
         :param activated_piezo:
         :return:
         """
-        if self.player.isplaying():
+        if self.player.is_playing():
             return
         for travel in self.travels:
             if travel.travel_name == activated_piezo:
                 print("Let's play " + travel.travel_name)
+                # self.player.canplay(False)
                 # self.player.play(travel)

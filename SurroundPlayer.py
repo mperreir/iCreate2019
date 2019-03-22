@@ -1,11 +1,4 @@
-class Singleton(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-class SurroundPlayer(metaclass=Singleton):
+class SurroundPlayer:
     _instance = None
 
     def __init__(self):
@@ -22,10 +15,10 @@ class SurroundPlayer(metaclass=Singleton):
     def play(self, travel):
         travel.play()
 
-    def isplaying(self):
+    def is_playing(self):
         return self.playing
 
     def canplay(self, state):
-        self.playing = state
+        self.playing = not state
 
 
