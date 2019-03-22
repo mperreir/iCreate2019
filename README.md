@@ -12,7 +12,7 @@
 
 ## Technologies
 
-Entrée **-->** Sortie 
+Entrée **-->** Sortie  
 Leap Motion **-->** Son Spatialisé
 
 ## Contact de l'organisme porteur de projet
