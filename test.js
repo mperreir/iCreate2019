@@ -1,33 +1,32 @@
 const osc = require("osc");
 
-const app = require("express")();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const server = require("http").createServer();
+const io = require("socket.io")(server);
+
+
 
 var udpPort = new osc.UDPPort({
         localAddress: "0.0.0.0",
         localPort: 9912,
         metadata: true
 });
-var audio;
-
 
 var niveau = '-1';
+var client;
+var connect = false;
+
 udpPort.on("message", function (oscMsg) {
     let nfc = oscMsg['args'][0]['value'];
     console.log(nfc);
     switch(nfc){
         case "$)ï¿½Wï¿½" :
             niveau = '0';
-
             break;
         case "ï¿½Pbï¿½Wï¿½" :
             niveau = '1';
-
             break;
         case "@ï¿½IZï¿½" :
             niveau = '2';
-
             break;
         case "(ï¿½Wï¿½" :
             niveau = '3';
@@ -35,15 +34,20 @@ udpPort.on("message", function (oscMsg) {
         case "<\"ï¿½ï¿½Yï¿½":
             niveau = '4';
             break;
-        music = true;
+        default :
+            niveau = '-1';
+            break;
     }
     console.log("Niveau : ",niveau);
-
+    if(connect){
+      client.emit("message",niveau);
+    }
 });
 udpPort.open();
 
 io.on("connection", socket => {
-    io.emit("message",niveau);
+    client = socket;
+    connect = true;
 });
 
-http.listen(9995);
+server.listen(9995);
