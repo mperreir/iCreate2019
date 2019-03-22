@@ -9,9 +9,10 @@ RIGHT = BACK = 2
 
 def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER):
 	s = oalOpen(filepath)
+	s.set_cone_inner_angle(360)
+	s.set_cone_outer_angle(360)
 	s.set_looping(loop)
 	s.set_position((left_center_right, CENTER, back_center_front))
-	# TODO cône 360
 	s.play()
 	if until_end:
 		while s.get_state() == AL_PLAYING:
