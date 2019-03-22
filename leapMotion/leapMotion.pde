@@ -70,7 +70,7 @@ void draw(){
 void mousePressed() {
   //arbre.feuillage(mouseX,mouseY,mouseX+100, mouseY+100);
   arbre.setTimeFrame(50);
-  arbre.destroyZone(200,200,mouseX,mouseY);
+  arbre.destroyLeaf(10);
 }
 
 PShape loadShapeFromJson(String file){
