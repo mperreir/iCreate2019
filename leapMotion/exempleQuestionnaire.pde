@@ -1,6 +1,8 @@
   Questionnaire q;  
   
 String [] Texte;
+
+/*
   void setup(){
     Texte = loadStrings("Score.txt");
     q = new Questionnaire(0);
@@ -14,3 +16,5 @@ String [] Texte;
   void draw(){
     
   }
+  
+  */
