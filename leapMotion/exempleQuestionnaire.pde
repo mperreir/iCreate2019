@@ -2,6 +2,8 @@
   Question ques;
   
 String [] Texte;
+
+/*
   void setup(){
     Texte = loadStrings("Score.txt");
     q = new Questionnaire(0);
@@ -14,4 +16,10 @@ String [] Texte;
     for(int i=0; i< Texte.length;i++) println( Texte[i]+" erreurs /20");
     q.stockScore();
   }
- 
+  
+  
+  void draw(){
+    
+  }
+  
+  */
