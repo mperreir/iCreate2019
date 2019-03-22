@@ -1,27 +1,35 @@
 # TODO apt-get install libopenal-dev
 
+import time
 from openal import *
 
-dname = alcGetString(None, ALC_DEVICE_SPECIFIER)
-device = alcOpenDevice(dname)
+CENTER = 0
+LEFT = FRONT = -2
+RIGHT = BACK = 2
 
+def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER):
+	s = oalOpen(filepath)
+	s.set_cone_inner_angle(360)
+	s.set_cone_outer_angle(360)
+	s.set_looping(loop)
+	s.set_position((left_center_right, CENTER, back_center_front))
+	s.play()
+	if until_end:
+		while s.get_state() == AL_PLAYING:
+			time.sleep(1)
 
+if __name__ == '__main__':
 
-# contextlistener = openal. Device().ContextListener()
-# contextlistener.position = 0, 0, 0
-# contextlistener.velocity = 0, 0, 0
-# contextlistener.orientation = 0, 1, 0, 0, 0, 1
-#
-# source1 = contextlistener.get_source()
-# source1.buffer = openal.Buffer(argv[1])
-# source1.looping = True
-# source1.position = 0,0,0
-# source1.play()
-#
-# ops = [sub, add]
-# while True:
-# 	source1.position = ops[0](source1.position[0], 0.5), source1.position[1], source1.position[2]
-# 	print("\t".join([str(round(p,4)) for p in source1.position]))
-# 	time.sleep(0.2)
-# 	if abs(source1.position[0]) > 10:
-# ops = list(reversed(ops))
+	dname = alcGetString(None, ALC_DEVICE_SPECIFIER)
+	print(f'device name: {dname.decode("utf-8")}')
+	device = alcOpenDevice(dname)
+
+	ctx_listener = oalGetListener()
+	ctx_listener.set_position((CENTER, CENTER, CENTER))
+	ctx_listener.set_velocity((0, 0, 0))
+	ctx_listener.set_orientation((0, 0, 1, 0, 1, 0))
+
+	play('res/gas.flac', left_center_right=LEFT, back_center_front=BACK)
+	play('res/discord.flac', until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
+
+	alcCloseDevice(device)
