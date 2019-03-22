@@ -1,5 +1,4 @@
 import websockets
-import asyncio
 import json
 import openal
 import os, sys
@@ -8,7 +7,7 @@ import os, sys
 async def main_procedure():
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
-        unSub = json.dumps({'focused': False })
+        unSub = json.dumps({'focused': False})
         data = await websocket.recv()
         print(data)
         data = await websocket.recv()
@@ -21,7 +20,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'pinchStrength')
-            await websocket.send(unSub)
+        await websocket.send(unSub)
         print('coucou2')
         await websocket.send(sub)
 
