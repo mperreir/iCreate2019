@@ -6,17 +6,29 @@ from openal import *
 CENTER = 0
 LEFT = FRONT = -2
 RIGHT = BACK = 2
+RADYUS = 3
+STEP = 0.1
 
-def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER):
+def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER, rotate=False):
+
 	s = oalOpen(filepath)
 	s.set_cone_inner_angle(360)
 	s.set_cone_outer_angle(360)
 	s.set_looping(loop)
 	s.set_position((left_center_right, CENTER, back_center_front))
 	s.play()
-	if until_end:
+	if until_end or rotate:
 		while s.get_state() == AL_PLAYING:
-			time.sleep(1)
+			if rotate:
+				if x<=-3:
+					 inc = True
+				if x>=3:
+					 inc = False
+				z =sqrt((r**2)-(x**2))
+				s.set_position((x, CENTER, z))
+				if inc: x+=STEP
+				else: x-=STEP
+			time.sleep(0.2)
 
 if __name__ == '__main__':
 
