@@ -14,7 +14,7 @@ async function init() {
 	renderer.gammaFactor = 2.2;
 	div.appendChild(renderer.domElement);
 
-	// Scene, lightning and camera organisation
+	// Scene, lightning and camera organisationdd
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
 	camera.position.set(0, 200, 50);
@@ -43,8 +43,45 @@ async function init() {
 
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
+<<<<<<< HEAD
 	await sleep(21000);
 	await moveCamera(0,3,150,0,20,100);
+=======
+	await sleep(14000);
+	await moveCamera(0,10,50,-0.1,1,450);
+}
+async function regionOccupated(x,y,x1,y1){
+	for (var  i = x; i<=x1 ;i++) {
+		for (var j = y; j<=y1;j++){
+			if (isOccupated(i,j)){
+				return false;
+			}
+		}
+	}
+	return false;
+}
+async function isOccupated(x,y){
+	x = x -10;
+	y = y+ 30
+	var monImage = new Image();
+	monImage.crossOrigin = 'Anonymous';
+	if (x + 200>400 && y+200>400){
+		console.log("X et Y en dehors des bornes")
+	}
+	monImage.onload = function()
+	{
+	  var img = nj.images.read(monImage);
+	  var img=nj.images.resize(img,400,400);
+	  var gray = nj.images.rgb2gray(img)
+	  if (gray.get(x+200,y+200)< 100){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	monImage.src=("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg");
+>>>>>>> bdda2051019eb3536f350ceed977c7d5bf22c9fc
 }
 
 async function createMap(){
@@ -54,7 +91,6 @@ async function createMap(){
 	plane.material.side = THREE.DoubleSide;
 	plane.position.x = 10;
 	plane.position.z = -30;
-
 	plane.rotation.x = 0.5 * Math.PI;
 	scene.add(plane);
 }

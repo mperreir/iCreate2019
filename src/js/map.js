@@ -50,15 +50,37 @@ function getCirclePitSteps(width, length, object_width, object_length){
       res.push([]);
     }
   }
+
   return res;
 }
 
+function makeCircle(rayonmax, padding_max){
 
+  var res = [[]];
+  rayon = padding_max;
+  while (rayon < rayonmax){
+    steps = 2 * rayon * Math.PI / padding_max;
+
+    res.push(circle(rayon, steps, 0, 0));
+    inter=[];
+    rayon+=padding_max;
+
+  }
+  console.log(res);
+  return res;
+
+}
 async function expansion(models, scene, speed=1, width=300, length=300, rand=2, padding=2){
   let max = getHugestObject(models);
+<<<<<<< HEAD
   steps = getCirclePitSteps(width, length, max.userData.length + padding,
       max.userData.width + padding);
   console.log(steps);
+=======
+  steps = makeCircle(175,max.userData.length + padding);
+  //getCirclePitSteps(width, length, max.userData.length + padding,
+      //max.userData.width + padding);
+>>>>>>> bdda2051019eb3536f350ceed977c7d5bf22c9fc
   let add_model = async () => {
       let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
       new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
@@ -100,6 +122,7 @@ async function removeMap(scene, models3D){
   }
 }
 
+<<<<<<< HEAD
 function replaceElement(old_model, new_model){
   new_model = (new_model).clone();
   new_model.rotation.set(0, Math.PI * Math.random(), 0);
@@ -129,3 +152,18 @@ function addBuilding() {
 function addHouse() {
   replaceByModel(models3D.house2);
 };
+=======
+function circle (radius, steps, centerX, centerY){
+    var xValues = [centerX];
+    var yValues = [centerY];
+    inter=[];
+    for (var i = 1; i < steps; i++) {
+        xValues = (centerX + radius * Math.cos(Math.PI * i / steps*2-Math.PI/2));
+        yValues = (centerY + radius * Math.sin(Math.PI * i / steps*2-Math.PI/2));
+        inter.push({'x':xValues,'y':yValues})
+   }
+   console.log(inter);
+   return inter;
+
+}
+>>>>>>> bdda2051019eb3536f350ceed977c7d5bf22c9fc
