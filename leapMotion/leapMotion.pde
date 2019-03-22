@@ -20,69 +20,64 @@ Arbre arbre;
 
 LeapMotion leap;
 
-int etatFenetre=3;
+
 boolean etat_leap = true;
 FenetreQuestion fenetreQuestion = new FenetreQuestion();
 
 void settings() {
   fullScreen(3);
-  
 }
 
 
 void setup() {
-
-  Fisica.init(this);
   frameRate(30);
   Fisica.init(this);
   textureArbre = loadImage("img/texturearbre.jpg");
-  textureArbre.resize(width,height);
-  
+  textureArbre.resize(width, height);
+
   world = new FWorld();
   arbre = new Arbre(world);
-  
+
   shapeArbre = loadGraphicsFromJson("data/tronc.json");
   textureArbre.mask(shapeArbre);
-  
+
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
 
-  fenetreQuestion.setEtat(etatFenetre);
-   
-    runSketch(new String[] { 
+  fenetreQuestion.setEtat(1);
+
+  runSketch(new String[] { 
     "fenetreQuestion"
     }
     , fenetreQuestion);
-  
 }
 
-void draw(){
+void draw() {
   background(255);
   //shape(shapeArbre,0,0);
   image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   world.draw();
- 
 }
 
 void mousePressed() {
   //arbre.feuillage(mouseX,mouseY,mouseX+100, mouseY+100);
   arbre.setTimeFrame(50);
-  arbre.destroyZone(200,200,mouseX,mouseY);
+  arbre.destroyZone(200, 200, mouseX, mouseY);
 }
 
-PShape loadShapeFromJson(String file){
+PShape loadShapeFromJson(String file) {
   JSONArray values = loadJSONArray(file);
   PShape s = createShape();
   s.beginShape();
-  
+
   s.texture(textureArbre);
   //s.fill(100);
   s.noStroke();
   for (int i = 0; i < values.size(); i++) {
-    
+
     JSONObject point = values.getJSONObject(i); 
 
     float x = point.getFloat("x");
@@ -91,22 +86,22 @@ PShape loadShapeFromJson(String file){
     s.vertex(x, y);
   }
   s.endShape(CLOSE);
-  
-  
+
+
   return s;
 }
 
 
-PGraphics loadGraphicsFromJson(String file){
+PGraphics loadGraphicsFromJson(String file) {
   JSONArray values = loadJSONArray(file);
-  PGraphics s = createGraphics(width,height);
+  PGraphics s = createGraphics(width, height);
   s.beginDraw();
-  
+
   s.noStroke();
   s.beginShape();
   s.texture(textureArbre);
   for (int i = 0; i < values.size(); i++) {
-    
+
     JSONObject point = values.getJSONObject(i); 
 
     float x = point.getFloat("x");
@@ -115,15 +110,16 @@ PGraphics loadGraphicsFromJson(String file){
     s.vertex(x, y);
   }
   s.endShape();
-  
+
   s.endDraw();
-  
+
   return s;
 }
 
 // ======================================================
 // 1. Swipe Gesture
 void leapOnSwipeGesture(SwipeGesture g, int state) {
+  println(etat_leap);
   if (etat_leap) {
     int     id               = g.getId();
     Finger  finger           = g.getFinger();
@@ -138,23 +134,51 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
     case 1: // Start
       break;
     case 2: // Update
-      
+
       break;
     case 3: // Stop
       println("SwipeGesture: " + direction);
       if (direction.x > 60) { //droite 
         println("<- Droite ");
-        etatFenetre= fenetreQuestion.setEtat(etatFenetre+1);
+        if(fenetreQuestion.etat == 2){
+          q.repondre(1);
+          fenetreQuestion.etatQuestion_choix = 1;
+            
+             fenetreQuestion.setEtat(3); 
+          
+        }
+       // fenetreQuestion.etat= fenetreQuestion.setEtat(fenetreQuestion.etat+1);
       } else if (direction.x < -50) { //gauche 
         println("Gauche ->");
-
-        etatFenetre=fenetreQuestion.setEtat(etatFenetre-1);
+       if(fenetreQuestion.etat == 2){
+          q.repondre(2);
+          
+          fenetreQuestion.etatQuestion_choix = 2;
+             fenetreQuestion.setEtat(3); 
+          
+          
+        }
+       // fenetreQuestion.etat=fenetreQuestion.setEtat(fenetreQuestion.etat-1);
+      }
+      if (direction.y > 80) { //gauche 
+        println("Haut");
+       if(fenetreQuestion.etat == 1){
+          lancerQuestionnaire();
+        }
+      } else if (direction.y < -80) { //gauche 
+        println("Bas");
+      
       }
       break;
     }
   }
 }
 
+
+void lancerQuestionnaire(){
+  fenetreQuestion.setEtat(2);
+  q = new Questionnaire();
+}
 
 // ======================================================
 // 2. Circle Gesture
@@ -169,15 +193,14 @@ void leapOnCircleGesture(CircleGesture g, int state) {
   float   durationSeconds  = g.getDurationInSeconds();
   int     direction        = g.getDirection();
 
-  switch(state){
-    case 1: // Start
-      break;
-    case 2: // Update
-      break;
-    case 3: // Stop
-      println("CircleGesture: " + id);
-      break;
-
+  switch(state) {
+  case 1: // Start
+    break;
+  case 2: // Update
+    break;
+  case 3: // Stop
+    println("CircleGesture: " + id);
+    break;
   }
 
   switch(direction) {

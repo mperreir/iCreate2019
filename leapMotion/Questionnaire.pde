@@ -1,16 +1,16 @@
 import processing.serial.*;
 class Questionnaire {
   int maxScore=20;
-  int score;
+  int score =0;
   /*tableauQuestion= new Question[];
    tableauScore[0] = new Question ( "Préférez vous un appartement ou une maison ?", "un appartement", 1, "une maison", 2);
    tableauScore[1] = new Question ( "Préférez vous un appartement ou une maison ?", "un appartement", 1, "une maison", 2);*/
   ArrayList<Question> questions ;
+  int idQuestionActuel=0;
   
 
 
-  Questionnaire(int score) {
-    this.score=score;
+  Questionnaire() {
     questions = new ArrayList<Question>();
     questions.add(new Question("Préférez vous un appartement ou une maison ?", "Un appartement", 1, "Une maison", 2));
     questions.add(new Question("Une maison individuelle ou en mitoyenne ?", "Mitoyenne", 1, "Individuelle", 2));
@@ -20,7 +20,7 @@ class Questionnaire {
     questions.add(new Question("En bord de litoral?", "Oui", 1, "Non", 2));
     questions.add(new Question("Vous préferrez vivre :", "En collococation", 1, "Seul", 2));
     questions.add(new Question("Dans quelle zone ?", "En centre-ville", 1, "En couronne périurbaine", 2));
-    questions.add(new Question("Dans quel type d'immeuble", "EN building", 1, "En immeuble Haussmanien", 2));
+    questions.add(new Question("Dans quel type d'immeuble", "En building", 1, "En immeuble Haussmanien", 2));
   }
 
   void stockScore() {// méthode qui ajoute le score au fichier texte
@@ -62,4 +62,24 @@ class Questionnaire {
   void ajouterPoints( int point) {//méthode qui incrémente directement le score
     score+=point;
   }
+  void repondre(int numero){
+    if(numero == 1){
+      score+= this.getQuestion().point1;
+    }else if(numero ==2){
+      score+= this.getQuestion().point2;
+      
+    }
+    
+    
+  }
+  Question getQuestion(){
+    if(idQuestionActuel >= questions.size()){
+      return null;
+    }
+    return questions.get(idQuestionActuel);
+  }
+  boolean isLastQuestion() {
+     return idQuestionActuel==questions.size();
+  }
+  
 }

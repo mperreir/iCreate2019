@@ -10,7 +10,7 @@ class FenetreQuestion extends PApplet {
   int top0 = 0;
   int top1;
   int x, y;
-
+  Question question;
   float loopStep;
   float animStep;
 
@@ -57,7 +57,10 @@ class FenetreQuestion extends PApplet {
     case 2:
       etatQuestion();
       break;
-    case 3:
+     case 3:
+      choixQuestion();
+      break;
+    case 4:
       etatStats();
       break;
     }
@@ -78,9 +81,7 @@ class FenetreQuestion extends PApplet {
       etat_leap = true;
     }
   }
-  String question = "Que souhaitez-vous  ?";
-  String choixA = "Une maison";
-  String choixB = "Un appartement";
+  
   int etatQuestion_choix = 0;
   int etatQuestion_tempT1 = 0;
   int etatQuestion_tempTA = 0;
@@ -89,13 +90,27 @@ class FenetreQuestion extends PApplet {
   int etatQuestion_tempIncB = 15;
   int etatQuestion_sizeA = 50;
   int etatQuestion_sizeB = 50;
+  
   void etatQuestion() {
-    etatQuestion_tempT1 = transitionText(question, 70, width/2, height/3, etatQuestion_tempT1, 15, CENTER, TOP);
-    etatQuestion_tempTA = transitionText(choixA+"\n<<", etatQuestion_sizeA, width/5, (height/3)*2, etatQuestion_tempTA, etatQuestion_tempIncA, CENTER, TOP);
-    etatQuestion_tempTB = transitionText(choixB+"\n>>", etatQuestion_sizeB, (width/5)*4, (height/3)*2, etatQuestion_tempTB, etatQuestion_tempIncB, CENTER, TOP);
-    if (etatQuestion_tempT1 > 255) {
-      etatQuestion_tempT1=0;
+    question = q.getQuestion();
+  
+   etatTransitionQuestion();
+
+    etat_leap = true;
+  }
+
+    void etatTransitionQuestion(){
+        etatQuestion_tempT1 = transitionText(question.enonce, 70, width/2, height/3, etatQuestion_tempT1, 15, CENTER, TOP);
+        etatQuestion_tempTA = transitionText(question.reponse1+"\n<<", etatQuestion_sizeA, width/5, (height/3)*2, etatQuestion_tempTA, etatQuestion_tempIncA, CENTER, TOP);
+        etatQuestion_tempTB = transitionText(question.reponse2+"\n>>", etatQuestion_sizeB, (width/5)*4, (height/3)*2, etatQuestion_tempTB, etatQuestion_tempIncB, CENTER, TOP);
+        if (etatQuestion_tempT1 > 255) {
+          etatQuestion_tempT1=0;
+        }
     }
+
+  void choixQuestion(){
+    
+    etatTransitionQuestion();
     if (etatQuestion_choix == 1) {
       etatQuestion_sizeA = etatQuestion_sizeA+2;
       etatQuestion_tempIncB = -1;
@@ -103,10 +118,20 @@ class FenetreQuestion extends PApplet {
       etatQuestion_sizeB = etatQuestion_sizeA+2;
       etatQuestion_tempIncA = -2;
     }
-
-    etat_leap = true;
+    if(etatQuestion_sizeA> 75 || etatQuestion_sizeB> 75){
+             
+      q.idQuestionActuel++;
+      if(q.isLastQuestion()){
+        this.setEtat(4);
+      }else{
+      
+       this.setEtat(2);
+        
+      }
+    }
+    
+     etat_leap = true;
   }
-
 
   int etatStats_tempA = 0;
   int etatStats_nbHabitant = 0;
