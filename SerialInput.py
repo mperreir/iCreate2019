@@ -6,7 +6,7 @@ import time
 
 
 class SerialInput:
-    def __init__(self, tty_name, threshold=50) -> None:
+    def __init__(self, tty_name, threshold=100) -> None:
         super().__init__()
         self.ttyName = tty_name
         self.player = SurroundPlayer()
@@ -23,7 +23,10 @@ class SerialInput:
         """
         self._read_config_file()
         while True:
-            self.process_input(self.arduinoSerialPort.readline())
+            input = self.arduinoSerialPort.readline().decode('utf-8').strip('\n').strip('\n')
+            #print(input)
+            if input != '' and input[0] == "{" and input[len(input)-2] == '}':
+                self.process_input(input)
 
     def _read_config_file(self) -> None:
         try:
@@ -36,7 +39,7 @@ class SerialInput:
                     travel = Travel((start['x'], start['y'], start['z']),
                                     (end['x'], end['y'], end['z']),
                                     travel_values[travel_value]['path'],
-                                    travel_value
+                                    travel_value,
                                     )
                     self.travels.append(travel)
 
@@ -66,9 +69,12 @@ class SerialInput:
         :return:
         """
         if self.player.is_playing():
+            print("stop")
             return
         for travel in self.travels:
             if travel.travel_name == activated_piezo:
                 print("Let's play " + travel.travel_name)
-                # self.player.canplay(False)
-                # self.player.play(travel)
+                self.player.canplay(False)
+                self.player.play(travel)
+                self.player.canplay(True)
+                self.arduinoSerialPort.reset_input_buffer()

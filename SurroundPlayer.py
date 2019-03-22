@@ -13,12 +13,10 @@ class SurroundPlayer:
         return SurroundPlayer._instance
 
     def play(self, travel):
-        travel.play()
+        travel.start()
 
-    def is_playing(self):
+    def is_playing(self) -> bool:
         return self.playing
 
     def canplay(self, state):
         self.playing = not state
-
-

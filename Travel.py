@@ -1,5 +1,6 @@
 import time
 from openal import *
+from random import *
 
 
 class Travel:
@@ -18,16 +19,30 @@ class Travel:
         oalInit()
 
         context_listener = oalGetListener()
-        context_listener.set_position(self.start_position)
+        context_listener.set_position((0, 0, 0))
         context_listener.velocity = 0, 0, 0
         context_listener.orientation = 0, 0, 0, 0, 0, 0
 
-        source = oalOpen(self.sound_path)
+        source_path = "avion" + str(randint(1, 2)) + ".flac"
+        print(source_path)
+        source = oalOpen(source_path)
         source.set_position(self.start_position)
+        source.set_cone_inner_angle(360)
+        source.set_cone_outer_angle(360)
+
+        if self.end_position[0] > self.start_position[0]:
+            factor_x = 1
+        else:
+            factor_x = -1
+
+        if self.end_position[2] > self.start_position[2]:
+            factor_y = 1
+        else:
+            factor_y = -1
 
         self.move(source,
-                  (self.end_position[1] + self.start_position[1]) / 10,
-                  (self.end_position[3] + self.start_position[3]) / 10)
+                  (abs(self.end_position[0]) + abs(self.start_position[0])) / 40 * factor_x,
+                  (abs(self.end_position[2]) + abs(self.start_position[2])) / 40 * factor_y)
 
     def move(self, source, step_x, step_y):
         """
@@ -38,11 +53,10 @@ class Travel:
         :return:
         """
         source.play()
+        counter_x = source.position[0]
+        counter_y = source.position[2]
 
-        counter_x = source.position[1]
-        counter_y = source.position[3]
-
-        while abs(counter_x - self.end_position[1]) > 0.1 and abs(counter_y - self.end_position[3]) > 0.1:
+        while source.get_state() == AL_PLAYING:
             source.set_position((counter_x, 0, counter_y))
             counter_x += step_x
             counter_y += step_y
