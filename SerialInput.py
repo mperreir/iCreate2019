@@ -4,10 +4,11 @@ from Travel import Travel
 
 
 class SerialInput:
-    def __init__(self, tty_name, player, threshold=50) -> None:
+    def __init__(self, tty_name, threshold=50) -> None:
         super().__init__()
         self.ttyName = tty_name
-        self.player = player
+        # self.player = player
+        self.player = ""
         try:
             self.arduinoSerialPort = serial.Serial(tty_name, 9600)
         except serial.serialutil.SerialException:
@@ -65,6 +66,6 @@ class SerialInput:
         """
         for travel in self.travels:
             if travel.travel_name == activated_piezo:
-                self.player.start(travel)
+                # self.player.start(travel)
                 return
 
