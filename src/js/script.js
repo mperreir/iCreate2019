@@ -28,11 +28,12 @@ async function init() {
 	light_two.position.set(-100, 800, 800);
 	lightAmbient = new THREE.AmbientLight(0x404040);
 	scene.add(light, light_two, lightAmbient);
-	await createMap()
+	await createMap();
 	animate();
 
 	// Loading every models
 	await loadEveryModels(models_paths, models3D);
+	document.addEventListener('keypress', interactionEvent);
 	await treeMap(scene, models3D);
 	await sleep(1000);
 	removeMap(scene, models3D);
@@ -42,8 +43,8 @@ async function init() {
 
 	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
-	await sleep(14000);
-	await moveCamera(0,3,150,0,50,100);
+	await sleep(21000);
+	await moveCamera(0,3,150,0,20,100);
 }
 
 async function createMap(){
@@ -56,6 +57,15 @@ async function createMap(){
 
 	plane.rotation.x = 0.5 * Math.PI;
 	scene.add(plane);
+}
+
+function interactionEvent(event){
+	console.log(event.code)
+	if(event.code === 'KeyQ'){
+		addHouse();
+	} else if (event.code === 'KeyB') {
+		addBuilding();
+	}
 }
 
 function onWindowResize() {

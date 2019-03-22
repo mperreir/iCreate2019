@@ -6,9 +6,9 @@ function createLocalModels(models3D){
 	var cube = new THREE.Mesh(geometry, material);
 	models3D.little_house = cube;
 
-	var geometry = new THREE.BoxGeometry(2, 3, 3);
-	var material = new THREE.MeshLambertMaterial({color: color.orange});
-	var cube = new THREE.Mesh(geometry, material);
+	geometry = new THREE.BoxGeometry(2, 3, 3);
+	material = new THREE.MeshLambertMaterial({color: color.orange});
+	cube = new THREE.Mesh(geometry, material);
 	models3D.house2 = cube;
 
 	geometry = new THREE.BoxGeometry(2, 4, 6);
