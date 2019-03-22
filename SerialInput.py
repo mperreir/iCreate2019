@@ -1,5 +1,6 @@
 import json
 import serial
+from Travel import Travel
 
 
 class SerialInput:
@@ -12,21 +13,31 @@ class SerialInput:
         except serial.serialutil.SerialException:
             print("Can't connect to tty")
         self.threshold = threshold
+        self.travels = []
 
     def start(self) -> None:
         """
         Start the sketch
         """
-        # TODO Instanciate Travel from parsed config file
         self._read_config_file()
         while True:
             self.process_input(self.arduinoSerialPort.readline())
 
-    def _read_config_file(self) -> dict:
+    def _read_config_file(self) -> None:
         try:
             with open('configTravel.json') as travelConfigFile:
                 travel_values = json.loads(travelConfigFile.read())
-                return travel_values
+                for travel_value in travel_values:
+                    start = travel_values[travel_value]['start']
+                    end = travel_values[travel_value]['end']
+
+                    travel = Travel((start['x'], start['y'], start['z']),
+                                    (end['x'], end['y'], end['z']),
+                                    travel_values[travel_value]['path'],
+                                    travel_value
+                                    )
+                    self.travels.append(travel)
+
         except IOError:
             print("Can't read configTravel.json")
 
@@ -52,6 +63,8 @@ class SerialInput:
         :param activated_piezo:
         :return:
         """
-        print(activated_piezo)
-        # self.player.star()
+        for travel in self.travels:
+            if travel.travel_name == activated_piezo:
+                self.player.start(travel)
+                return
 

@@ -1,6 +1,6 @@
 {
   "brazil":{
-    "star": {
+    "start": {
       "x": 0,
       "y": 0,
       "z": 0
@@ -13,7 +13,7 @@
     "path": "assets/pathToBrazil"
   },
   "russia": {
-    "star":{
+    "start":{
       "x": 0,
       "y": 0,
       "z": 0
@@ -26,7 +26,7 @@
     "path": "assets/pathToRussia"
   },
   "japan": {
-    "star": {
+    "start": {
       "x": 0,
       "y": 0,
       "z": 0
@@ -39,7 +39,7 @@
     "path": "assets/pathToJapan"
   },
   "usa": {
-    "star": {
+    "start": {
       "x": 0,
       "y": 0,
       "z": 0

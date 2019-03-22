@@ -4,10 +4,11 @@ from openal import *
 
 class Travel:
 
-    def __init__(self, start_position, end_position, sound_path):
+    def __init__(self, start_position, end_position, sound_path, travel_name):
         self.start_position = start_position
         self.end_position = end_position
         self.sound_path = sound_path
+        self.travel_name = travel_name
 
     def start(self):
         """
