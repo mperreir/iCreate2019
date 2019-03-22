@@ -1,22 +1,27 @@
 import websockets.*;
 import java.net.*;
+import processing.serial.*;
 
 WebsocketServer ws;
-int now;
-float x, y;
 String address;
+Serial myPort;
+float valueFromBook, valueFromFlute, valueFromSand = 0;
 
+// Initialisation
 void setup() {
   size(200,200);
   
-  //Initiates the websocket server, and listens for incoming connections on ws://localhost:8025/john
+  printArray(Serial.list());
+  String portName = Serial.list()[2];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+  
+  // Création du serveur Websocket qui écoute sur ws://0.0.0.0:8025/musee
   ws = new WebsocketServer(this, 8025, "/musee");
-  now = millis();
-  x = 0;
-  y = 0;
   
   try {
-    address = InetAddress.getLocalHost().toString();
+    InetAddress inetAddress = InetAddress.getLocalHost();
+    address = inetAddress.getHostAddress();
   } catch (UnknownHostException e) {
     
   }
@@ -28,18 +33,32 @@ void draw() {
   textSize(14);
   text(address.toString(), 10,20);
   
-  ellipse(x,y, 10,10);
-  
-  //Send message to all clients very 5 seconds
-  if (millis() > now+5000) {
-    ws.sendMessage("Server message");
-    now = millis();
+  // ws.sendMessage("Server message");
+}
+
+void serialEvent (Serial myPort) {
+  try {
+    while (myPort.available() > 0) {
+      String inBuffer = myPort.readStringUntil('\n');
+      if (inBuffer != null) {
+        if (inBuffer.substring(0, 1).equals("{")) {
+          JSONObject json = parseJSONObject(inBuffer);
+          if (json == null) {
+            //println("JSONObject could not be parsed");
+          } else {
+            valueFromBook = json.getInt("book");
+            valueFromFlute = json.getInt("flute");
+            valueFromSand = json.getInt("sand");
+            //println(valueFromBook + " - " + valueFromFlute + " - " + valueFromSand);
+          }
+        }
+      }
+    }
+  } 
+  catch (Exception e) {
   }
 }
 
-//This is an event like onMouseClicked. If you chose to use it, it will be executed whenever a client sends a message
 void webSocketServerEvent(String msg) {
   println(msg);
-  x = random(width);
-  y = random(height);
 }
