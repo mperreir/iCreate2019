@@ -1,14 +1,14 @@
 import json
 import serial
 from Travel import Travel
+from SurroundPlayer import SurroundPlayer
 
 
 class SerialInput:
     def __init__(self, tty_name, threshold=50) -> None:
         super().__init__()
         self.ttyName = tty_name
-        # self.player = player
-        self.player = ""
+        self.player = SurroundPlayer()
         try:
             self.arduinoSerialPort = serial.Serial(tty_name, 9600)
         except serial.serialutil.SerialException:
@@ -52,10 +52,10 @@ class SerialInput:
         max_input_name = ""
         max_input_value = -1
         for piezo, value in input_data.items():
-            if value > max_input_name:
+            if value > max_input_value:
                 max_input_name = piezo
                 max_input_value = value
-        if max_input_value >= self.threshold and max_input_name > 0:
+        if max_input_value >= self.threshold and max_input_value > 0:
             self.select_instance(max_input_name)
 
     def select_instance(self, activated_piezo) -> None:
@@ -64,8 +64,9 @@ class SerialInput:
         :param activated_piezo:
         :return:
         """
+        if self.player.isplaying():
+            return
         for travel in self.travels:
             if travel.travel_name == activated_piezo:
-                # self.player.start(travel)
-                return
-
+                print("Let's play " + travel.travel_name)
+                # self.player.play(travel)
