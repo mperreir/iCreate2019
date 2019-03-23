@@ -26,6 +26,7 @@ async function init() {
 	renderer.shadowMap.enabled= true;
 	renderer.render(scene, camera);
 	makeLight();
+	makeSky();
 	await createMap();
 	animate();
 
@@ -65,6 +66,47 @@ function makeLight(){
 	solar_light.shadow.camera.bottom = -intensidad;
 
 	scene.add(solar_light, lightAmbient);
+}
+
+function makeSky(){
+	var vertexShader = `
+		varying vec3 vWorldPosition;
+			void main() {
+				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+				vWorldPosition = worldPosition.xyz;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+	`;
+	var fragmentShader = `
+			uniform vec3 topColor;
+			uniform vec3 bottomColor;
+			uniform float offset;
+			uniform float exponent;
+			varying vec3 vWorldPosition;
+			void main() {
+				float h = normalize( vWorldPosition + offset ).y;
+				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+			}
+	`;
+
+	var uniforms = {
+		"topColor": { value: new THREE.Color( 0x0077ff ) },
+		"bottomColor": { value: new THREE.Color( 0xcfe5fe ) },
+		"offset": { value: 33 },
+		"exponent": { value: 0.6 }
+	};
+
+	scene.fog = new THREE.Fog( scene.background, 1, 800 );
+	scene.fog.color.copy( uniforms[ "bottomColor" ].value );
+	var skyGeo = new THREE.SphereBufferGeometry( 4000, 32, 15 );
+	var skyMat = new THREE.ShaderMaterial( {
+		uniforms: uniforms,
+		vertexShader: vertexShader,
+		fragmentShader: fragmentShader,
+		side: THREE.BackSide
+	} );
+	var sky = new THREE.Mesh( skyGeo, skyMat );
+	scene.add( sky );
 }
 
 async function regionOccupated(x,y,x1,y1){
