@@ -1,3 +1,5 @@
+
+/*
   Questionnaire q; // programme de test pour les classes Question et Questionnaire
   Question ques;
   

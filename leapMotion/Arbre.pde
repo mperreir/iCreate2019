@@ -7,6 +7,7 @@ class Arbre {
   int initTimeFrame;
   float initBrancheX;
   float initBrancheY;
+  float nbLeaf;
 
   PImage[] images = new PImage[9];
   //zone à définir
@@ -21,7 +22,6 @@ class Arbre {
       images[i].resize(30, 0);
     }
     feuillage(width/3, height/5, 2*width/3, (height/5) + height/3);
-
   }
 
   void feuillage(float x, float y, float nx, float ny) {
@@ -30,13 +30,12 @@ class Arbre {
     for (float j = y; j < ny; j += maille) {
       for (float i = x; i < nx; i += maille) {
         float angle = ((i-x)/(nx-x)) * PI - PI/2;
-        Feuille f = new Feuille(10, 10, i + random(-10,10), j + random(-10,10), images[int(random(0, 8))], angle);
+        Feuille f = new Feuille(10, 10, i + random(-10, 10), j + random(-10, 10), images[int(random(0, 8))], angle);
         aWorld.add(f);
         feuilles.add(f);
-        
       }
     }
-
+    nbLeaf = feuilles.size();
     println(feuilles.size());
   }
 
@@ -58,6 +57,24 @@ class Arbre {
       feuilles.get(i).adjustRotation(random(-facteurMove, facteurMove)*PI/60);
       feuilles.get(i).adjustPosition(random(-facteurMove, facteurMove), random(-facteurMove, facteurMove));
     }
+  }
+
+  void destroyLeaf(float percentage) {
+    println("debut");
+    float nbobject = (percentage / 100) *  nbLeaf;
+    if (feuilles.size() > 0) {
+
+      for (int i = 0; i < nbobject -1; i++) {
+        int j = int(random(0, feuilles.size()-1));
+        Feuille f = feuilles.get(j);
+        println(feuilles.size());
+        f.setStatic(false);
+        f.addTorque(random(0, 1));
+        f.addImpulse(random(-10, 10), random(0, 10));
+        feuilles.remove(j);
+      }
+    }
+    println("fin");
   }
 
   void destroyZone(float w, float h, float x, float y) {

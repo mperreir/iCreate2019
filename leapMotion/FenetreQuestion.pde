@@ -15,7 +15,7 @@ class FenetreQuestion extends PApplet {
   float animStep;
 
   int etat = 0;
-
+  ArrayList<Hand> hands; 
   public int setEtat(int e) {
     println("FenetreQuestion : "+etat);
     etat_leap = false;
@@ -30,6 +30,8 @@ class FenetreQuestion extends PApplet {
     //size(900,600);
   }
   PShape terrainShape;
+
+  LeapMotion leapF;
   void setup() {
 
     background(255);
@@ -37,9 +39,13 @@ class FenetreQuestion extends PApplet {
     bottom0 = height ;
     top1 = bottom0 + 1;
     bottom1 = height;
+
+    leapF = new LeapMotion(this);
   }
 
   void draw() {
+
+
     animStep = abs(sin(frameCount * 0.02));
     for (int i = left; i <= right; i += 1) {
 
@@ -49,7 +55,18 @@ class FenetreQuestion extends PApplet {
       line(i, top0, i, bottom0);
     }
 
-    stroke(currentStroke);
+
+    for (Hand hand : leapF.getHands()) {
+
+      PVector position = hand.getSpherePosition();
+      float radius = hand.getSphereRadius();
+      pushMatrix();
+      ellipseMode(PConstants.CENTER);
+      fill(255, 2, 2, 20);
+      ellipse(position.x, position.y, radius, radius);
+      popMatrix();
+      //hand.draw(20);
+    }
     switch(etat) {
     case 1: 
       etatInstruction();
@@ -57,8 +74,8 @@ class FenetreQuestion extends PApplet {
     case 2:
       etatQuestion();
       break;
-     case 3:
-      choixQuestion();
+    case 3:
+      etatTransitionQuestion();
       break;
     case 4:
       etatStats();
@@ -81,7 +98,7 @@ class FenetreQuestion extends PApplet {
       etat_leap = true;
     }
   }
-  
+
   int etatQuestion_choix = 0;
   int etatQuestion_tempT1 = 0;
   int etatQuestion_tempTA = 0;
@@ -90,60 +107,62 @@ class FenetreQuestion extends PApplet {
   int etatQuestion_tempIncB = 15;
   int etatQuestion_sizeA = 50;
   int etatQuestion_sizeB = 50;
-  
+
   void etatQuestion() {
     question = q.getQuestion();
-  
-   etatTransitionQuestion();
+    etatQuestion_tempIncA = 15;
+    etatQuestion_tempIncB = 15;
+    etatQuestion_sizeA = 50;
+    etatQuestion_sizeB = 50;
+    choixQuestion();
 
     etat_leap = true;
   }
 
-    void etatTransitionQuestion(){
-        etatQuestion_tempT1 = transitionText(question.enonce, 70, width/2, height/3, etatQuestion_tempT1, 15, CENTER, TOP);
-        etatQuestion_tempTA = transitionText(question.reponse1+"\n<<", etatQuestion_sizeA, width/5, (height/3)*2, etatQuestion_tempTA, etatQuestion_tempIncA, CENTER, TOP);
-        etatQuestion_tempTB = transitionText(question.reponse2+"\n>>", etatQuestion_sizeB, (width/5)*4, (height/3)*2, etatQuestion_tempTB, etatQuestion_tempIncB, CENTER, TOP);
-        if (etatQuestion_tempT1 > 255) {
-          etatQuestion_tempT1=0;
-        }
+  void choixQuestion() {
+    etatQuestion_tempT1 = transitionText(question.enonce, 70, width/2, height/3, etatQuestion_tempT1, 15, CENTER, TOP);
+    etatQuestion_tempTA = transitionText(question.reponse1+"\n<<", etatQuestion_sizeA, width/5, (height/3)*2, etatQuestion_tempTA, etatQuestion_tempIncA, CENTER, TOP);
+    etatQuestion_tempTB = transitionText(question.reponse2+"\n>>", etatQuestion_sizeB, (width/5)*4, (height/3)*2, etatQuestion_tempTB, etatQuestion_tempIncB, CENTER, TOP);
+    if (etatQuestion_tempT1 > 255) {
+      etatQuestion_tempT1=0;
     }
+  }
 
-  void choixQuestion(){
-    
-    etatTransitionQuestion();
+  void etatTransitionQuestion() {
+
+    choixQuestion();
     if (etatQuestion_choix == 1) {
-      etatQuestion_sizeA = etatQuestion_sizeA+2;
+      etatQuestion_sizeA = etatQuestion_sizeA+4;
       etatQuestion_tempIncB = -1;
     } else if (etatQuestion_choix == 2) {
-      etatQuestion_sizeB = etatQuestion_sizeA+2;
-      etatQuestion_tempIncA = -2;
+      etatQuestion_sizeB = etatQuestion_sizeB+4;
+      etatQuestion_tempIncA = -1;
     }
-    if(etatQuestion_sizeA> 75 || etatQuestion_sizeB> 75){
-             
+    if (etatQuestion_sizeA> 75 || etatQuestion_sizeB> 75) {
+
       q.idQuestionActuel++;
-      if(q.isLastQuestion()){
+      if (q.isLastQuestion()) {
+        q.stockScore();
         this.setEtat(4);
-      }else{
-      
-       this.setEtat(2);
-        
+      } else {
+
+        this.setEtat(2);
       }
     }
-    
-     etat_leap = true;
+
+    etat_leap = true;
   }
 
   int etatStats_tempA = 0;
   int etatStats_nbHabitant = 0;
   float etatStats_nbHabitant_inc = 1 ;
 
-  int classement= 0;
   int etatStats_i = 150;
   boolean etatStats_etat = true;
   void etatStats() {
-    etatStats_tempA= transitionText("55", 100, 250, height-250, etatStats_tempA, 15, CENTER, TOP);
+    etatStats_tempA= transitionText(str(q.getClassement()), 100, 250, height-250, etatStats_tempA, 15, CENTER, TOP);
     transitionText("ème", 50, 250+120, height-250, etatStats_tempA, 15, CENTER, TOP);
-    transitionText("sur 36000", 50, 200+200, height-200, etatStats_tempA, 15, LEFT, TOP);
+    transitionText("sur "+q.getNbParticipant(), 50, 200+200, height-200, etatStats_tempA, 15, LEFT, TOP);
 
     shape(terrainShape, 50, 50, etatStats_i, etatStats_i);
 
@@ -152,11 +171,11 @@ class FenetreQuestion extends PApplet {
 
 
     transitionText("+"+etatStats_nbHabitant, 80, width-1000, height/2, etatStats_tempA, 15, LEFT, TOP);
-    
+
     transitionText("hab/an", 30, width-880, (height/2)+85, etatStats_tempA, 15, LEFT, TOP);
     transitionText("(Évolution annuelle moyenne entre 2011 et 2016) ", 20, width-920, (height/2)+130, etatStats_tempA, 15, LEFT, TOP);
-   
-    
+
+
     if (etatStats_nbHabitant != 16865) {
       etatStats_nbHabitant_inc = etatStats_nbHabitant_inc+2.2;
       etatStats_nbHabitant = int( etatStats_nbHabitant + (etatStats_nbHabitant_inc*etatStats_nbHabitant_inc));
@@ -184,8 +203,8 @@ class FenetreQuestion extends PApplet {
     textSize(textSize);
     textAlign(c, t);
     fill(255, 255, 255, tempT);
-      text(text, widthT, heightT);
-      
+    text(text, widthT, heightT);
+
     if (tempT < 255) {
       tempT =tempT+ inc;
     }

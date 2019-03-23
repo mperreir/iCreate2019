@@ -20,9 +20,14 @@ Arbre arbre;
 
 LeapMotion leap;
 
-
 boolean etat_leap = true;
 FenetreQuestion fenetreQuestion = new FenetreQuestion();
+
+//Questionnaire
+Questionnaire q;
+String [] texte;
+int [] scoreTrie;
+
 
 void settings() {
   fullScreen(3);
@@ -30,6 +35,8 @@ void settings() {
 
 
 void setup() {
+  
+  texte = loadStrings("Score.txt");
   frameRate(30);
   Fisica.init(this);
   textureArbre = loadImage("img/texturearbre.jpg");
@@ -60,12 +67,13 @@ void draw() {
   arbre.step();
   world.step();
   world.draw();
+  fenetreQuestion.hands = leap.getHands();
 }
 
 void mousePressed() {
   //arbre.feuillage(mouseX,mouseY,mouseX+100, mouseY+100);
   arbre.setTimeFrame(50);
-  arbre.destroyZone(200, 200, mouseX, mouseY);
+  arbre.destroyLeaf(10);
 }
 
 PShape loadShapeFromJson(String file) {
@@ -119,7 +127,7 @@ PGraphics loadGraphicsFromJson(String file) {
 // ======================================================
 // 1. Swipe Gesture
 void leapOnSwipeGesture(SwipeGesture g, int state) {
-  println(etat_leap);
+
   if (etat_leap) {
     int     id               = g.getId();
     Finger  finger           = g.getFinger();
@@ -139,35 +147,29 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
     case 3: // Stop
       println("SwipeGesture: " + direction);
       if (direction.x > 60) { //droite 
-        println("<- Droite ");
-        if(fenetreQuestion.etat == 2){
-          q.repondre(1);
-          fenetreQuestion.etatQuestion_choix = 1;
-            
-             fenetreQuestion.setEtat(3); 
-          
-        }
-       // fenetreQuestion.etat= fenetreQuestion.setEtat(fenetreQuestion.etat+1);
-      } else if (direction.x < -50) { //gauche 
-        println("Gauche ->");
-       if(fenetreQuestion.etat == 2){
-          q.repondre(2);
-          
+        println("Droite ");
+        //arbre.destroyLeaf(20);
+        if (fenetreQuestion.etat == 2) {
           fenetreQuestion.etatQuestion_choix = 2;
-             fenetreQuestion.setEtat(3); 
-          
-          
+          arbre.destroyLeaf(q.repondre(1));
+
+          fenetreQuestion.setEtat(3);
         }
-       // fenetreQuestion.etat=fenetreQuestion.setEtat(fenetreQuestion.etat-1);
+      } else if (direction.x < -50) { //gauche 
+        println("Gauche");
+        if (fenetreQuestion.etat == 2) {
+          fenetreQuestion.etatQuestion_choix = 1;
+          arbre.destroyLeaf(q.repondre(2));
+          fenetreQuestion.setEtat(3);
+        }
       }
       if (direction.y > 80) { //gauche 
         println("Haut");
-       if(fenetreQuestion.etat == 1){
+        if (fenetreQuestion.etat == 1) {
           lancerQuestionnaire();
         }
       } else if (direction.y < -80) { //gauche 
         println("Bas");
-      
       }
       break;
     }
@@ -175,7 +177,7 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
 }
 
 
-void lancerQuestionnaire(){
+void lancerQuestionnaire() {
   fenetreQuestion.setEtat(2);
   q = new Questionnaire();
 }
