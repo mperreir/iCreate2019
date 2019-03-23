@@ -18,16 +18,14 @@ async function init() {
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
 	camera.position.set(0, 200, 50);
-
 	camera.rotation.x = rotationCamera * Math.PI;
 	scene.add(camera);
+
 	// TODO: Revoir les parametres des lumiéres
-	light = new THREE.PointLight(0xffffff, 1, 4000);
-	light.position.set(1000, -1000, 400);
-	light_two = new THREE.PointLight(0xffffff, 1, 4000);
-	light_two.position.set(-100, 800, 800);
-	lightAmbient = new THREE.AmbientLight(0x404040);
-	scene.add(light, light_two, lightAmbient);
+
+	renderer.shadowMap.enabled= true;
+	renderer.render(scene, camera);
+	makeLight();
 	await createMap();
 	animate();
 
@@ -41,11 +39,34 @@ async function init() {
 	//houseMap(scene, models3D);
 	cityMap(scene, models3D);
 
-	renderer.render(scene, camera);
 	//document.addEventListener('mousemove', onMouseMove, false);
 	await sleep(21000);
 	await moveCamera(0,3,150,0,20,100);
 }
+
+function makeLight(){
+	lightAmbient = new THREE.AmbientLight(0x7f7f7f);
+
+	solar_light = new THREE.DirectionalLight();
+	solar_light.position.set(-500, 500, 0);
+	solar_light.castShadow = true;
+	solar_light.intensity = 1;
+
+	solar_light.shadow.mapSize.width = 40048;
+	solar_light.shadow.mapSize.height = 40048;
+	solar_light.shadow.camera.near = 0.5;
+	solar_light.shadow.camera.far = 20000;
+
+	intensidad=150;
+
+	solar_light.shadow.camera.left = -intensidad;
+	solar_light.shadow.camera.right = intensidad;
+	solar_light.shadow.camera.top = intensidad;
+	solar_light.shadow.camera.bottom = -intensidad;
+
+	scene.add(solar_light, lightAmbient);
+}
+
 async function regionOccupated(x,y,x1,y1){
 	for (var  i = x; i<=x1 ;i++) {
 		for (var j = y; j<=y1;j++){
@@ -56,6 +77,7 @@ async function regionOccupated(x,y,x1,y1){
 	}
 	return false;
 }
+
 async function isOccupated(x,y){
 	x = x -10;
 	y = y+ 30
@@ -81,12 +103,13 @@ async function isOccupated(x,y){
 
 async function createMap(){
 	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");
-	material = new THREE.MeshBasicMaterial( { map: texture} );
+	material = new THREE.MeshLambertMaterial( { map: texture} );
 	plane = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), material);
 	plane.material.side = THREE.DoubleSide;
 	plane.position.x = 10;
 	plane.position.z = -30;
 	plane.rotation.x = 0.5 * Math.PI;
+	plane.receiveShadow = true;
 	scene.add(plane);
 }
 

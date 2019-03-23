@@ -50,12 +50,10 @@ function getCirclePitSteps(width, length, object_width, object_length){
       res.push([]);
     }
   }
-
   return res;
 }
 
 function makeCircle(rayonmax, padding_max){
-
   var res = [[]];
   rayon = padding_max;
   while (rayon < rayonmax){
@@ -64,12 +62,10 @@ function makeCircle(rayonmax, padding_max){
     res.push(circle(rayon, steps, 0, 0));
     inter=[];
     rayon+=padding_max;
-
   }
-  console.log(res);
   return res;
-
 }
+
 async function expansion(models, scene, speed=1, width=300, length=300, rand=2, padding=2){
   let max = getHugestObject(models);
   steps = makeCircle(100,max.userData.length + padding);
@@ -125,10 +121,9 @@ function circle (radius, steps, centerX, centerY){
         yValues = (centerY + radius * Math.sin(Math.PI * i / steps*2-Math.PI/2));
         inter.push({'x':xValues,'y':yValues})
    }
-   console.log(inter);
    return inter;
-
 }
+
 function replaceElement(old_model, new_model){
   new_model = (new_model).clone();
   new_model.rotation.set(0, Math.PI * Math.random(), 0);
@@ -153,6 +148,7 @@ function replaceByModel(model){
 
 function addBuilding() {
   replaceByModel(models3D.skyscraper);
+  console.log(CONTAINER);
 };
 
 function addHouse() {

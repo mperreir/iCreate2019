@@ -62,7 +62,11 @@ async function loadEveryModels(paths, models3D){
 	}
 
 	while(loader_count != 0)	await sleep(50);
-	for(e in models3D) models3D[e].userData.name = e;
+	for(e in models3D) {
+		models3D[e].userData.name = e;
+		models3D[e].castShadow = true;
+    models3D[e].receiveShadow = true;
+	}
 	//console.log(models3D);
 }
 
