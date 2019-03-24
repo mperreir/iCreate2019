@@ -170,6 +170,10 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
         }
       } else if (direction.y < -80) { //gauche 
         println("Bas");
+        if(fenetreQuestion.etat==4){          
+          q.stockScore();
+          fenetreQuestion.setEtat(1);
+        }
       }
       break;
     }
