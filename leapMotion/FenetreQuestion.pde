@@ -142,7 +142,6 @@ class FenetreQuestion extends PApplet {
 
       q.idQuestionActuel++;
       if (q.isLastQuestion()) {
-        q.stockScore();
         this.setEtat(4);
       } else {
 
