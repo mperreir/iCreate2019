@@ -36,7 +36,7 @@ async function init() {
 
 	// Tests
 	setTimeout(() => global_state++, 5000);
-	setTimeout(() => global_state++, 10000);
+	setTimeout(() => global_state++, 6000);
 	setTimeout(() => console.log(global_state), 15000);
 }
 
@@ -47,13 +47,13 @@ async function startGame(event){
 		switch(temp_state) {
 		  case 0:
 				await treeMap(scene, models3D);
-				await sleep(1000);
+				document.getElementById('logo').style.opacity = 0;
 		    break;
 		  case 1:
-				await removeMap(scene, models3D);
+				removeMap(scene, models3D);
 		    break;
 		  case 2:
-				await cityMap(scene, models3D);
+				cityMap(scene, models3D);
 				document.addEventListener('keypress', interactionEvent);
 				await sleep(10000);
 				await moveCamera(0,3,150,0,20,100);
