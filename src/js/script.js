@@ -1,10 +1,13 @@
-let renderer, scene, camera, projector;
+let renderer, scene, camera, projector, state;
 let models3D = {};
 
 let div = document.getElementById('container');
 let raycaster = new THREE.Raycaster(),INTERSECTED;
 let mouse = new THREE.Vector2();
-var rotationCamera = -0.45;
+let rotationCamera = -0.45;
+
+let local_state = -1;
+let global_state = 0; // For the tests
 
 async function init() {
 	renderer = new THREE.WebGLRenderer({antialias: true});
@@ -14,15 +17,12 @@ async function init() {
 	renderer.gammaFactor = 2.2;
 	div.appendChild(renderer.domElement);
 
-	// Scene, lightning and camera organisationdd
+	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
 	camera.position.set(0, 200, 50);
 	camera.rotation.x = rotationCamera * Math.PI;
 	scene.add(camera);
-
-	// TODO: Revoir les parametres des lumiéres
-
 	renderer.shadowMap.enabled= true;
 	renderer.render(scene, camera);
 	makeLight();
@@ -30,19 +30,52 @@ async function init() {
 	await createMap();
 	animate();
 
-	// Loading every models
+	// Starting the game
 	await loadEveryModels(models_paths, models3D);
-	document.addEventListener('keypress', interactionEvent);
-	await treeMap(scene, models3D);
-	await sleep(1000);
-	removeMap(scene, models3D);
-	await sleep(50);
-	//houseMap(scene, models3D);
-	cityMap(scene, models3D);
+	startGame();
 
-	//document.addEventListener('mousemove', onMouseMove, false);
-	await sleep(21000);
-	await moveCamera(0,3,150,0,20,100);
+	// Tests
+	setTimeout(() => global_state++, 5000);
+	setTimeout(() => global_state++, 10000);
+	setTimeout(() => console.log(global_state), 15000);
+}
+
+async function startGame(event){
+	let temp_state = getState();
+
+	if(temp_state !== local_state){
+		switch(temp_state) {
+		  case 0:
+				await treeMap(scene, models3D);
+				await sleep(1000);
+		    break;
+		  case 1:
+				await removeMap(scene, models3D);
+		    break;
+		  case 2:
+				await cityMap(scene, models3D);
+				document.addEventListener('keypress', interactionEvent);
+				await sleep(10000);
+				await moveCamera(0,3,150,0,20,100);
+		    break;
+		}
+		local_state = temp_state;
+	}
+	setTimeout(startGame, 100);
+}
+
+function getState(){
+	// TODO: Fontion à relier au serv python
+	return global_state;
+}
+
+function interactionEvent(event){
+	console.log(event.code)
+	if(event.code === 'KeyQ'){
+		addHouse();
+	} else if (event.code === 'KeyB') {
+		addBuilding();
+	}
 }
 
 function makeLight(){
@@ -109,7 +142,6 @@ function makeSky(){
 	scene.add( sky );
 }
 
-
 async function createMap(){
 	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");
 	material = new THREE.MeshLambertMaterial( { map: texture} );
@@ -120,15 +152,6 @@ async function createMap(){
 	plane.rotation.x = 0.5 * Math.PI;
 	plane.receiveShadow = true;
 	scene.add(plane);
-}
-
-function interactionEvent(event){
-	console.log(event.code)
-	if(event.code === 'KeyQ'){
-		addHouse();
-	} else if (event.code === 'KeyB') {
-		addBuilding();
-	}
 }
 
 function onWindowResize() {
