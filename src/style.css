@@ -8,6 +8,7 @@ html, body{
 #logo{
   position: absolute;
   background: url('img/logo_grey.png') fixed center;
+  background-size: 1500px auto;
   top:0px;
   left:0px;
   width: 100%;
