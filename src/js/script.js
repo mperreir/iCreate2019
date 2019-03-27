@@ -8,6 +8,9 @@ let rotationCamera = -0.45;
 let local_state = -1;
 let global_state = 0; // For the tests
 
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext('2d');
+
 function animate() {
 	requestAnimationFrame(animate);
 	active_renderer.render(scene, camera);
@@ -15,6 +18,7 @@ function animate() {
 
 init();
 async function init() {
+	loadImage()
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);
@@ -195,6 +199,15 @@ function onMouseMove(event) {
 	camera.position.y += (mouseY - camera.position.y) * 0.001;
 	camera.lookAt(scene.position);
 };
+
+async function loadImage(){
+	var img = new Image();
+	img.onload = function(){
+		context.drawImage(img, 0, 0,400,400);
+
+	};
+	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg";
+}
 
 // A deplacer dans map :
 
