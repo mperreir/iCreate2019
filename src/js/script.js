@@ -1,4 +1,4 @@
-let renderer, scene, camera, projector, state, glitch_renderer, active_renderer;
+let renderer, scene, camera, projector, state, glitch_renderer, active_renderer, saturation_renderer;
 let models3D = {};
 
 let div = document.getElementById('container');
@@ -40,12 +40,7 @@ async function init() {
 	renderer.render(scene, camera);
 
 	// Postproduction
-	glitch_renderer = new THREE.EffectComposer( renderer );
-	glitch_renderer.addPass( new THREE.RenderPass( scene, camera ) );
-	glitchPass = new THREE.GlitchPass();
-	glitchPass.renderToScreen = true;
-	glitch_renderer.addPass( glitchPass );
-	console.log(glitch_renderer);
+	setShaders();
 
 	// Starting the game
 	animate();
@@ -57,10 +52,10 @@ async function init() {
 	global_state++;
 	await sleep(5000);
 	global_state++;
-	await sleep(5000);
-	//global_state++;
-	await sleep(15000);
-	//global_state++;
+	// await sleep(5000);
+	// global_state++;
+	// await sleep(15000);
+	// global_state++;
 }
 
 async function startGame(event){
@@ -70,8 +65,8 @@ async function startGame(event){
 		switch(temp_state) {
 			case 0:
 				document.getElementById('logo').style.opacity = 0;
-				// await moveCamera(0,10,50,-0.1,20,100);
 				await treeMap(scene, models3D);
+				console.log(saturation_renderer);
 				break;
 			case 1:
 				removeMap(scene, models3D);
@@ -79,15 +74,33 @@ async function startGame(event){
 			case 2:
 				cityMap(scene, models3D);
 				document.addEventListener('keypress', interactionEvent);
-				await sleep(1000);
+				//await sleep(1000);
+				//await moveCamera(0,10,50,-0.1,20,100);
 				break;
 			case 3:
-				// active_renderer = glitch_renderer;
+				let diminution_saturation = async () => {
+					let saturation = saturation_renderer.passes[1].uniforms.saturation;
+					while(saturation.value > 0.1){
+						saturation_renderer.passes[1].uniforms.saturation.value -= 0.01
+						await sleep(20);
+					};
+				}
+				diminution_saturation();
+
+				let tempGlitch = async (temp) => {
+					active_renderer = glitch_renderer;
+					await sleep(temp);
+					active_renderer = saturation_renderer;
+				}
+
+				await sleep(2000);
+				tempGlitch(300);
+				await sleep(2000);
+				tempGlitch(300);
 				break;
 			case 4:
-				// glitch_renderer.passes[1].goWild = true;
-				break;
 
+				break;
 		}
 		local_state = temp_state;
 	}
@@ -147,14 +160,14 @@ function makeSky(){
 			uniform float exponent;
 			varying vec3 vWorldPosition;
 			void main() {
-				float h = normalize(vWorldPosition + offset ).y;
-				gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h , 0.0), exponent ), 0.0 ) ), 1.0);
+				float h = normalize(vWorldPosition + offset).y;
+				gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h , 0.0), exponent), 0.0)), 1.0);
 			}
 	`;
 
 	var uniforms = {
-		"topColor": { value: new THREE.Color(0x0077ff ) },
-		"bottomColor": { value: new THREE.Color(0xcfe5fe ) },
+		"topColor": { value: new THREE.Color(0x0077ff) },
+		"bottomColor": { value: new THREE.Color(0xcfe5fe) },
 		"offset": { value: 33 },
 		"exponent": { value: 0.6 }
 	};
@@ -199,6 +212,47 @@ function onMouseMove(event) {
 	camera.position.y += (mouseY - camera.position.y) * 0.001;
 	camera.lookAt(scene.position);
 };
+
+function setShaders(){
+	var saturationShader = {
+		uniforms: {
+			"tDiffuse": { type: "t", value: null },
+			"saturation": { type: "f", value: 1.5 },
+		},
+		vertexShader: [
+			"varying vec2 vUv;",
+			"void main() {",
+				"vUv = uv;",
+				"gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+			"}"
+		].join("\n"),
+		fragmentShader: [
+			"uniform sampler2D tDiffuse;",
+			"varying vec2 vUv;",
+			"uniform float saturation;",
+			"void main() {",
+				"vec3 original_color = texture2D(tDiffuse, vUv).rgb;",
+				"vec3 lumaWeights = vec3(.25,.50,.25);",
+				"vec3 grey = vec3(dot(lumaWeights,original_color));",
+				"gl_FragColor = vec4(grey + saturation * (original_color - grey) ,1.0);",
+			"}"
+		].join("\n")
+	};
+
+	saturation_renderer = new THREE.EffectComposer(renderer);
+	saturation_renderer.addPass(new THREE.RenderPass(scene, camera));
+	let saturationEffect = new THREE.ShaderPass(saturationShader);
+	saturationEffect.renderToScreen = true;
+	saturation_renderer.addPass(saturationEffect);
+	active_renderer = saturation_renderer;
+
+	let glitchPass = new THREE.GlitchPass();
+	glitchPass.renderToScreen = true;
+	glitch_renderer = new THREE.EffectComposer(renderer);
+	glitch_renderer.addPass(new THREE.RenderPass(scene, camera));
+	glitch_renderer.addPass(glitchPass);
+	glitch_renderer.passes[1].goWild = true;
+}
 
 async function loadImage(){
 	var img = new Image();

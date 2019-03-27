@@ -155,7 +155,6 @@ function replaceByModel(model){
 
 function addBuilding() {
   replaceByModel(models3D.skyscraper);
-  console.log(CONTAINER);
 };
 
 function addHouse() {
@@ -192,7 +191,6 @@ async function regionOccupated(x,y,lar,lon,alpha){
 		for (var j = Math.round(minY); j <=Math.round(maxY+0.2); j++ ){
 			var bo = await isOccupated(i,j)
 			if(bo == true){
-				console.log("true")
 				return true;
 			}
 		}
@@ -210,10 +208,8 @@ async function isOccupated(x,y){
 	}else{
 		let pixel = context.getImageData(rx, ry, 1, 1).data;
 		if(pixel[0] > 100){
-			console.log("True");
 			return true;
 		}else{
-			console.log("False");
 			return false;
 		}
 	}
