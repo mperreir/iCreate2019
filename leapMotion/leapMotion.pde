@@ -53,7 +53,6 @@ void setup() {
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
 
   fenetreQuestion.setEtat(1);
-
   runSketch(new String[] { 
     "fenetreQuestion"
     }
@@ -67,6 +66,7 @@ void draw() {
   arbre.step();
   world.step();
   world.draw();
+  
   fenetreQuestion.hands = leap.getHands();
 }
 
