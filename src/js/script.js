@@ -66,7 +66,7 @@ async function startGame(event){
 		switch(temp_state) {
 			case 0:
 				document.getElementById('logo').style.opacity = 0;
-				await moveCamera(0,1,50,-0.01,20,100);
+				//await moveCamera(0,1,50,-0.01,20,100);
 				await treeMap(scene, models3D);
 				break;
 			case 1:
@@ -175,7 +175,7 @@ async function createMap(){
 	plane.material.side = THREE.DoubleSide;
 	plane.position.x = 10;
 	plane.position.z = -30;
-	plane.rotation.x = 0.5 * Math.PI;
+	plane.rotation.x = -0.5 * Math.PI;
 	plane.receiveShadow = true;
 	scene.add(plane);
 }
