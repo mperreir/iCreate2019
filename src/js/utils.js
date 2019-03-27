@@ -23,11 +23,24 @@ function createLocalModels(models3D){
 	models3D.little_house = cube;
 	models3D.little_house.position.y += 0.75;
 
-
+	let textureMaison3Porte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison3_porte.png");
+	let textureMaison3SansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison3_sansporte.png");
+	textureMaison3SansPorte.magFilter = THREE.LinearFilter;
+	textureMaison3SansPorte.anisotropy = renderer.getMaxAnisotropy();
+	textureMaison3Porte.magFilter = THREE.LinearFilter;
+	textureMaison3Porte.anisotropy = renderer.getMaxAnisotropy();
+	materialArray = [
+			new THREE.MeshBasicMaterial( { map: textureMaison3Porte,transparent: true, } ),
+			new THREE.MeshBasicMaterial( { map: textureMaison3Porte ,transparent: true,} ),
+			new THREE.MeshBasicMaterial( {color: 0x375877 } ),
+			new THREE.MeshBasicMaterial( { color: 0x375877} ),
+			new THREE.MeshBasicMaterial( { map: textureMaison3SansPorte,transparent: true, } ),
+			new THREE.MeshBasicMaterial( { map:textureMaison3SansPorte,transparent: true,  } ),
+	];
 	geometry = new THREE.BoxGeometry(2, 3, 3);
-	material = new THREE.MeshLambertMaterial({color: color.orange});
-	cube = new THREE.Mesh(geometry, material);
+	cube = new THREE.Mesh(geometry, materialArray);
 	models3D.house2 = cube;
+	models3D.house2.position.y += 1;
 
 	let textureMaisonMitoyennePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_porte.png");
 	let textureMaisonMitoyenneSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_sansporte.png");
