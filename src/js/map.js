@@ -166,8 +166,6 @@ function addHouse() {
 
 
 async function regionOccupated(x,y,lar,lon,alpha){
-	lar = Math.round(lar);
-	lon = Math.round(lon);
   var maxX,maxY,minX,minY;
   if(alpha < Math.PI/2 ){
     maxX = x + Math.cos(alpha) * lar + Math.cos(alpha - Math.PI/2) * lon;
@@ -190,16 +188,8 @@ async function regionOccupated(x,y,lar,lon,alpha){
     maxY = y;
     minY = y + Math.sin(alpha - Math.PI/2) * lon + Math.sin(alpha) * lar;
   }
-
-
-	// console.log("lar = "+lar);
-	// console.log("lon = "+lon);
-	// var maxY = Math.round(Math.max(y, y + Math.sin(alpha) * lar, y - Math.sin(Math.PI / 2 - alpha) * lon, y - Math.sin(Math.PI / 2 - alpha) * lon + Math.sin(alpha) * lar));
-	// var minY = Math.round(Math.max(y, y + Math.sin(alpha) * lar, y - Math.sin(Math.PI / 2 - alpha) * lon, y - Math.sin(Math.PI / 2 - alpha) * lon + Math.sin(alpha) * lar));
-	// var maxX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
-	// var minX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
-	for (var i = minX; i <= maxX ;i++) {
-		for (var j = minY; j <= maxY; j++ ){
+	for (var i = Math.round(minX); i <= Math.round(maxX+0.2) ;i++) {
+		for (var j = Math.round(minY); j <=Math.round(maxY+0.2); j++ ){
 			var bo = await isOccupated(i,j)
 			if(bo == true){
 				console.log("true")
@@ -213,10 +203,6 @@ async function regionOccupated(x,y,lar,lon,alpha){
 async function isOccupated(x,y){
 	var rx = x + 200 - 10;
 	var ry = y + 200 + 30;
-
-	// console.log("rx = "+rx);
-	// console.log("ry = "+ry);
-
 
 	if(rx > 400 || ry > 400 || rx < 0 || ry < 0){
 		console.log('Out of bounds');
