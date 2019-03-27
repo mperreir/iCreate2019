@@ -182,7 +182,7 @@ async function regionOccupated(x,y,lar,lon,alpha){
   }else if (alpha < 3*Math.PI/2) {
     maxX = x;
     minX = x + Math.cos(alpha) * lar + Math.cos(alpha - Math.PI/2) * lon;
-    maxY = y + lon * Math.sin(alpha-Math.PI);
+    maxY = y + lon * Math.sin(alpha - Math.PI/2);
     minY = y + Math.sin(alpha) * lar;
   }else{
     maxX = x + Math.cos(alpha) * lar;
