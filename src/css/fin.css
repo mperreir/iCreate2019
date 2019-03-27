@@ -1,0 +1,48 @@
+body
+{
+    background: #eeeeee;
+    font-family: "futura-bold",sans-serif;
+    color: #696867;
+    text-align: center;
+}
+
+h1
+{
+    font-size: 3em;
+}
+
+p
+{
+    font-size: 1.5em;
+    margin-top: 4%;
+}
+
+#content
+{
+    margin-top: 10%;
+}
+
+#terminer
+{
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #960049;
+  padding: 15px 40px 16px 40px;
+  text-decoration: none;
+  border: none;
+  text-align: center;
+  display: block;
+  margin: auto;
+  margin-top: 6%;
+  cursor: pointer;
+}
+
+#terminer:hover
+{
+  background: #ffffff;
+  text-decoration: none;
+  color: #960049;
+}
