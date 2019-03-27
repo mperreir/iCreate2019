@@ -203,10 +203,11 @@ function onMouseMove(event) {
 async function loadImage(){
 	var img = new Image();
 	img.onload = function(){
-		context.drawImage(img, 0, 0,400,400);
+		context.drawImage(img, 0, 0);
 
 	};
-	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg";
+	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_test.jpg";
+	img.crossorigin='anonymous';
 }
 
 // A deplacer dans map :

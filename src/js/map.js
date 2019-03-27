@@ -77,7 +77,8 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
     var z =  new_model.position.y;
     var y =  pos.y + Math.random() * rand;
     var alpha =  Math.PI * Math.random();
-    if(regionOccupated(x,y,new_model.userData.width,new_model.userData.height,alpha)){
+    var bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
+    if(bo){
       new_model.position.set(x,z,y);
       new_model.rotation.set(0,alpha, 0);
       await sleep(Math.random() * 1000 * speed);
@@ -173,10 +174,9 @@ async function regionOccupated(x,y,lar,lon,alpha){
 	// var minY = Math.round(Math.max(y, y + Math.sin(alpha) * lar, y - Math.sin(Math.PI / 2 - alpha) * lon, y - Math.sin(Math.PI / 2 - alpha) * lon + Math.sin(alpha) * lar));
 	// var maxX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
 	// var minX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
-
-	for (var i = x; i <= x+lar ;i++) {
-		for (var j = y; j <= y+lon; j++ ){
-			var bo = await isOccupated(Math.round(i*Math.cos(alpha)),Math.round(j*Math.sin(alpha)))
+	for (var i = 0; i <= lar ;i++) {
+		for (var j = 0; j <= lon; j++ ){
+			var bo = await isOccupated(x+Math.round(i*Math.cos(alpha)),y+Math.round(j*Math.sin(alpha)))
 			if(bo == true){
 				console.log("true")
 				return true;
@@ -198,14 +198,12 @@ async function isOccupated(x,y){
 		console.log('Out of bounds');
 		return true;
 	}else{
-		var pixel = context.getImageData(rx, ry, 1, 1).data;
-		context.fillStyle = 'green';
-		context.fillRect(rx,ry,2,2);
+		let pixel = context.getImageData(rx, ry, 1, 1).data;
 		if(pixel[0] > 100){
 			console.log("True");
 			return true;
 		}else{
-			// console.log("False");
+			console.log("False");
 			return false;
 		}
 	}
