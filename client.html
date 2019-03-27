@@ -24,7 +24,7 @@
 	  </div>
 
 		<script>
-		let connexion = new WebSocket('ws://192.168.8.104:8025/musee');
+		let connexion = new WebSocket('ws://192.168.43.67:8025/musee');
 
 		connexion.onopen = function (event) {
 			connexion.send("Bonjour cher serveur !");
@@ -51,7 +51,7 @@
 				book.play();
 			}
 
-			if (capteurs.flute > seuil && lastSelected != "flute") {
+			if (capteurs.flute > 1 && lastSelected != "flute") {
 				book.style.display = 'none'
 				flute.style.display = 'block'
 				sand.style.display = 'none'
