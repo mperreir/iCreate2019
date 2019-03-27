@@ -168,15 +168,39 @@ function addHouse() {
 async function regionOccupated(x,y,lar,lon,alpha){
 	lar = Math.round(lar);
 	lon = Math.round(lon);
+  var maxX,maxY,minX,minY;
+  if(alpha < Math.PI/2 ){
+    maxX = x + Math.cos(alpha) * lar + Math.cos(alpha - Math.PI/2) * lon;
+    minX = x ;
+    maxY = y + Math.sin(alpha) * lar;
+    minY = y + Math.sin(alpha - Math.PI/2) * lon;
+  }else if (alpha < Math.PI) {
+    maxX = x + Math.cos(alpha - Math.PI/2) * lon;
+    minX = x + Math.cos(alpha) * lar;
+    maxY = y + Math.sin(alpha - Math.PI/2) * lon + Math.sin(alpha) * lar;
+    minY = y;
+  }else if (alpha < 3*Math.PI/2) {
+    maxX = x;
+    minX = x + Math.cos(alpha) * lar + Math.cos(alpha - Math.PI/2) * lon;
+    maxY = y + lon * Math.sin(alpha-Math.PI);
+    minY = y + Math.sin(alpha) * lar;
+  }else{
+    maxX = x + Math.cos(alpha) * lar;
+    minX = x + Math.cos(alpha - Math.PI/2) * lon;
+    maxY = y;
+    minY = y + Math.sin(alpha - Math.PI/2) * lon + Math.sin(alpha) * lar;
+  }
+
+
 	// console.log("lar = "+lar);
 	// console.log("lon = "+lon);
 	// var maxY = Math.round(Math.max(y, y + Math.sin(alpha) * lar, y - Math.sin(Math.PI / 2 - alpha) * lon, y - Math.sin(Math.PI / 2 - alpha) * lon + Math.sin(alpha) * lar));
 	// var minY = Math.round(Math.max(y, y + Math.sin(alpha) * lar, y - Math.sin(Math.PI / 2 - alpha) * lon, y - Math.sin(Math.PI / 2 - alpha) * lon + Math.sin(alpha) * lar));
 	// var maxX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
 	// var minX = Math.round(Math.max(x, x + Math.cos(alpha) * lar, x - Math.cos(Math.PI / 2 - alpha) * lon, x - Math.cos(Math.PI / 2 - alpha) * lon + Math.cos(alpha) * lar));
-	for (var i = 0; i <= lar ;i++) {
-		for (var j = 0; j <= lon; j++ ){
-			var bo = await isOccupated(x+Math.round(i*Math.cos(alpha)),y+Math.round(j*Math.sin(alpha)))
+	for (var i = minX; i <= maxX ;i++) {
+		for (var j = minY; j <= maxY; j++ ){
+			var bo = await isOccupated(i,j)
 			if(bo == true){
 				console.log("true")
 				return true;
