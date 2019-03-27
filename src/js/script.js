@@ -207,7 +207,7 @@ async function loadImage(){
 
 	};
 	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_test.jpg";
-	img.crossorigin='anonymous';
+	img.crossOrigin='anonymous';
 }
 
 // A deplacer dans map :
