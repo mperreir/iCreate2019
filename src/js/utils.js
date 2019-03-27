@@ -44,7 +44,7 @@ function createLocalModels(models3D){
 	cube = new THREE.Mesh(geometry, materialArray);
 	//cube.position.y -= 10;
 	models3D.skyscraper = cube;
-	models3D.skyscraper.position.y+=5;
+	models3D.skyscraper.position.y+=4;
 
 	let textureMaisonPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_porte.png");
 	let textureMaisonSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_sansporte.png");
@@ -65,7 +65,7 @@ function createLocalModels(models3D){
 	geometry = new THREE.BoxGeometry(4, 3, 4);
 	cube = new THREE.Mesh(geometry, materialArray);
 	models3D.building2 = cube;
-	models3D.building2.position.y += 3;
+	models3D.building2.position.y += 1;
 
 }
 
