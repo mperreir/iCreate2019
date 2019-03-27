@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 
 //Initialize variables
+PImage visitor;
 OpenCV opencvNom;
 OpenCV opencvVille;
 OpenCV opencvDispute;
@@ -28,22 +29,17 @@ void setup() {
   size(1440, 1080);
   
   video = new Capture(this, 640, 480,"Logitech HD Webcam C270");
-  video.start();
+  
   // Start off tracking for red
   trackColor = color(255, 0, 0);
-  
+  visitor = loadImage("visitor.tif");
   // Initialize Movie object.
   discours = new Movie(this, "discours.mp4");  
   nom = new Movie(this, "nom.mp4");
   ville = new Movie(this, "ville.mp4");
   dispute = new Movie(this, "dispute.mp4");
   
-  opencvNom = new OpenCV(this, 1080, 1080);
-  opencvNom.loadCascade(OpenCV.CASCADE_FRONTALFACE);
-  opencvVille = new OpenCV(this, 1080, 1080);
-  opencvVille.loadCascade(OpenCV.CASCADE_FRONTALFACE);
-  opencvDispute = new OpenCV(this, 1080, 1080);
-  opencvDispute.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  video.start();
 }
 
 void captureEvent(Capture video) {
@@ -51,17 +47,35 @@ void captureEvent(Capture video) {
   video.read();
 }
 
+// Read new frames from the movie.
+void movieEvent(Movie movie) {  
+  movie.read();
+}
+
 void draw() {
   if(colorDetect) {
-    print(discours.time()+"\n");
-    if(discours.time() >= 35) {
+    image(discours, 0, 0,1440,1080);
+    if(discours.time() >= 35.5 && discours.time() <=36) {
       playNom();
-    } else if(discours.time() >= 69.5) {
+    } else if(discours.time() >= 70 && discours.time() <=70.5) {
       playVille();
-    } else if(discours.time() >= 96.5) {
+    } else if(discours.time() >= 97.5 && discours.time() <=98) {
       playDispute();
     } else {
-      image(discours, 0, 0,1440,1080);
+      image(visitor,650,650,150,150);
+    }
+    if(nomPlayed && nom.time()>=nom.duration()) {
+      discours.play();
+      discours.jump(38);
+      nomPlayed=false;
+    } else if(villePlayed && ville.time()>=ville.duration()) {
+      discours.play();
+      discours.jump(72);
+      villePlayed=false;
+    } else if(disputePlayed && dispute.time()>=dispute.duration()) {
+      discours.play();
+      discours.jump(102);
+      disputePlayed=false;
     }
   }
   else {
@@ -70,8 +84,14 @@ void draw() {
 }
 
 void playNom(){
-  nom.play();
-  image(discours, 0, 0,1440,1080);
+  if(!nomPlayed){
+    discours.pause();
+    delay(2000);
+    nom.play();
+    nomPlayed=true;
+    opencvNom = new OpenCV(this, nom.width, nom.height);
+    opencvNom.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  }
   while (nom.height == 0 )  delay(10); 
   opencvNom.loadImage(nom);
   faces = opencvNom.detect();
@@ -84,7 +104,13 @@ void playNom(){
 }
 
 void playVille(){
-  image(discours, 0, 0,1440,1080);
+  if(!villePlayed){
+    discours.pause();
+    ville.play();
+    villePlayed=true;
+    opencvVille = new OpenCV(this, ville.width, ville.height);
+    opencvVille.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  }
   while (ville.height == 0 )  delay(10); 
   opencvVille.loadImage(ville);
   faces = opencvVille.detect();
@@ -97,7 +123,14 @@ void playVille(){
 }
 
 void playDispute(){
-  image(discours, 0, 0,1440,1080);
+  if(!disputePlayed){
+    discours.pause();
+    delay(10);
+    dispute.play();
+    disputePlayed=true;
+    opencvDispute = new OpenCV(this, dispute.width, dispute.height);
+    opencvDispute.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  }
   while (dispute.height == 0 )  delay(10); 
   opencvDispute.loadImage(dispute);
   faces = opencvDispute.detect();
@@ -128,23 +161,15 @@ void colorTracking() {
       
       //detecter si il y a la couleur
      if(r1>=170 && r1<=190 && b1>=65 && b1<=85 && g1>=95 && g1<=115) {
-        //delay(1000);
+        delay(1000);
         video.stop();
         // Start playing movie.
-        discours.loop();
-        nom.play();
-        ville.play();
-        dispute.play();
+        discours.play();
         colorDetect=true;
         discours.jump(30);
      }
     }
   }
-}
-
-// Read new frames from the movie.
-void movieEvent(Movie movie) {  
-  movie.read();
 }
 
 void mousePressed() {
