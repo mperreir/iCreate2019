@@ -78,7 +78,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
     var y =  pos.y + Math.random() * rand;
     var alpha =  Math.PI * Math.random();
     var bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
-    if(bo){
+    if(bo === false){
       new_model.position.set(x,z,y);
       new_model.rotation.set(0,alpha, 0);
       await sleep(Math.random() * 1000 * speed);
