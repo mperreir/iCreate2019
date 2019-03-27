@@ -11,7 +11,7 @@ h1
     text-align: center;
 }
 
-#dispute,#nom,#ville
+.boutons
 {
   -webkit-border-radius: 10;
   -moz-border-radius: 10;
@@ -25,23 +25,33 @@ h1
   text-align: center;
   float: right;
   cursor: pointer;
-  position: relative;
-  margin: -15% 15% 0 0;
 }
 
-#dispute:hover,#nom:hover,#ville:hover
+.boutons:hover
 {
   background: #ffffff;
   text-decoration: none;
   color: #960049;
 }
 
-#dispute:disabled,#nom:disabled,#ville:disabled
+.boutons:disabled
 {
   background: lightgrey;
   cursor: default;
   text-decoration: none;
   color: black;
+}
+
+#recommencer
+{
+    position: relative;
+    margin: -15% 15% 0 0;
+}
+
+#nom,#ville,#dispute
+{
+    position: relative;
+    margin: -15% 30% 0 0;
 }
 
 #myVideo

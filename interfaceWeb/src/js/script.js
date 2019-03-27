@@ -1,7 +1,6 @@
 function enregistrement(id)
 {
-    console.log(id);
-    if(document.getElementById(id).value=="Commencer") {
+    if(document.getElementById(id).value=="Démarrer la capture") {
     document.getElementById(id).disabled = true;
         player.record().start();
         setTimeout(function(){
@@ -17,4 +16,16 @@ function enregistrement(id)
             window.location.href = "fin.html";
         }
     }
+};
+
+function recommencer(id)
+{
+    window.location.href = id+".html";
+    /*if (id=="nom") {
+        window.location.href = "nom.html";
+    } else if (id=="ville") {
+        window.location.href = "ville.html";
+    } else if (id=="dispute") {
+        window.location.href = "dispute.html";
+    }*/
 };
