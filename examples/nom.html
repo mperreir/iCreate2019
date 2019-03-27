@@ -18,10 +18,12 @@
   <script src="browser-workarounds.js"></script>
   <script src="../src/js/script.js"></script>
 
+  <script src="../easytimer/dist/easytimer.min.js"></script>
+
   <style>
   /* change player background color */
   #myVideo {
-      background-color: #9ab87a;
+      background-color: #960049;
   }
   </style>
 </head>
@@ -30,6 +32,9 @@
         <h1>Comment vous appelez vous ? (3 secondes)</h1>
 <video id="myVideo" class="video-js vjs-default-skin"></video>
 <div id="instructions">
+    <div id="countdownExample">
+        <div class="values"></div>
+    </div>
     <input type="button" onclick="enregistrement('nom')" id="nom" value="Commencer" />
 </div>
 <script>

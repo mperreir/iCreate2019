@@ -21,7 +21,7 @@
   <style>
   /* change player background color */
   #myVideo {
-      background-color: #9ab87a;
+      background-color: #960049;
   }
   </style>
 </head>
@@ -30,13 +30,17 @@
         <h1>Vos deux meilleurs amis se disputent devant vous, comment réagissez-vous ? (5 secondes)</h1>
 <video id="myVideo" class="video-js vjs-default-skin"></video>
 <div id="instructions">
+
+        <div id="countdownExample">
+            <div class="values"></div>
+        </div>
     <input type="button" onclick="enregistrement('dispute')" id="dispute" value="Commencer">
 </div>
 <script>
 var options = {
     controls: false,
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 450,
     fluid: false,
     plugins: {
         record: {

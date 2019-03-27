@@ -26,7 +26,7 @@ h1
   float: right;
   cursor: pointer;
   position: relative;
-  margin: -5% 8% 0 0;
+  margin: -15% 15% 0 0;
 }
 
 #dispute:hover,#nom:hover,#ville:hover
@@ -36,8 +36,16 @@ h1
   color: #960049;
 }
 
+#dispute:disabled,#nom:disabled,#ville:disabled
+{
+  background: lightgrey;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+}
+
 #myVideo
 {
     margin-left: 3%;
-    margin-top: 3%;
+    margin-top: 10%;
 }
