@@ -66,7 +66,7 @@ async function startGame(event){
 		switch(temp_state) {
 			case 0:
 				document.getElementById('logo').style.opacity = 0;
-				await moveCamera(0,30,250,0,20,100);
+				await moveCamera(0,10,50,-0.10,20,100);
 				await treeMap(scene, models3D);
 				break;
 			case 1:

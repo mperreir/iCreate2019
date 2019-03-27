@@ -73,7 +73,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
       //max.userData.width + padding);
   let add_model = async () => {
       let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
-      new_model.position.set(pos.x + Math.random() * rand, 0, pos.y + Math.random() * rand);
+      new_model.position.set(pos.x + Math.random() * rand, new_model.position.y, pos.y + Math.random() * rand);
       new_model.rotation.set(0, Math.PI * Math.random(), 0);
       await sleep(Math.random() * 1000 * speed);
       let scale = 1 + ((Math.random() * 0.3) - 0.3);
