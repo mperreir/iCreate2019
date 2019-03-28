@@ -22,3 +22,30 @@ html, body{
   opacity: 0;
   transition: opacity 1.5s;
 }
+
+#container h3{
+  position: absolute;
+  color: #555555;
+  bottom: 10;
+  font-size: 2em;
+  bottom: 0px;
+  font-family: arial;
+}
+
+#container #personnes{
+  right: 100px;
+  text-align: right;
+  /* bottom: 27px; */
+}
+
+#container #date{
+  left: 50px;
+  /* bottom: 10px; */
+}
+
+#container img{
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  height: 100px;
+}
