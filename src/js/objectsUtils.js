@@ -97,16 +97,16 @@ function createLocalModels(models3D){
 	materialArray = [
 			new THREE.MeshBasicMaterial( { map: textureMaisonPorte,transparent: true, } ),
 			new THREE.MeshBasicMaterial( { map: textureMaisonPorte ,transparent: true,} ),
-			new THREE.MeshBasicMaterial( {color: 0x855223 } ),
-			new THREE.MeshBasicMaterial( { color: 0x855223} ),
+			new THREE.MeshBasicMaterial( {color: 0x775937 } ),
+			new THREE.MeshBasicMaterial( { color: 0x775937} ),
 			new THREE.MeshBasicMaterial( { map: textureMaisonSansPorte,transparent: true, } ),
 			new THREE.MeshBasicMaterial( { map:textureMaisonSansPorte,transparent: true,  } ),
 	];
 
-	geometry = new THREE.BoxGeometry(4, 3, 4);
+	geometry = new THREE.BoxGeometry(4, 4, 4);
 	cube = new THREE.Mesh(geometry, materialArray);
 	models3D.building2 = cube;
-	models3D.building2.position.y += 1;
+	models3D.building2.position.y += 2;
 
 }
 

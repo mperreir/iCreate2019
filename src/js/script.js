@@ -1,6 +1,6 @@
 let renderer, scene, camera, projector, state, glitch_renderer, active_renderer, saturation_renderer;
 let models3D = {};
-let  listener = new THREE.AudioListener();
+let sound2;
 
 let div = document.getElementById('container');
 let mouse = new THREE.Vector2();
@@ -10,7 +10,7 @@ let local_state = -1;
 let global_state = 0; // For the tests
 let population = 0;
 let population_ajoute = 0;
-
+let sound;
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 
@@ -21,7 +21,12 @@ function animate() {
 
 init();
 async function init() {
+	sound = new Howl({
+  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.ogg"],
+  volume: 0.5
+	});
 
+	sound.play();
 	loadImage()
 	getModel(0,0);
 	renderer = new THREE.WebGLRenderer({antialias: true});
@@ -51,32 +56,45 @@ async function init() {
 	await loadEveryModels(models_paths, models3D);
 	startGame();
 
-	await sleep(50000);
+	await sleep(10000);
+	console.log("etat 2");
 	global_state++;
 	await sleep(5000);
-	//global_state++;
+	global_state++;
 }
 
 async function startGame(event){
-	await audio('https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.ogg');
 
 	let temp_state = getState();
 
+
 	if(temp_state !== local_state){
+		await moveCamera(0,10,50,-0.05,20,100);
+
 		switch(temp_state) {
 			case 0:
+				console.log("etat 1")
 				updateDate(1500,5);
 				setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
 
 				await treeMap(scene, models3D);
 				break;
 			case 1:
-				await audio('https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.ogg');
+				console.log("etat 1 1 1")
+				sound.stop();
+
 
 				removeMap(scene, models3D);
 				break;
 			case 2:
 				updateDate(2019,15);
+				sound = new Howl({
+				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.ogg"],
+				volume: 0.9,
+				loop : true
+				});
+				sound.play();
+
 				await cityMap(scene, models3D);
 				//await moveCamera(0,10,50,-0.1,20,100);
 				document.addEventListener('keypress', interactionEvent);
@@ -107,6 +125,7 @@ async function startGame(event){
 				break;
 			case 3:
 				active_renderer = glitch_renderer;
+				await moveCamera(0,10,50,-0.15,20,100);
 				break;
 		}
 		local_state = temp_state;
