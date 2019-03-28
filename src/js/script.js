@@ -21,6 +21,7 @@ function animate() {
 
 init();
 async function init() {
+
 	loadImage()
 	getModel(0,0);
 	renderer = new THREE.WebGLRenderer({antialias: true});
@@ -50,13 +51,15 @@ async function init() {
 	await loadEveryModels(models_paths, models3D);
 	startGame();
 
-	await sleep(5000);
+	await sleep(50000);
 	global_state++;
 	await sleep(5000);
-	global_state++;
+	//global_state++;
 }
 
 async function startGame(event){
+	await audio('https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.ogg');
+
 	let temp_state = getState();
 
 	if(temp_state !== local_state){
@@ -64,9 +67,12 @@ async function startGame(event){
 			case 0:
 				updateDate(1500,5);
 				setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
+
 				await treeMap(scene, models3D);
 				break;
 			case 1:
+				await audio('https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.ogg');
+
 				removeMap(scene, models3D);
 				break;
 			case 2:
