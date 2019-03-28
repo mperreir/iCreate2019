@@ -70,7 +70,7 @@ async function startGame(event){
 
 
 	if(temp_state !== local_state){
-		await moveCamera(0,10,50,-0.05,20,100);
+		//await moveCamera(0,10,50,-0.05,20,100);
 
 		switch(temp_state) {
 			case 0:
@@ -132,7 +132,7 @@ async function startGame(event){
 				break;
 			case 3:
 				active_renderer = glitch_renderer;
-				await moveCamera(0,10,50,-0.15,20,100);
+				//await moveCamera(0,10,50,-0.15,20,100);
 				break;
 		}
 		local_state = temp_state;

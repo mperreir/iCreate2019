@@ -86,10 +86,24 @@ function createLocalModels(models3D){
 			new THREE.MeshBasicMaterial( { map:textureMaisonSansPorte,transparent: true,  } ),
 	];
 
-	geometry = new THREE.BoxGeometry(4, 4, 4);
+
+	let fields =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/fields.png");
+	fields.magFilter = THREE.LinearFilter;
+	fields.anisotropy = renderer.getMaxAnisotropy();
+
+	materialArray = [
+			new THREE.MeshBasicMaterial( { color: 0x874620 } ),
+			new THREE.MeshBasicMaterial( { color: 0x874620 } ),
+			new THREE.MeshBasicMaterial( {map: fields } ),
+			new THREE.MeshBasicMaterial( { map: fields} ),
+			new THREE.MeshBasicMaterial( { color: 0x874620 } ),
+			new THREE.MeshBasicMaterial( { color:0x874620  } ),
+	];
+
+	geometry = new THREE.BoxGeometry(6, 0.2, 6);
 	cube = new THREE.Mesh(geometry, materialArray);
-	models3D.high_house = cube;
-	models3D.high_house.position.y += 1.5;
+	models3D.field = cube;
+	models3D.field.position.y += 0.2;
 
 }
 
