@@ -51,7 +51,7 @@ function render0(){
 
 	//Affichage animée du texte
 	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
-	$(".text").toggle('slow');
+	$(".text").show('slow');
 	$(".text").text(views[0].paragraphe);
 	
 	//Placement de chaque point
@@ -62,7 +62,7 @@ function render0(){
 	$("#5").css({"position":"absolute","top":"36.4em","left":"22.8em"});
 	$("#6").css({"position":"absolute","top":"41.9em","left":"22.8em"});
 	//Affichage animée des points
-	$(".circle").toggle('slow');
+	$(".circle").show('slow');
 	
 }
 
@@ -142,7 +142,7 @@ function render4(){
 	
 	//Affichage animée du texte
 	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
-	$(".text").toggle('slow');
+	$(".text").show('slow');
 	$(".text").text(views[4].paragraphe);
 
 	//Placement de chaque point
@@ -153,14 +153,14 @@ function render4(){
 	$("#5").css({"position":"absolute","top":"36.4em","left":"35.9em"});
 	$("#6").css({"position":"absolute","top":"41.9em","left":"35.9em"});
 	//Affichage animée des points
-	$(".circle").toggle('slow');
+	$(".circle").show('slow');
 	
 }
 
 // Cache les composants ajoutés dynamiquement sur l'image de fond
 function clear(){
-	$(".text").toggle();
-	$(".circle").toggle();
+	$(".text").hide();
+	$(".circle").hide();
 }
 
 // Au lancement de la page
@@ -174,16 +174,18 @@ $(document).ready(function() {
 	
 	// A la réception d'un message du serveur
 	socket.on('message', function(niveau) {
-		// Lors de la réception du premier message
-		if(typeof currentLevel === 'undefined'){
-			views[niveau].script();
+		if(niveau >= 0 && niveau < views.length){
+			// Lors de la réception du premier message
+			if(typeof currentLevel === 'undefined'){
+				views[niveau].script();
+			}
+			// Dans le cas où le niveau à afficher ne l'est pas encore
+			else if(niveau !== currentLevel){
+				clear();
+				views[niveau].script();
+			}
+			currentLevel = niveau;
 		}
-		// Dans le cas où le niveau à afficher ne l'est pas encore
-		else if(niveau !== currentLevel){
-			clear();
-			views[niveau].script();
-		}
-		currentLevel = niveau;
 	});
    
   });
