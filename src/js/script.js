@@ -22,7 +22,7 @@ function animate() {
 init();
 async function init() {
 	sound = new Howl({
-  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.ogg"],
+  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/init.mp3"],
   volume: 0.5
 	});
 
@@ -82,14 +82,20 @@ async function startGame(event){
 			case 1:
 				console.log("etat 1 1 1")
 				sound.stop();
-
+				sound = new Howl({
+				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
+				volume: 0.9,
+				loop : true
+				});
+				sound.play();
 
 				removeMap(scene, models3D);
 				break;
 			case 2:
 				updateDate(2019,15);
+				sound.stop();
 				sound = new Howl({
-				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.ogg"],
+				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
 				volume: 0.9,
 				loop : true
 				});
