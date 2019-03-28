@@ -18,9 +18,11 @@ function animate() {
 	requestAnimationFrame(animate);
 	active_renderer.render(scene, camera);
 };
-
 init();
+
 async function init() {
+	fetch('http://localhost:5002/reset');
+
 	sound = new Howl({
   src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/init.mp3"],
   volume: 0.5
@@ -140,7 +142,13 @@ async function startGame(event){
 
 function getState(){
 	// TODO: Fontion à relier au serv python
-	return global_state;
+	//127.0.0.1:5002/data
+	const url='http://localhost:5002/data';
+	fetch(url).then(function(reponse){
+		return reponse.json()
+	}).then(function(json){
+		console.log(json["Etat"])
+	})
 }
 
 function interactionEvent(event){

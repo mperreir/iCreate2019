@@ -7,6 +7,7 @@ import time
 import threading
 
 from flask import Flask, request
+from flask_cors import CORS
 from flask_restful import Resource, Api
 
 
@@ -65,6 +66,7 @@ class ApiRest(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.app = Flask("API_ICreate")
+        self.cors = CORS(self.app,ressources = { r"/*":{"origins":"*"}})
         self.api = Api(self.app)
         self.api.add_resource(Data,'/data')
         self.api.add_resource(Reset,'/reset')

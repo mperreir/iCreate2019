@@ -300,8 +300,6 @@ function getZone(x,y){
 
   }
 
-  console.log("r = " + r);
-  console.log("v = " + v);
 
   return 99;
 
