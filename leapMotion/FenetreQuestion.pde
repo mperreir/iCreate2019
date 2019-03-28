@@ -140,8 +140,7 @@ class FenetreQuestion extends PApplet {
       etatQuestion_tempIncA = -1;
     }
     if (etatQuestion_sizeA> 75 || etatQuestion_sizeB> 75) {
-
-      q.idQuestionActuel++;
+      q.idQuestionActuel =  q.nextQ;
       if (q.isLastQuestion()) {
         this.setEtat(4);
       } else {
