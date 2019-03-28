@@ -6,7 +6,7 @@ import time
 
 
 class SerialInput:
-    def __init__(self, tty_name, threshold=100) -> None:
+    def __init__(self, tty_name, threshold=400) -> None:
         super().__init__()
         self.ttyName = tty_name
         self.player = SurroundPlayer()
@@ -24,7 +24,7 @@ class SerialInput:
         self._read_config_file()
         while True:
             input = self.arduinoSerialPort.readline().decode('utf-8').strip('\n').strip('\n')
-            #print(input)
+            print(input)
             if input != '' and input[0] == "{" and input[len(input)-2] == '}':
                 self.process_input(input)
 
@@ -52,14 +52,19 @@ class SerialInput:
         If the sensor is enough triggered
         :param json_input: key = tringered piezo, value = input of the piezo
         """
-        input_data = json.loads(json_input)
+        try:
+            input_data = json.loads(json_input)
+        except ValueError:
+            return
+
         max_input_name = ""
         max_input_value = -1
         for piezo, value in input_data.items():
             if value > max_input_value:
                 max_input_name = piezo
                 max_input_value = value
-        if max_input_value >= self.threshold and max_input_value > 0:
+
+        if max_input_value >= self.threshold:
             self.select_instance(max_input_name)
 
     def select_instance(self, activated_piezo) -> None:
