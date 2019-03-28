@@ -72,10 +72,10 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
   //getCirclePitSteps(width, length, max.userData.length + padding,
       //max.userData.width + padding);
   let add_model = async () => {
-    let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
     var x = pos.x + Math.random() * rand;
-    var z =  new_model.position.y;
     var y =  pos.y + Math.random() * rand;
+    let new_model = getModelbyZone(x,y);
+    var z = new_model.position.y;
     var alpha =  Math.PI * Math.random();
     var bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
     if(bo === false){
@@ -213,12 +213,14 @@ async function isOccupated(x,y){
 	}
 }
 
-async function getZone(x,y){
+function getZone(x,y){
 	var rx = x + 400 + 200 - 10;
 	var ry = y + 200 + 30;
   var pixel = context.getImageData(rx,ry,1,1).data;
   var r = pixel[0];
   var v = pixel[1];
+
+
 
 
   if(r < 50){
@@ -244,8 +246,6 @@ async function getZone(x,y){
   }else{
     v = 255;
   }
-  console.log(r);
-  console.log(v);
 
 
   switch(r){
@@ -309,27 +309,42 @@ async function getZone(x,y){
 
 
 
-async function getModel(x,y){
+function getModelbyZone(x,y){
+  x = Math.round(x);
+  y = Math.round(y);
   var zoneType = getZone(x,y);
 
-  var jqxhr = $.getJSON( "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json", function() {
-    console.log( "success" );
-  })
+  var annee  = 1850;
+  switch(global_state){
+    case 0:
+      annee = 1850;
+      break;
+    case 1:
+      annee = 1950;
+      break;
+    case 2:
+      annee = 1999;
+      break;
+    case 3:
+      annee = 2016;
+      break;
+  }
 
-  console.log(JSON.parse(jqxhr));
-  // var json = new XMLHttpRequest();
-  // json.open('GET','https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json',true);
-  // json.onload = function(e) {
-  //   console.log()
-  // }
-
+  var value = Math.random() * 100;
+  var i = 0;
+  while(value >= 0 && i < 6){
+    i++;
+    value -= data[annee][zoneType][i];
+    //console.log(data[annee][zoneType])
+  }
 
 
 
   //aletaoire
 
 
-  // return model
+  // console.log(models3D.little_house);
+  return models3D[batNamemanager[i]].clone();
 }
 //Données json
 
