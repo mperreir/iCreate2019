@@ -7,7 +7,7 @@ PImage textureArbre;
 
 void setup() {
   sizeBrush = 31;
-  fullScreen();
+  fullScreen(2);
   points = new ArrayList<Point>();
   // Creating a custom PShape as a square, by
   // specifying a series of vertices.

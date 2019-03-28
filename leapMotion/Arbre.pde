@@ -54,7 +54,9 @@ class Arbre {
   }
 
   void drawBranchage() {
+    
     imageBranches = createGraphics(width, height);
+  
     imageBranches.beginDraw();
     for (int i = 0; i < graphicBranches.size(); i++) {
       imageBranches.image(graphicBranches.get(i), 0, 0);
