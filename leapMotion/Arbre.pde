@@ -47,6 +47,11 @@ class Arbre {
     brancheFeuille();
     
   }
+  
+  void reset(){
+    world.clear();
+    brancheFeuille();
+  }
 
   void drawBranchage() {
     imageBranches = createGraphics(width, height);

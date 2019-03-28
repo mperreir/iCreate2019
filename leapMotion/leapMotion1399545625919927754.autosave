@@ -48,9 +48,9 @@ void setup() {
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
-  fenetreQuestion.logoLA = loadImage("logola.png");
-  q= new Questionnaire();
+
   fenetreQuestion.setEtat(1);
+
   runSketch(new String[] { 
     "fenetreQuestion"
     }
@@ -60,12 +60,10 @@ void setup() {
 void draw() {
   background(255);
   //shape(shapeArbre,0,0);
-  image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   arbre.draw();
   world.draw();
-  
   fenetreQuestion.hands = leap.getHands();
 }
 
@@ -73,11 +71,6 @@ void mousePressed() {
   //arbre.feuillage(mouseX,mouseY,mouseX+100, mouseY+100);
   arbre.setTimeFrame(50);
   arbre.destroyLeaf(10);
-  
-}
-
-void keyPressed() {
-  //arbre.reset();
 }
 
 PShape loadShapeFromJson(String file) {
