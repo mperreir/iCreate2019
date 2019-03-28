@@ -1,40 +1,52 @@
-import websockets
+import asyncio
 import json
-import openal
-import os, sys
-import src.main_sound as sound
+
+import websockets
+
+from src.sound import *
+
+# launch with either fr or en, default to fr
+lang = sys.argv[1] if len(sys.argv) > 1 else 'fr'
+BLA_DIR = join(BLA_DIR, lang)
+
+
+def format_sound_call(counter):
+    return 'phrase'+counter+'.flac'
 
 
 async def main_procedure():
+    ambiant = play(join(MUS_DIR, 'gas.flac'), loop=True)
+
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
-        unSub = json.dumps({'focused': False})
+        unsub = json.dumps({'focused': False})
         data = await websocket.recv()
         print(data)
         data = await websocket.recv()
         print(data)
         await websocket.send(sub)
+        trackno = 1
 
-        sound.play('source/gas.flac', loop=True)
-        print('Track 1')
-        # TODO Insert track 1 -> "Hé, toi là..."
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'grabStrength')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
+        ambiant.stop()
+
         print('Track 2')
-        sound.play('source/gas.flac', until_end=True)
         print('test')
-        #TODO Insert track 2 -> "Super ! Merci beaucoup"
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'pinchStrength')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Track 3')
         print('Track 4 (Son zwoosh)')
         print('Track 5')
@@ -46,7 +58,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Sons orientation telescope')
         print('Track Super')
         print('Bruit de vent')
@@ -57,7 +69,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'handDetected')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Son téléscope qui s\'ouvre')
         print('Track balaie la main devant toi')
         await websocket.send(sub)
@@ -66,7 +78,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Track Trappist1E')
         print('Track balaie la main devant toi')
         await websocket.send(sub)
@@ -75,7 +87,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Track Kepler-186f')
         print('Track balaie la main devant toi dernière planèye')
         await websocket.send(sub)
@@ -84,7 +96,7 @@ async def main_procedure():
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
-        await websocket.send(unSub)
+        await websocket.send(unsub)
         print('Track Kepler 16b')
         print('Track fin du jeu')
 
@@ -114,3 +126,5 @@ def read_action_from_leap(data, action_string):
             return  data['hands'] and (data['hands'][0]['palmVelocity'][2] > 150)
         elif action_string == 'moveFront':
             return data['hands'] and (data['hands'][0]['palmVelocity'][2] < -150)
+
+asyncio.get_event_loop().run_until_complete(main_procedure())

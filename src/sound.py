@@ -55,9 +55,9 @@ def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_c
 				else:
 					x -= STEP
 				if x <= -LIMIT:
-					 inc = True
+					inc = True
 				if x >= LIMIT:
-					 inc = False
+					inc = False
 				
 				# calculate new z coordinate
 				z = sqrt((RADIUS**2)-(x**2))
@@ -66,6 +66,7 @@ def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_c
 				# use new coordinates
 				s.set_position((x, CENTER, z))
 				print(x, z)
+	return s
 
 
 if __name__ == '__main__':
