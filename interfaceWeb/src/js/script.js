@@ -1,12 +1,26 @@
 function enregistrement(id)
 {
     if(document.getElementById(id).value=="Démarrer la capture") {
-    document.getElementById(id).disabled = true;
-        player.record().start();
+        document.getElementById(id).disabled = true;
+        document.getElementById('chrono').innerHTML = "3";
+        console.log("3");
         setTimeout(function(){
-            document.getElementById(id).value = "Etape suivante";
-            document.getElementById(id).disabled = false;
-        }, 5000);
+        document.getElementById('chrono').innerHTML = "2";
+            console.log("2");
+            setTimeout(function(){
+            document.getElementById('chrono').innerHTML = "1";
+                console.log("1");
+                setTimeout(function(){
+                document.getElementById('chrono').innerHTML = "ça tourne !";
+                    console.log("ça tourne");
+                    player.record().start();
+                    setTimeout(function(){
+                        document.getElementById(id).value = "Etape suivante";
+                        document.getElementById(id).disabled = false;
+                    }, 5000);
+                }, 1000);
+            }, 1000);
+        }, 1000);
     } else if (document.getElementById(id).value=="Etape suivante") {
         if (id=="nom") {
             window.location.href = "ville.html";
@@ -20,6 +34,7 @@ function enregistrement(id)
 
 function recommencer(id)
 {
+    document.getElementById('chrono').innerHTML = "";
     document.getElementById(id).disabled = false;
     document.getElementById(id).value = "Démarrer la capture";
     player.record().reset();
