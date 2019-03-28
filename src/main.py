@@ -15,7 +15,7 @@ def format_sound_call(counter):
 
 
 async def main_procedure():
-    ambiant = play(join(MUS_DIR, 'gas.flac'), loop=True)
+    ambiant = play(join(MUS_DIR, 'drifting_through_space.flac'), loop=True)
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -35,11 +35,18 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         await websocket.send(unsub)
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
-        print('Track 2')
-        print('test')
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        print('Began looking')
+        time.sleep(5)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        time.sleep(10)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -47,11 +54,15 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'pinchStrength')
         await websocket.send(unsub)
-        print('Track 3')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         print('Track 4 (Son zwoosh)')
-        print('Track 5')
-        print('Track 6 -> Viens voir ici')
-        print('Track 7 -> COmmence par glisser ta main')
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        print("Super!")
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -59,8 +70,10 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-        print('Sons orientation telescope')
-        print('Track Super')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        play(join(SFX_DIR, 'rouages.flac'), until_end=True)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         print('Bruit de vent')
         print('Track Brrrr il fait froid')
         await websocket.send(sub)
