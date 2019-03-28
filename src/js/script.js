@@ -84,9 +84,9 @@ async function startGame(event){
 				let old_population = 0;
 				let grow_speed = 1;
 				while(population_ajoute < 150){
-					//population += Math.round(Math.random() * grow_speed);
-					population += 1;
-					(population_ajoute + population < 20) ? updatePopulation(true) : updatePopulation();
+					population += Math.round(Math.random() * grow_speed);
+					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
+					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 5;
 					await sleep(1000);
 					if(old_population < 50 && population_ajoute > 50) tempGlitch(300);
 					if(old_population < 80 && population_ajoute > 80) tempGlitch(300);
