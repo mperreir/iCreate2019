@@ -81,6 +81,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
     if(bo === false){
       new_model.position.set(x,z,y);
       new_model.rotation.set(0,alpha, 0);
+      // console.log(await getZone(x,y))
       await sleep(Math.random() * 1000 * speed);
       let scale = 1 + ((Math.random() * 0.3) - 0.3);
       new_model.scale.set(scale, scale, scale);
@@ -184,8 +185,8 @@ async function regionOccupated(x,y,lar,lon,alpha){
     maxY = y;
     minY = y + Math.sin(alpha - Math.PI/2) * lon + Math.sin(alpha) * lar;
   }
-	for (var i = Math.round(minX); i <= Math.round(maxX+0.2) ;i++) {
-		for (var j = Math.round(minY); j <=Math.round(maxY+0.2); j++ ){
+	for (var i = Math.round(minX); i <= Math.round(maxX+0.1) ;i++) {
+		for (var j = Math.round(minY); j <=Math.round(maxY+0.1); j++ ){
 			var bo = await isOccupated(i,j)
 			if(bo == true){
 				return true;
@@ -210,4 +211,98 @@ async function isOccupated(x,y){
 			return false;
 		}
 	}
+}
+
+async function getZone(x,y){
+	var rx = x + 400 + 200 - 10;
+	var ry = y + 200 + 30;
+  var pixel = context.getImageData(rx,ry,1,1).data;
+  var r = pixel[0];
+  var v = pixel[1];
+
+
+  if(r < 50){
+    r = 0;
+  }else if (r < 112) {
+    r = 102;
+  }else if (r < 170) {
+    r = 128;
+  }else if (r < 240) {
+    r = 232;
+  }else{
+    r = 255;
+  }
+
+  if(v < 40){
+    v = 0;
+  }else if (v < 100) {
+    v = 82;
+  }else if (v < 170) {
+    v = 128;
+  }else if (v < 240) {
+    v = 230;
+  }else{
+    v = 255;
+  }
+  console.log(r);
+  console.log(v);
+
+
+  switch(r){
+    case 232:
+      return 1;
+      break;
+    case 102:
+      return 2;
+      break;
+    case 0:
+      switch(v){
+        case 82:
+          return 3;
+          break;
+        case 128:
+          return 4;
+          break;
+        case 255:
+          return 10;
+          break;
+        case 0:
+          return 11;
+          break;
+      }
+      break;
+    case 128:
+      switch(v){
+        case 128:
+          return 5;
+          break;
+        case 230:
+          return 6;
+          break;
+        case 255:
+          return 7;
+          break;
+      }
+      break;
+    case 255:
+      if(v == 255){
+        return 8;
+      }else{
+        return 9;
+      }
+    break;
+
+  }
+  return 99;
+
+	// 3 = (0,82,38)
+	// 4 = (0,128,128)
+	// 5 = (128,128,128)
+	// 6 = (128,230,128)
+	// 7 = (128,255,180)
+	// 8 = (255,255,180)
+	// 9 = (255,0,0)
+	// 10 = (0,255,0)
+	// 11 = (0,0,255)
+
 }
