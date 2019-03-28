@@ -74,7 +74,7 @@ async function expansion(models, scene, speed=1, width=300, length=300, rand=2, 
   let add_model = async () => {
     var x = pos.x + Math.random() * rand;
     var y =  pos.y + Math.random() * rand;
-    let new_model = getModelbyZone(x,y);
+    let new_model = await getModelbyZone(x,y);
     var z = new_model.position.y;
     var alpha =  Math.PI * Math.random();
     var bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
@@ -317,7 +317,7 @@ function getZone(x,y){
 
 
 
-function getModelbyZone(x,y){
+async function getModelbyZone(x,y){
   x = Math.round(x);
   y = Math.round(y);
   var zoneType = getZone(x,y);
@@ -348,7 +348,7 @@ function getModelbyZone(x,y){
 
 
   //aletaoire
-  // console.log(models3D.little_house);
+  // console.log("model = "+i);
   return models3D[batNamemanager[i]].clone();
 }
 //Données json
