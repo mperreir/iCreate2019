@@ -63,7 +63,7 @@ void keyPressed() {
     currentBranch = new Branch();
     currentGraphic = createGraphics(width, height);
   }
-  //w to remove the actual branch
+  //w to remove leaf
   if (keyCode == 87) {
     arbre.destroyLeaf(15);
   }

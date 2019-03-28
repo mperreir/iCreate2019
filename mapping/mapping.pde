@@ -24,7 +24,7 @@ void draw() {
 
   if (mousePressed) {
     points.add(new Point(mouseX, mouseY, sizeBrush));
-    g = createF(g);
+    g = createTronc(g);
   }
 }
 
@@ -46,13 +46,12 @@ void keyPressed() {
     } else {
       sizeBrush -= 10;
     }
-    
   }
   //return to erase previous dot
   if (keyCode == 8) {
     if (points.size()>0) {
       points.remove(points.size()-1);
-      g = createF(g);
+      g = createTronc(g);
     }
   }
 
@@ -66,9 +65,37 @@ void keyPressed() {
     g = copy;
     println("toto");
   }
+
+  //r to register in file
+  if (keyCode == 82) {
+    selectOutput("Save tronc to file :", "saveTronc");
+  }
+
+  //r to register in file
+  if (keyCode == 84) {
+    selectInput("Load tronc from file :", "loadTronc");
+  }
 }
 
-PGraphics createF(PGraphics p) {
+void saveTronc(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+    saveTroncToJson(selection.getAbsolutePath());
+  }
+}
+
+void loadTronc(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+    loadTroncFromJSON(selection.getAbsolutePath());
+  }
+}
+
+PGraphics createTronc(PGraphics p) {
   PGraphics s = createGraphics(width, height);
   s.beginDraw();
   //s.image(p, 0, 0);
@@ -85,7 +112,7 @@ PGraphics createF(PGraphics p) {
 
 JSONArray values;
 
-void saveShapeToJson(String file) {
+void saveTroncToJson(String file) {
 
   values = new JSONArray();
 
@@ -95,11 +122,27 @@ void saveShapeToJson(String file) {
 
     point.setFloat("x", points.get(i).x);
     point.setFloat("y", points.get(i).y);
+    point.setFloat("size", points.get(i).size);
 
     values.setJSONObject(i, point);
   }
 
   saveJSONArray(values, file);
+}
+
+void loadTroncFromJSON(String file) {
+  JSONArray values = loadJSONArray(file);
+  points = new ArrayList<Point>();
+
+  for (int i = 0; i < values.size(); i++) {
+
+    JSONObject pointJson = values.getJSONObject(i); 
+    Point point = new Point(pointJson.getFloat("x"), pointJson.getFloat("y"), pointJson.getFloat("size"));
+    points.add(point);
+  }
+
+  g = createTronc(g);
+
 }
 
 
