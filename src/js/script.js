@@ -147,6 +147,13 @@ async function loadImage(){
 	};
 	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg";
 	img.crossOrigin='anonymous';
+
+	var img2 = new Image();
+	img2.onload = function(){
+		context.drawImage(img2, 400, 0);
+	};
+	img2.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_zones.jpg";
+	img2.crossOrigin='anonymous';
 }
 
 async function updateDate(limit, delay=10){
