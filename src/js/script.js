@@ -7,6 +7,8 @@ let mouse = new THREE.Vector2();
 let rotationCamera = -0.45;
 
 let local_state = -1;
+let nbIm = 0;
+let nbMa = 0;
 let global_state = 0; // For the tests
 let population = 0;
 let population_ajoute = 0;
@@ -147,8 +149,11 @@ function getState(){
 	fetch(url).then(function(reponse){
 		return reponse.json()
 	}).then(function(json){
-		console.log(json["Etat"])
+		global_state = json["Etat"];
+		nbIm = json["NbImmeubles"];
+		nbMa = json["NbMaisons"]
 	})
+	return global_state;
 }
 
 function interactionEvent(event){
