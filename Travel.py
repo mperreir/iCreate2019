@@ -30,7 +30,7 @@ class Travel:
         """
         Play the sound to the expected destination
         """
-        source_path = "avion" + str(randint(1, 2)) + ".flac"
+        source_path = 'assets/avion' + str(randint(1, 2)) + ".flac"
         print(source_path)
         source = self._create_sound_source(source_path, self.start_position)
 
