@@ -299,6 +299,10 @@ function getZone(x,y){
     break;
 
   }
+
+  console.log("r = " + r);
+  console.log("v = " + v);
+
   return 99;
 
 	// 3 = (0,82,38)
@@ -319,7 +323,6 @@ function getModelbyZone(x,y){
   x = Math.round(x);
   y = Math.round(y);
   var zoneType = getZone(x,y);
-
   var annee  = 1850;
   switch(global_state){
     case 0:
@@ -339,16 +342,14 @@ function getModelbyZone(x,y){
   var value = Math.random() * 100;
   var i = 0;
   while(value >= 0 && i < 6){
-    i++;
     value -= data[annee][zoneType][i];
+    i++;
     //console.log(data[annee][zoneType])
   }
 
 
 
   //aletaoire
-
-
   // console.log(models3D.little_house);
   return models3D[batNamemanager[i]].clone();
 }

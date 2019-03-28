@@ -28,7 +28,6 @@ async function init() {
 
 	sound.play();
 	await loadImage()
-	getModel(0,0);
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);

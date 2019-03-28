@@ -77,4 +77,4 @@ let data = {1850 :{
 }
 
 
-let batNamemanager = {1:"building2",2:"little_house",3:"building",4:"skyscraper",5:"tree", 6:"fields"}
+let batNamemanager = {1:"high_house",2:"little_house",3:"house_mitoyenne",4:"building",5:"tree", 6:"fields"}
