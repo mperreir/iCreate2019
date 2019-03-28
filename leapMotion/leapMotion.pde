@@ -48,9 +48,6 @@ void setup() {
   world = new FWorld();
   arbre = new Arbre(world);
 
-  shapeArbre = loadGraphicsFromJson("data/tronc.json");
-  textureArbre.mask(shapeArbre);
-
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   
@@ -75,6 +72,7 @@ void draw() {
   image(textureArbre, 0, 0);
   arbre.step();
   world.step();
+  arbre.draw();
   world.draw();
   
   image(carte, 0, 0);
