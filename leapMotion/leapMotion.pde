@@ -51,9 +51,9 @@ void setup() {
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   
-   carte = loadImage("carte.png");
-   carte1999 = loadImage("carte 1999.png");
-   carte2016 = loadImage("carte 2016.png");
+   //carte = loadImage("carte.png");
+   //carte1999 = loadImage("carte 1999.png");
+   //carte2016 = loadImage("carte 2016.png");
   
   
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
@@ -69,15 +69,15 @@ void setup() {
 void draw() {
   background(255);
   //shape(shapeArbre,0,0);
-  image(textureArbre, 0, 0);
+  //image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   arbre.draw();
   world.draw();
   
-  image(carte, 0, 0);
-  image(carte1999, 0, 0);
-  image(carte2016, 0, 0);
+  //image(carte, 0, 0);
+  //image(carte1999, 0, 0);
+  //image(carte2016, 0, 0);
   
   fenetreQuestion.hands = leap.getHands();
 }
@@ -163,15 +163,14 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
         //arbre.destroyLeaf(20);
         if (fenetreQuestion.etat == 2) {
           fenetreQuestion.etatQuestion_choix = 2;
-          arbre.destroyLeaf(q.repondre(1));
-
+          arbre.destroyLeaf((q.repondre(1)*100)/140);
           fenetreQuestion.setEtat(3);
         }
       } else if (direction.x < -50) { //gauche 
         println("Gauche");
         if (fenetreQuestion.etat == 2) {
           fenetreQuestion.etatQuestion_choix = 1;
-          arbre.destroyLeaf(q.repondre(2));
+          arbre.destroyLeaf((q.repondre(2)*100)/140);
           fenetreQuestion.setEtat(3);
         }
       }

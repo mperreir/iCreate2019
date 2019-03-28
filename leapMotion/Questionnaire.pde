@@ -8,15 +8,14 @@ class Questionnaire {
 
   Questionnaire() {
     questions = new ArrayList<Question>();
-    questions.add(new Question("Préférez vous un appartement ou une maison ?", "Un appartement", 10, 6,"Une maison", 20,1));
-    questions.add(new Question("Une maison isolée ou mitoyenne ?", "Isolée", 10,2, "Mitoyenne", 20,2));
-    questions.add(new Question("Avec ou sans jardin ?", "Sans", 10, 3,"Avec", 20,3));
-    questions.add(new Question("En zone rurale ou agglomération ?", "En agglomération", 10,4, "En zone rurale", 20,4));
-    questions.add(new Question("Comment vous déplacez-vous?", "En voiture", 10,-1, "En transport en commun", 20,-1));
-    questions.add(new Question("Vous préferrez vivre :", "En collococation", 10,6, "Seul", 20,6));
-    questions.add(new Question("Dans quelle zone ?", "Centre-ville", 10,7, "Couronne périurbaine", 20,7));
-    questions.add(new Question("Dans quel type d'immeuble", "Building", 10,-1, "Immeuble Haussmanien", 20,-1));
-    //questions.add(new Question("En bord de littoral?", "Oui", 10,, "Non", 20,));
+    questions.add(new Question("En zone rurale ou agglomération ?", "En agglomération", 10,1, "En zone rurale", 30,1));
+    questions.add(new Question("Vous préferrez vivre :", "En colocation", 10,2, "Seul", 20,2));
+    questions.add(new Question("Comment vous déplacez-vous?", "En voiture", 10,3, "En transport en commun", 5,3));
+    questions.add(new Question("Préférez vous un appartement ou une maison ?", "Un appartement", 10,4 ,"Une maison", 30,7));
+    questions.add(new Question("Une maison isolée ou mitoyenne ?", "Isolée", 20,5, "Mitoyenne", 10,5));
+    questions.add(new Question("Avec ou sans jardin ?", "Sans", 0, -1,"Avec", 30,-1));
+    questions.add(new Question("Dans quelle zone ?", "Centre-ville", 5,8, "Banlieue", 10,8));
+    questions.add(new Question("Dans quel type d'immeuble", "Immeuble\n de 5 étages", 20,-1, "Immeuble\n de 20 étages", 5,-1));
   }
 
   void stockScore() {// méthode qui ajoute le score au fichier texte
@@ -74,6 +73,7 @@ class Questionnaire {
       nextQ = this.getQuestion().nextQ1;
       return this.getQuestion().point1;
     } else if (numero ==2) {
+      
       score+= this.getQuestion().point2;
       nextQ = this.getQuestion().nextQ2;
       return this.getQuestion().point2;
