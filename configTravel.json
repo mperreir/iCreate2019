@@ -10,7 +10,7 @@
       "y": 0,
       "z": 0
     },
-    "path": "assets/pathToBrazil"
+    "path": "assets/rio.flac"
   },
   "russia": {
     "start":{
@@ -23,7 +23,7 @@
       "y": 0,
       "z": 2
     },
-    "path": "assets/pathToRussia"
+    "path": "assets/Moscou.flac"
   },
   "japan": {
     "start": {
@@ -36,7 +36,7 @@
       "y": 0,
       "z": 0
     },
-    "path": "assets/pathToJapan"
+    "path": "assets/kyoto.flac"
   },
   "usa": {
     "start": {
@@ -49,6 +49,6 @@
       "y": 0,
       "z": -2
     },
-    "path": "assets/pathToUSA"
+    "path": "assets/seattle.flac"
   }
 }
