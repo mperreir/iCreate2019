@@ -106,7 +106,7 @@ function createLocalModels(models3D){
 	geometry = new THREE.BoxGeometry(4, 4, 4);
 	cube = new THREE.Mesh(geometry, materialArray);
 	models3D.building2 = cube;
-	models3D.building2.position.y += 2;
+	models3D.building2.position.y += 1.5;
 
 }
 
