@@ -306,3 +306,43 @@ async function getZone(x,y){
 	// 11 = (0,0,255)
 
 }
+
+
+
+async function getModel(x,y){
+  var zoneType = getZone(x,y);
+
+  var jqxhr = $.getJSON( "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json", function() {
+    console.log( "success" );
+  })
+
+  console.log(JSON.parse(jqxhr));
+  // var json = new XMLHttpRequest();
+  // json.open('GET','https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json',true);
+  // json.onload = function(e) {
+  //   console.log()
+  // }
+
+
+
+
+  //aletaoire
+
+
+  // return model
+}
+//Données json
+
+/*["HightHouse","LittleHouse","HouseMitoyenne","Building","tree", "fields"] */
+/*
+    "orange"  :1
+  "brown" :2
+  "green" :3
+  "darkblue" :4
+  "grey" :5
+  "lightgreen" :6
+  "white":7
+  "red":8
+  "flashgreen":9
+  "blue":10
+*/

@@ -21,7 +21,12 @@ function animate() {
 
 init();
 async function init() {
+<<<<<<< HEAD
 	loadImage();
+=======
+	loadImage()
+	getModel(0,0);
+>>>>>>> ec4ff39a8c042c31af940b7493ea2ef5bcf61640
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);
