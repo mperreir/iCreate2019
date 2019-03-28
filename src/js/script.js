@@ -72,15 +72,22 @@ async function startGame(event){
 			case 2:
 				updateDate(2019,15);
 				await cityMap(scene, models3D);
+				//await moveCamera(0,10,50,-0.1,20,100);
 				document.addEventListener('keypress', interactionEvent);
 				document.getElementById('personnes').style.opacity = 1;
 				document.getElementById('people').style.opacity = 1;
 
+				await sleep(4000);
+				document.getElementById('housePopulation').style.fontSize = '3em';
+				await sleep(3000);
+				document.getElementById('housePopulation').style.fontSize = '0em';
 				let old_population = 0;
+				let grow_speed = 1;
 				while(population_ajoute < 150){
-					population += Math.round(Math.random() * 4);
-					updatePopulation();
-					await sleep(500);
+					//population += Math.round(Math.random() * grow_speed);
+					population += 1;
+					(population_ajoute + population < 20) ? updatePopulation(true) : updatePopulation();
+					await sleep(1000);
 					if(old_population < 50 && population_ajoute > 50) tempGlitch(300);
 					if(old_population < 80 && population_ajoute > 80) tempGlitch(300);
 					if(old_population < 100 && population_ajoute > 100){
@@ -91,8 +98,6 @@ async function startGame(event){
 					old_population = population_ajoute;
 				};
 				global_state++;
-
-				//await moveCamera(0,10,50,-0.1,20,100);
 				break;
 			case 3:
 				active_renderer = glitch_renderer;
@@ -166,14 +171,20 @@ async function updateDate(limit, delay=10){
 	}
 }
 
-async function updatePopulation(delay=30){
+async function updatePopulation(detail=false,delay=30){
 	let popu = document.getElementById('personnes');
 	let current_population = parseInt(popu.textContent);
+	console.log(detail);
+	if(detail && current_population !== population) document.getElementById('inhabitant').style.fontSize = '2.5em';
 	while(current_population !== population){
 		if(current_population < population) current_population++;
 		else current_population--;
 		popu.textContent = current_population;
 		await sleep(delay);
+	}
+	if(detail){
+		await sleep(500);
+		document.getElementById('inhabitant').style.fontSize = '0em';
 	}
 }
 
