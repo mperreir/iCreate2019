@@ -23,24 +23,7 @@ function createLocalModels(models3D){
 	models3D.little_house = cube;
 	models3D.little_house.position.y += 0.75;
 
-	let textureMaison3Porte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison3_porte.png");
-	let textureMaison3SansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison3_sansporte.png");
-	textureMaison3SansPorte.magFilter = THREE.LinearFilter;
-	textureMaison3SansPorte.anisotropy = renderer.getMaxAnisotropy();
-	textureMaison3Porte.magFilter = THREE.LinearFilter;
-	textureMaison3Porte.anisotropy = renderer.getMaxAnisotropy();
-	materialArray = [
-			new THREE.MeshBasicMaterial( { map: textureMaison3Porte,transparent: true, } ),
-			new THREE.MeshBasicMaterial( { map: textureMaison3Porte ,transparent: true,} ),
-			new THREE.MeshBasicMaterial( {color: 0x375877 } ),
-			new THREE.MeshBasicMaterial( { color: 0x375877} ),
-			new THREE.MeshBasicMaterial( { map: textureMaison3SansPorte,transparent: true, } ),
-			new THREE.MeshBasicMaterial( { map:textureMaison3SansPorte,transparent: true,  } ),
-	];
-	geometry = new THREE.BoxGeometry(2, 3, 3);
-	cube = new THREE.Mesh(geometry, materialArray);
-	models3D.house2 = cube;
-	models3D.house2.position.y += 1;
+
 
 	let textureMaisonMitoyennePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_porte.png");
 	let textureMaisonMitoyenneSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_sansporte.png");
@@ -62,8 +45,8 @@ function createLocalModels(models3D){
 // creates the cube by mixing the geometry and materials
 	geometry = new THREE.BoxGeometry(2, 2, 6);
 	cube = new THREE.Mesh(geometry, materialArray);
-	models3D.building = cube;
-	models3D.building.position.y += 0.75;
+	models3D.house_mitoyenne = cube;
+	models3D.house_mitoyenne.position.y += 0.75;
 
 	let textureImmeublePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Immeuble_porte.png");
 	let textureImmeubleSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Immeuble_sansporte.png");
@@ -84,8 +67,8 @@ function createLocalModels(models3D){
 	geometry = new THREE.BoxGeometry(3.5, 10,3.5);
 	cube = new THREE.Mesh(geometry, materialArray);
 	//cube.position.y -= 10;
-	models3D.skyscraper = cube;
-	models3D.skyscraper.position.y+=4;
+	models3D.building = cube;
+	models3D.building.position.y+=4;
 
 	let textureMaisonPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_porte.png");
 	let textureMaisonSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_sansporte.png");
@@ -105,8 +88,8 @@ function createLocalModels(models3D){
 
 	geometry = new THREE.BoxGeometry(4, 4, 4);
 	cube = new THREE.Mesh(geometry, materialArray);
-	models3D.building2 = cube;
-	models3D.building2.position.y += 1.5;
+	models3D.high_house = cube;
+	models3D.high_house.position.y += 1.5;
 
 }
 

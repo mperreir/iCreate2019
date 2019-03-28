@@ -161,11 +161,11 @@ function replaceByModel(model){
 }
 
 function addBuilding() {
-  replaceByModel(models3D.skyscraper);
+  replaceByModel(models3D.building);
 };
 
 function addHouse() {
-  replaceByModel(models3D.house2);
+  replaceByModel(models3D.little_house);
 };
 
 async function regionOccupated(x,y,lar,lon,alpha){
