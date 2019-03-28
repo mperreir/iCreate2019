@@ -6,7 +6,7 @@ function enregistrement(id)
         setTimeout(function(){
             document.getElementById(id).value = "Etape suivante";
             document.getElementById(id).disabled = false;
-        }, 3000);
+        }, 5000);
     } else if (document.getElementById(id).value=="Etape suivante") {
         if (id=="nom") {
             window.location.href = "ville.html";
@@ -20,12 +20,7 @@ function enregistrement(id)
 
 function recommencer(id)
 {
-    window.location.href = id+".html";
-    /*if (id=="nom") {
-        window.location.href = "nom.html";
-    } else if (id=="ville") {
-        window.location.href = "ville.html";
-    } else if (id=="dispute") {
-        window.location.href = "dispute.html";
-    }*/
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).value = "Démarrer la capture";
+    player.record().reset();
 };
