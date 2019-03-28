@@ -1,5 +1,6 @@
 let renderer, scene, camera, projector, state, glitch_renderer, active_renderer, saturation_renderer;
 let models3D = {};
+let  listener = new THREE.AudioListener();
 
 let div = document.getElementById('container');
 let mouse = new THREE.Vector2();
@@ -20,7 +21,7 @@ function animate() {
 
 init();
 async function init() {
-	loadImage()
+	loadImage();
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);
@@ -40,7 +41,6 @@ async function init() {
 	makeSky();
 	await createMap();
 	renderer.render(scene, camera);
-
 	// Postproduction
 	setShaders();
 
@@ -48,7 +48,10 @@ async function init() {
 	animate();
 	await loadEveryModels(models_paths, models3D);
 	startGame();
-
+	//var json = require("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json"); //(with path)
+	fetch("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json")
+	  .then(response => response.json())
+	  .then(json => console.log(json));
 	// Tests
 	await sleep(5000);
 	global_state++;
