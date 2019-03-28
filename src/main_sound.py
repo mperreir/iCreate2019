@@ -21,6 +21,7 @@ RADIUS = 2
 STEP = 0.2
 LIMIT = RADIUS - STEP
 
+
 def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_center_front=CENTER, rotate=False):
 	"""Allows to play a sound, with various options to spatialize it."""
 

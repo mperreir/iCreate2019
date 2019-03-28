@@ -2,6 +2,7 @@ import websockets
 import json
 import openal
 import os, sys
+import src.main_sound as sound
 
 
 async def main_procedure():
@@ -14,6 +15,7 @@ async def main_procedure():
         print(data)
         await websocket.send(sub)
 
+        sound.play('source/gas.flac', loop=True)
         print('Track 1')
         # TODO Insert track 1 -> "Hé, toi là..."
         actionPerformed = False
@@ -23,8 +25,11 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         await websocket.send(unSub)
         print('Track 2')
+        sound.play('source/gas.flac', until_end=True)
+        print('test')
         #TODO Insert track 2 -> "Super ! Merci beaucoup"
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
@@ -36,6 +41,7 @@ async def main_procedure():
         print('Track 6 -> Viens voir ici')
         print('Track 7 -> COmmence par glisser ta main')
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
@@ -46,6 +52,7 @@ async def main_procedure():
         print('Bruit de vent')
         print('Track Brrrr il fait froid')
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
@@ -54,26 +61,29 @@ async def main_procedure():
         print('Son téléscope qui s\'ouvre')
         print('Track balaie la main devant toi')
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
-            actionPerformed = read_action_from_leap(data, 'handLeft')
+            actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unSub)
         print('Track Trappist1E')
         print('Track balaie la main devant toi')
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
-            actionPerformed = read_action_from_leap(data, 'handLeft')
+            actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unSub)
         print('Track Kepler-186f')
         print('Track balaie la main devant toi dernière planèye')
         await websocket.send(sub)
+        actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
-            actionPerformed = read_action_from_leap(data, 'handLeft')
+            actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unSub)
         print('Track Kepler 16b')
         print('Track fin du jeu')
