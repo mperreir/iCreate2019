@@ -26,10 +26,11 @@ class FenetreQuestion extends PApplet {
 
 
   void settings() {
-    fullScreen(2);
+    fullScreen(1);
     //size(900,600);
   }
   PShape terrainShape;
+  PImage logoLA;
 
   LeapMotion leapF;
   void setup() {
@@ -153,36 +154,68 @@ class FenetreQuestion extends PApplet {
   }
 
   int etatStats_tempA = 0;
+  int etatStats_nbHabitantparAn = 0;
   int etatStats_nbHabitant = 0;
   float etatStats_nbHabitant_inc = 1 ;
 
   int etatStats_i = 150;
   boolean etatStats_etat = true;
+ 
   void etatStats() {
-    etatStats_tempA= transitionText(str(q.getClassement()), 100, 250, height-250, etatStats_tempA, 15, CENTER, TOP);
-    transitionText("ème", 50, 250+120, height-250, etatStats_tempA, 15, CENTER, TOP);
-    transitionText("sur "+q.getNbParticipant(), 50, 200+200, height-200, etatStats_tempA, 15, LEFT, TOP);
-
-    shape(terrainShape, 50, 50, etatStats_i, etatStats_i);
-
-    transitionText("+1,8 stade par an", 50, 300, 200, etatStats_tempA, 15, LEFT, TOP);
-
-
-
-    transitionText("+"+etatStats_nbHabitant, 80, width-1000, height/2, etatStats_tempA, 15, LEFT, TOP);
-
-    transitionText("hab/an", 30, width-880, (height/2)+85, etatStats_tempA, 15, LEFT, TOP);
-    transitionText("(Évolution annuelle moyenne entre 2011 et 2016) ", 20, width-920, (height/2)+130, etatStats_tempA, 15, LEFT, TOP);
-
-
-    if (etatStats_nbHabitant != 16865) {
-      etatStats_nbHabitant_inc = etatStats_nbHabitant_inc+2.2;
-      etatStats_nbHabitant = int( etatStats_nbHabitant + (etatStats_nbHabitant_inc*etatStats_nbHabitant_inc));
-      if (etatStats_nbHabitant>= 16865) {
-        etatStats_nbHabitant = 16865;
-      }
+     int col2= (width/2)+10;
+     int ligne2= (height/2)+10;
+    //Classement
+    
+    transitionText("Vous êtes ", 40, 250, 50, etatStats_tempA, 15, CENTER, TOP);
+    
+    etatStats_tempA= transitionText(str(q.getClassement()), 100, 250, 150, etatStats_tempA, 15, CENTER, TOP);
+    transitionText("ème", 50, 250+120, 150, etatStats_tempA, 15, CENTER, TOP);
+    transitionText("sur "+q.getNbParticipant(), 50, 200+200, 200, etatStats_tempA, 15, LEFT, TOP);
+   
+    
+    transitionText("des personnes souhaitant occuper le moins de place. ", 20, 250, 270, etatStats_tempA, 15, LEFT, TOP);
+    int ratio =(q.getClassement()*100)/q.getNbParticipant();
+    if(ratio<25){
+      transitionText("Bien joué !!", 50, col2/2, ligne2+30, etatStats_tempA, 15, CENTER, CENTER);
+      transitionText("Vos choix\n  ont permis d'éviter que la Loire-Atlantique\n soit tollament artifcialisée.", 40, col2/2, ligne2+200, etatStats_tempA, 15, CENTER, CENTER);
+    }else{
+      transitionText("Attention,", 50, col2/2, ligne2+30, etatStats_tempA, 15, CENTER, CENTER);
+      transitionText("à ce rythme,\n dans 1200 ans toute la Loire-Atlantique\n sera artifcialisée.", 40, col2/2, ligne2+200, etatStats_tempA, 15, CENTER, CENTER);
     }
 
+    image(logoLA,width-200, 50);
+    stroke(255,255,255,etatStats_tempA);
+    line(col2-35, 0, col2-35, height);
+
+
+    transitionText( nfc(etatStats_nbHabitantparAn), 80, col2, 100, etatStats_tempA, 15, LEFT, TOP);
+    transitionText("hab/an", 30, col2+20, 100+85, etatStats_tempA, 15, LEFT, TOP);
+    transitionText("(Évolution annuelle moyenne entre 2011 et 2016) ", 20, col2, 100+120, etatStats_tempA, 15, LEFT, TOP);
+
+    
+    transitionText( nfc(etatStats_nbHabitant), 80, col2, (height/2)-160, etatStats_tempA, 15, LEFT, TOP);
+    transitionText("habitant en 2016", 30, col2+20, (height/2)-80, etatStats_tempA, 15, LEFT, TOP);
+
+
+    shape(terrainShape,col2+50, height-450, etatStats_i, etatStats_i);
+    transitionText("+1,8 stade par jour", 50, col2+300, height-300, etatStats_tempA, 15, LEFT, BOTTOM);
+    
+   
+    transitionText("Source : observatoire.loire-atlantique.fr", 20, width-5, height-30, etatStats_tempA, 15, RIGHT, BOTTOM);
+    
+    if (etatStats_nbHabitantparAn != 16865) {
+      etatStats_nbHabitant_inc = etatStats_nbHabitant_inc+2.2;
+      etatStats_nbHabitantparAn = int( etatStats_nbHabitantparAn + (etatStats_nbHabitant_inc*etatStats_nbHabitant_inc));
+      if (etatStats_nbHabitantparAn>= 16865) {
+        etatStats_nbHabitantparAn = 16865;
+      }    
+    }
+    if(etatStats_nbHabitant != 1380852){
+      etatStats_nbHabitant = int( etatStats_nbHabitant + (etatStats_nbHabitant_inc*etatStats_nbHabitant_inc*etatStats_nbHabitant_inc));
+      if (etatStats_nbHabitant>= 1380852) {
+        etatStats_nbHabitant = 1380852;
+      }
+    }
 
     if (etatStats_i >200) {
       etatStats_etat = false;
