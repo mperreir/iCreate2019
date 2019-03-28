@@ -43,6 +43,7 @@ class Travel:
         self.move(source,
                   (abs(self.end_position[0]) + abs(self.start_position[0])) / 40 * factor_x,
                   (abs(self.end_position[2]) + abs(self.start_position[2])) / 40 * factor_y)
+        self.sound_information()
 
     def move(self, source, step_x, step_y):
         """
@@ -61,5 +62,19 @@ class Travel:
             counter_x += step_x
             counter_y += step_y
             time.sleep(0.2)
+
+        source.stop()
+
+    def sound_information(self) -> None:
+        """
+        PLay the information corresponding to the city
+        """
+        source = oalOpen(self.sound_path)
+        source.set_position(self.end_position)
+        source.set_cone_inner_angle(360)
+        source.set_cone_outer_angle(360)
+
+        while source.get_state() == AL_PLAYING:
+            time.sleep(0.1)
 
         source.stop()
