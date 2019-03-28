@@ -15,8 +15,6 @@ def format_sound_call(counter):
 
 
 async def main_procedure():
-    ambiant = play(join(MUS_DIR, 'drifting_through_space.flac'), loop=True)
-
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
         unsub = json.dumps({'focused': False})
@@ -36,13 +34,13 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
-        ambiant.stop()
 
+        #Recherche signe et reproduction
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         print('Began looking')
         time.sleep(5)
-        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True, left_center_right=LEFT)
         trackno += 1
         time.sleep(10)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
@@ -57,10 +55,11 @@ async def main_procedure():
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
-        print('Track 4 (Son zwoosh)')
+        play(join(SFX_DIR, 'powerup.flac'), until_end=True)
+
+        #Orientation Telescope
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
-        print("Super!")
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
@@ -71,11 +70,16 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
-        play(join(SFX_DIR, 'rouages.flac'), until_end=True)
+        play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=BACK)
+        play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
+        play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=LEFT, back_center_front=FRONT)
+
+        #Vent et Ouverture dôme
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
-        print('Bruit de vent')
-        print('Track Brrrr il fait froid')
+        play(join(SFX_DIR, 'wind.flac'), until_end=True, rotate=True)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -83,8 +87,12 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'handDetected')
         await websocket.send(unsub)
-        print('Son téléscope qui s\'ouvre')
-        print('Track balaie la main devant toi')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        play(join(SFX_DIR, 'opening.flac'), until_end=True)
+
+        #Explication passage première planète
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -92,8 +100,16 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-        print('Track Trappist1E')
-        print('Track balaie la main devant toi')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+
+        #Planète 1
+        ambiant = play(join(MUS_DIR, 'drifting_through_space.flac'), loop=True)
+        ambiant.set_gain(0.2)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        time.sleep(5)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -101,8 +117,17 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-        print('Track Kepler-186f')
-        print('Track balaie la main devant toi dernière planèye')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        ambiant.stop()
+
+        #Planète 2
+        ambiant = play(join(MUS_DIR, 'drift.flac'), loop=True)
+        ambiant.set_gain(0.2)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        time.sleep(5)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
         await websocket.send(sub)
         actionPerformed = False
         while not actionPerformed:
@@ -110,8 +135,19 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-        print('Track Kepler 16b')
-        print('Track fin du jeu')
+        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        ambiant.stop()
+
+        #Planète 3
+        ambiant = play(join(MUS_DIR, 'derelict.flac'), loop=True)
+        ambiant.set_gain(0.01)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        time.sleep(7)
+        play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
+        trackno += 1
+        time.sleep(7)
+        ambiant.stop()
 
 
 def format_json(data):

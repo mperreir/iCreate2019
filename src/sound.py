@@ -65,7 +65,6 @@ def play(filepath, loop=False, until_end=False, left_center_right=CENTER, back_c
 
 				# use new coordinates
 				s.set_position((x, CENTER, z))
-				print(x, z)
 	return s
 
 
