@@ -30,6 +30,7 @@ class FenetreQuestion extends PApplet {
     //size(900,600);
   }
   PShape terrainShape;
+  PImage logoLA;
 
   LeapMotion leapF;
   void setup() {
@@ -162,11 +163,29 @@ class FenetreQuestion extends PApplet {
  
   void etatStats() {
      int col2= (width/2)+10;
+     int ligne2= (height/2)+10;
     //Classement
-    etatStats_tempA= transitionText(str(q.getClassement()), 100, 250, height-250, etatStats_tempA, 15, CENTER, TOP);
-    transitionText("ème", 50, 250+120, height-250, etatStats_tempA, 15, CENTER, TOP);
-    transitionText("sur "+q.getNbParticipant(), 50, 200+200, height-200, etatStats_tempA, 15, LEFT, TOP);
+    
+    transitionText("Vous êtes ", 40, 250, 50, etatStats_tempA, 15, CENTER, TOP);
+    
+    etatStats_tempA= transitionText(str(q.getClassement()), 100, 250, 150, etatStats_tempA, 15, CENTER, TOP);
+    transitionText("ème", 50, 250+120, 150, etatStats_tempA, 15, CENTER, TOP);
+    transitionText("sur "+q.getNbParticipant(), 50, 200+200, 200, etatStats_tempA, 15, LEFT, TOP);
+   
+    
+    transitionText("des personnes souhaitant occuper le moins de place. ", 20, 250, 270, etatStats_tempA, 15, LEFT, TOP);
+    int ratio =(q.getClassement()*100)/q.getNbParticipant();
+    if(ratio<25){
+      transitionText("Bien joué !!", 50, col2/2, ligne2+30, etatStats_tempA, 15, CENTER, CENTER);
+      transitionText("Vos choix\n  ont permis d'éviter que la Loire-Atlantique\n soit tollament artifcialisée.", 40, col2/2, ligne2+200, etatStats_tempA, 15, CENTER, CENTER);
+    }else{
+      transitionText("Attention,", 50, col2/2, ligne2+30, etatStats_tempA, 15, CENTER, CENTER);
+      transitionText("à ce rythme,\n dans 1200 ans toute la Loire-Atlantique\n sera artifcialisée.", 40, col2/2, ligne2+200, etatStats_tempA, 15, CENTER, CENTER);
+    }
 
+    image(logoLA,width-200, 50);
+    stroke(255,255,255,etatStats_tempA);
+    line(col2-35, 0, col2-35, height);
 
 
     transitionText( nfc(etatStats_nbHabitantparAn), 80, col2, 100, etatStats_tempA, 15, LEFT, TOP);
@@ -179,7 +198,7 @@ class FenetreQuestion extends PApplet {
 
 
     shape(terrainShape,col2+50, height-450, etatStats_i, etatStats_i);
-    transitionText("+1,8 stade par an", 50, col2+300, height-300, etatStats_tempA, 15, LEFT, BOTTOM);
+    transitionText("+1,8 stade par jour", 50, col2+300, height-300, etatStats_tempA, 15, LEFT, BOTTOM);
     
    
     transitionText("Source : observatoire.loire-atlantique.fr", 20, width-5, height-30, etatStats_tempA, 15, RIGHT, BOTTOM);

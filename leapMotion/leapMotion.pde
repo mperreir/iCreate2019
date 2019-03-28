@@ -51,7 +51,8 @@ void setup() {
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
-
+  fenetreQuestion.logoLA = loadImage("logola.png");
+  q= new Questionnaire();
   fenetreQuestion.setEtat(1);
   runSketch(new String[] { 
     "fenetreQuestion"
