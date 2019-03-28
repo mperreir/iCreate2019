@@ -56,11 +56,11 @@ function render0(){
 	
 	//Placement de chaque point
 	$("#1").css({"position":"absolute","top":"10.8em","left":"14.8em"});
-	$("#2").css({"position":"absolute","top":"20.1em","left":"22.6em"});
+	$("#2").css({"position":"absolute","top":"20.1em","left":"22.8em"});
 	$("#3").css({"position":"absolute","top":"25.6em","left":"35.9em"});
 	$("#4").css({"position":"absolute","top":"31em","left":"35.9em"});
-	$("#5").css({"position":"absolute","top":"36.4em","left":"22.6em"});
-	$("#6").css({"position":"absolute","top":"41.9em","left":"22.6em"});
+	$("#5").css({"position":"absolute","top":"36.4em","left":"22.8em"});
+	$("#6").css({"position":"absolute","top":"41.9em","left":"22.8em"});
 	//Affichage animée des points
 	$(".circle").toggle('slow');
 	
