@@ -161,9 +161,6 @@ function addHouse() {
   replaceByModel(models3D.house2);
 };
 
-
-
-
 async function regionOccupated(x,y,lar,lon,alpha){
   var maxX,maxY,minX,minY;
   if(alpha < Math.PI/2 ){

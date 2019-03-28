@@ -23,6 +23,10 @@ html, body{
   transition: opacity 1.5s;
 }
 
+#container{
+  background: white;
+}
+
 #container h3{
   position: absolute;
   color: #555555;
@@ -35,12 +39,12 @@ html, body{
 #container #personnes{
   right: 100px;
   text-align: right;
-  /* bottom: 27px; */
+  opacity: 0;
+  transition: all linear 1s;
 }
 
 #container #date{
   left: 50px;
-  /* bottom: 10px; */
 }
 
 #container img{
@@ -48,4 +52,6 @@ html, body{
   right: 18px;
   bottom: 16px;
   height: 100px;
+  opacity: 0;
+  transition: all linear 1s;
 }
