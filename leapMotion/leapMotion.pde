@@ -17,6 +17,9 @@ PGraphics shapeArbre;
 
 Arbre arbre;
 
+PImage carte;
+PImage carte1999;
+PImage carte2016;
 
 LeapMotion leap;
 
@@ -30,7 +33,7 @@ int [] scoreTrie;
 
 
 void settings() {
-  fullScreen(3);
+  fullScreen(2);
 }
 
 
@@ -50,6 +53,12 @@ void setup() {
 
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
+  
+   carte = loadImage("carte.png");
+   carte1999 = loadImage("carte 1999.png");
+   carte2016 = loadImage("carte 2016.png");
+  
+  
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
   fenetreQuestion.logoLA = loadImage("logola.png");
   q= new Questionnaire();
@@ -67,6 +76,10 @@ void draw() {
   arbre.step();
   world.step();
   world.draw();
+  
+  image(carte, 0, 0);
+  image(carte1999, 0, 0);
+  image(carte2016, 0, 0);
   
   fenetreQuestion.hands = leap.getHands();
 }
