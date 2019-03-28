@@ -133,11 +133,17 @@ function circle (radius, steps, centerX, centerY){
 }
 
 function replaceElement(old_model, new_model){
+  //sound2.stop();
+  sound2 = new Howl({
+  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
+  volume: 0.9
+	});
+  sound2.play();
   new_model = (new_model).clone();
   new_model.rotation.set(0, Math.PI * Math.random(), 0);
   let scale = 1 + ((Math.random() * 0.3) - 0.3);
   new_model.scale.set(scale, scale, scale);
-  new_model.position.set(old_model.position.x, 0, old_model.position.z);
+  new_model.position.set(old_model.position.x, new_model.position.y, old_model.position.z);
   scene.add(new_model);
   scene.remove(old_model);
 }
@@ -155,11 +161,11 @@ function replaceByModel(model){
 }
 
 function addBuilding() {
-  replaceByModel(models3D.skyscraper);
+  replaceByModel(models3D.building);
 };
 
 function addHouse() {
-  replaceByModel(models3D.house2);
+  replaceByModel(models3D.little_house);
 };
 
 async function regionOccupated(x,y,lar,lon,alpha){
