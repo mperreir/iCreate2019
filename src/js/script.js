@@ -21,12 +21,8 @@ function animate() {
 
 init();
 async function init() {
-<<<<<<< HEAD
-	loadImage();
-=======
 	loadImage()
 	getModel(0,0);
->>>>>>> ec4ff39a8c042c31af940b7493ea2ef5bcf61640
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(color.blue, 1);
@@ -53,11 +49,7 @@ async function init() {
 	animate();
 	await loadEveryModels(models_paths, models3D);
 	startGame();
-	//var json = require("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json"); //(with path)
-	fetch("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/data.json")
-	  .then(response => response.json())
-	  .then(json => console.log(json));
-	// Tests
+
 	await sleep(5000);
 	global_state++;
 	await sleep(5000);
