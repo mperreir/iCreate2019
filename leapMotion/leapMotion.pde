@@ -51,9 +51,9 @@ void setup() {
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
   
-   //carte = loadImage("carte.png");
-   //carte1999 = loadImage("carte 1999.png");
-   //carte2016 = loadImage("carte 2016.png");
+   carte = loadImage("carte.png");
+   carte1999 = loadImage("carte1999.png");
+   carte2016 = loadImage("carte2016.png");
   
   
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
@@ -65,7 +65,7 @@ void setup() {
     }
     , fenetreQuestion);
 }
-
+int etatTranstionCarte = 300;
 void draw() {
   background(255);
   //shape(shapeArbre,0,0);
@@ -74,10 +74,21 @@ void draw() {
   world.step();
   arbre.draw();
   world.draw();
+  if(fenetreQuestion.etat == 4){
+     if(etatTranstionCarte> 0){
+      etatTranstionCarte--;
+     }
+    if(etatTranstionCarte >200){
+      image(carte, 0, 0);
+    }else if(etatTranstionCarte >100){
+      image(carte1999, 0, 0);
+    }else{
+      image(carte2016, 0, 0);
+    }
+ 
+  }
   
-  //image(carte, 0, 0);
-  //image(carte1999, 0, 0);
-  //image(carte2016, 0, 0);
+
   
   fenetreQuestion.hands = leap.getHands();
 }
@@ -183,6 +194,7 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
         println("Bas");
         if(fenetreQuestion.etat==4){          
           q.stockScore();
+          etatTranstionCarte = 300;
           fenetreQuestion.setEtat(1);
         }
       }
