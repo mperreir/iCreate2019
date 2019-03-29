@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import threading
+import os
 
 from flask import Flask, request
 from flask_cors import CORS
@@ -34,7 +35,7 @@ class ArduReader(threading.Thread):
                     val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
                     if(val != '' and val[0] == "{" and val[len(val)-1] == "}"):
                         tab = json.loads(val)
-                        print("read val")
+                        os.write("read val")
                         # if(signalDetected(tab)):
 
                         if(GLOBALSTATE["Etat"] == 3):
