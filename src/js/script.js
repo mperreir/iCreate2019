@@ -116,7 +116,7 @@ async function startGame(event){
 				await moveCamera(0,50,130,-0.17,20,100);
 
 				await expansionV2(scene, 3, global_speed);
-				await sleep(4000);
+				await sleep(2000);
 				document.getElementById('housePopulation').style.fontSize = '3em';
 				await sleep(3000);
 				document.getElementById('housePopulation').style.fontSize = '0em';
@@ -167,20 +167,20 @@ async function getState(){
 		console.log(json)
 		global_state = json["Etat"];
 		if(global_state == 4 && json["NbMaisons"] != nbMa){
-			addHouse();
+			await addHouse();
 			population -= 2;
 			population_ajoute += 2;
 
 			if(population < 0) population = 0;
-			updatePopulation();
+			await updatePopulation();
 		}
-		if(global_state == 4 && json["NbImmeubles"] != nbMa){
-			addBuilding();
+		if(global_state == 4 && json["NbImmeubles"] != nbIm){
+			await addBuilding();
 			population -= 10;
 			population_ajoute += 10;
 
 			if(population < 0) population = 0;
-			updatePopulation();
+			await updatePopulation();
 		}
 		nbIm = json["NbImmeubles"];
 		nbMa = json["NbMaisons"];
