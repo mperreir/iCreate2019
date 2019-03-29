@@ -16,6 +16,7 @@ def format_sound_call(counter):
 
 
 async def main_procedure():
+
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
         unsub = json.dumps({'focused': False})
@@ -26,6 +27,8 @@ async def main_procedure():
         await websocket.send(sub)
         trackno = 1
 
+        ambiant = play(join(MUS_DIR, 'coaxial.flac'), loop=True)
+        ambiant.set_gain(0.05)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         change_gif('poing')
@@ -36,6 +39,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        ambiant.set_gain(0.1)
 
         #Recherche signe et reproduction
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
@@ -103,6 +107,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        ambiant.stop()
 
         #Planète 1
         ambiant = play(join(MUS_DIR, 'drifting_through_space.flac'), loop=True)
