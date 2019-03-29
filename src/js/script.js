@@ -83,11 +83,11 @@ async function startGame(event){
 		//await moveCamera(0,10,50,-0.05,20,100);
 
 		switch(temp_state) {
-			case 0:
+			case 1:
 				updateDate(1900,5);
 				await expansionV2(scene, 0, global_speed);
 				break;
-			case 1:
+			case 2:
 				sound.stop();
 				sound = new Howl({
 					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
@@ -99,7 +99,7 @@ async function startGame(event){
 				await expansionV2(scene, 1, global_speed);
 				removeMap(scene, models3D);
 				break;
-			case 2:
+			case 3:
 				sound.stop();
 				sound = new Howl({
 					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
@@ -111,7 +111,7 @@ async function startGame(event){
 				await expansionV2(scene, 2, global_speed);
 				//await moveCamera(0,10,50,-0.1,20,100);
 				break;
-			case 3:
+			case 4:
 				updateDate(2019,5);
 				await moveCamera(0,50,130,-0.17,20,100);
 
@@ -124,6 +124,16 @@ async function startGame(event){
 				document.getElementById('people').style.opacity = 1;
 				let old_population = 0;
 				let grow_speed = 1;
+
+					let actualisationState = async () => {
+						while(true){
+							getState();
+							await sleep(100);
+						};
+					}
+
+					actualisationState();
+
 				while(population_ajoute < 150){
 					population += Math.round(Math.random() * grow_speed);
 					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
