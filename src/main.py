@@ -3,7 +3,8 @@ import json
 
 import websockets
 
-from src.sound import *
+from sound import *
+from gif import *
 
 # launch with either fr or en, default to fr
 lang = sys.argv[1] if len(sys.argv) > 1 else 'fr'
@@ -27,6 +28,7 @@ async def main_procedure():
 
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
+        change_gif('poing')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
