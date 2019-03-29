@@ -111,7 +111,7 @@ function getYearInformation(state){
   return data[annee];
 }
 
-async function expansionV2(scene, state, speed=1, rand=1, steps=4){
+async function expansionV2(scene, state, speed=1, rand=1, steps=10){
   let annee = getYearInformation(state);
 
   // let add_model = async (pos,new_model,zone) => {

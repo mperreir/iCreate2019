@@ -76,7 +76,7 @@ async function init() {
 
 async function startGame(event){
 
-	let temp_state = getState();
+	let temp_state = await getState();
 	let global_speed = 0.001;
 
 	if(temp_state !== local_state){
@@ -127,7 +127,7 @@ async function startGame(event){
 
 					let actualisationState = async () => {
 						while(true){
-							getState();
+							await getState();
 							await sleep(100);
 						};
 					}
@@ -157,7 +157,7 @@ async function startGame(event){
 	setTimeout(startGame, 100);
 }
 
-function getState(){
+async function getState(){
 	// TODO: Fontion à relier au serv python
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
