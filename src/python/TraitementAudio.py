@@ -1,4 +1,4 @@
-from serial import *
+import serial
 import json
 import numpy as np
 import matplotlib.pyplot as plt
