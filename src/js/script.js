@@ -152,8 +152,20 @@ function getState(){
 		return reponse.json()
 	}).then(function(json){
 		global_state = json["Etat"];
+		if(global_state == 3 && json["NbMaisons"] != nbMa){
+			addHouse();
+			population -= 2;
+			population_ajoute += 2;
+			updatePopulation();
+		}
+		if(global_state == 3 && json["NbImmeubles"] != nbMa){
+			addBuilding();
+			population -= 10;
+			population_ajoute += 10;
+			updatePopulation();
+		}
 		nbIm = json["NbImmeubles"];
-		nbMa = json["NbMaisons"]
+		nbMa = json["NbMaisons"];
 	})
 	return global_state;
 }
@@ -219,7 +231,6 @@ async function updateDate(limit, delay=10){
 async function updatePopulation(detail=false,delay=30){
 	let popu = document.getElementById('personnes');
 	let current_population = parseInt(popu.textContent);
-	console.log(detail);
 	if(detail && current_population !== population) document.getElementById('inhabitant').style.fontSize = '2.5em';
 	while(current_population !== population){
 		if(current_population < population) current_population++;
@@ -236,7 +247,7 @@ async function updatePopulation(detail=false,delay=30){
 let diminutionSaturation = async () => {
 	let saturation = saturation_renderer.passes[1].uniforms.saturation;
 	while(saturation.value > 0.1){
-		saturation_renderer.passes[1].uniforms.saturation.value -= 0.01
+		saturation_renderer.passes[1].uniforms.saturation.value -= 0.01;
 		await sleep(20);
 	};
 }

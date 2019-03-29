@@ -225,10 +225,6 @@ function replaceElement(old_model, new_model){
 }
 
 function replaceByModel(model){
-  let different_model;
-  let u = 0;
-  while(CONTAINER[u].userData.name === model.userData.name &&
-    u < CONTAINER.length - 1) u++;
 
   if(CONTAINER[u].userData.name !== model.userData.name){
     replaceElement(CONTAINER[u], model);
@@ -237,11 +233,29 @@ function replaceByModel(model){
 }
 
 function addBuilding() {
-  replaceByModel(models3D.building);
+  for(zone in DISTRICTS){
+    for(m in DISTRICTS[zone].models){
+      let old_model = DISTRICTS[zone].models[m];
+      if(old_model.userData.name !== 'building'){
+        new_model = replaceElement(old_model, models3D.building);
+        DISTRICTS[zone].models[m] = new_model;
+        return true;
+      }
+    }
+  }
 };
 
 function addHouse() {
-  replaceByModel(models3D.little_house);
+  for(zone in DISTRICTS){
+    for(m in DISTRICTS[zone].models){
+      let old_model = DISTRICTS[zone].models[m];
+      if(isSuperieur(models3D.house, old_model.userData.name)){
+        new_model = replaceElement(old_model, models3D.house);
+        DISTRICTS[zone].models[m] = new_model;
+        return true;
+      }
+    }
+  }
 };
 
 async function regionOccupated(x,y,lar,lon,alpha){
