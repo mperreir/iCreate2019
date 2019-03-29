@@ -30,6 +30,7 @@ async def main_procedure():
         ambiant.set_gain(0.05)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
+        change_gif('poing')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
@@ -37,6 +38,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.set_gain(0.1)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -58,6 +60,7 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('rond')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
@@ -65,6 +68,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'pinchStrength')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -85,6 +89,7 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('feuille_g')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
@@ -92,6 +97,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -112,6 +118,7 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('feuille_d')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
@@ -119,6 +126,7 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'handDetected')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -134,12 +142,14 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('feuille_g')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        change_gif('blanc')
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
         unsub = json.dumps({'focused': False})
@@ -161,12 +171,14 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('feuille_g')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
@@ -188,12 +200,14 @@ async def main_procedure():
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
+        change_gif('feuille_g')
         actionPerformed = False
         while not actionPerformed:
             data = await websocket.recv()
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        change_gif('blanc')
 
     async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
         sub = json.dumps({'focused': True})
