@@ -38,15 +38,6 @@ async def main_procedure():
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.set_gain(0.1)
 
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
-
         # Recherche signe et reproduction
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
@@ -66,15 +57,6 @@ async def main_procedure():
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
 
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
-
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         play(join(SFX_DIR, 'powerup.flac'), until_end=True)
@@ -93,14 +75,6 @@ async def main_procedure():
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
 
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
         play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=BACK)
         play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
         play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=LEFT, back_center_front=FRONT)
@@ -108,7 +82,7 @@ async def main_procedure():
         # Vent et Ouverture dôme
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
-        play(join(SFX_DIR, 'wind.flac'), until_end=True, rotate=True)
+        play(join(SFX_DIR, 'wind.flac'), until_end=True)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
         await websocket.send(sub)
@@ -119,15 +93,6 @@ async def main_procedure():
             actionPerformed = read_action_from_leap(data, 'handDetected')
         await websocket.send(unsub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
-
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
         play(join(SFX_DIR, 'opening.flac'), until_end=True)
 
         # Explication passage première planète
@@ -140,14 +105,6 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
 
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
@@ -167,15 +124,6 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
@@ -194,16 +142,6 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
-
-    async with websockets.connect('ws://127.0.0.1:6437/v6.json') as websocket:
-        sub = json.dumps({'focused': True})
-        unsub = json.dumps({'focused': False})
-        data = await websocket.recv()
-        print(data)
-        data = await websocket.recv()
-        print(data)
-        await websocket.send(sub)
-        play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
         # Planète 3
