@@ -144,7 +144,7 @@ async function expansionV2(scene, state, speed=1, rand=1){
       let old_model = DISTRICTS[zone].models[m];
       let new_model = await getModelbyZone(old_model.position.x, old_model.position.y, state);
       if(isSuperieur(new_model.userData.name, old_model.userData.name)){
-        new_model = replaceElement(old_model, new_model);
+        new_model = replaceElement(old_model, new_model, true);
         DISTRICTS[zone].models[m] = new_model;
       }
       await sleep(Math.random() * 50 * speed);
@@ -207,13 +207,15 @@ async function removeMap(scene, models3D){
   }
 }
 
-function replaceElement(old_model, new_model){
+function replaceElement(old_model, new_model, silent=false){
   //sound2.stop();
-  sound2 = new Howl({
-  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
-  volume: 0.9
-	});
-  sound2.play();
+  if(!silent){
+    sound2 = new Howl({
+    src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
+    volume: 0.9
+  	});
+    sound2.play();
+  }
   new_model = (new_model).clone();
   new_model.rotation.set(0, Math.PI * Math.random(), 0);
   let scale = 1 + ((Math.random() * 0.3) - 0.3);
