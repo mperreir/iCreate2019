@@ -76,7 +76,7 @@ async function init() {
 
 async function startGame(event){
 
-	let temp_state = getState();
+	let temp_state = await getState();
 	let global_speed = 0.001;
 
 	if(temp_state !== local_state){
@@ -127,7 +127,7 @@ async function startGame(event){
 
 					let actualisationState = async () => {
 						while(true){
-							getState();
+							await getState();
 							await sleep(100);
 						};
 					}
@@ -157,11 +157,11 @@ async function startGame(event){
 	setTimeout(startGame, 100);
 }
 
-function getState(){
+async function getState(){
 	// TODO: Fontion à relier au serv python
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
-	fetch(url).then(function(reponse){
+	await fetch(url).then(function(reponse){
 		return reponse.json()
 	}).then(function(json){
 		console.log(json)
@@ -170,17 +170,22 @@ function getState(){
 			addHouse();
 			population -= 2;
 			population_ajoute += 2;
+
+			if(population < 0) population = 0;
 			updatePopulation();
 		}
 		if(global_state == 4 && json["NbImmeubles"] != nbMa){
 			addBuilding();
 			population -= 10;
 			population_ajoute += 10;
+
+			if(population < 0) population = 0;
 			updatePopulation();
 		}
 		nbIm = json["NbImmeubles"];
 		nbMa = json["NbMaisons"];
-	})
+	});
+
 	return global_state;
 }
 
