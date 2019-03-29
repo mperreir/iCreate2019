@@ -1,4 +1,3 @@
-from pyAudioAnalysis import *
 from serial import *
 import json
 import numpy as np
