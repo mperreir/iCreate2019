@@ -31,7 +31,7 @@ class ArduReader(threading.Thread):
         with serial.Serial(port="COM4", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
             if port_serie.isOpen():
                 while port_serie.isOpen():
-                    time.sleep(3)
+                    # time.sleep(3)
                     val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
                     if(val != '' and val[0] == "{" and val[len(val)-1] == "}"):
                         tab = json.loads(val)
