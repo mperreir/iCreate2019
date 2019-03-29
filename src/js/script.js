@@ -161,7 +161,7 @@ function getState(){
 	// TODO: Fontion à relier au serv python
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
-	fetch(url).then(function(reponse){
+	await fetch(url).then(function(reponse){
 		return reponse.json()
 	}).then(function(json){
 		console.log(json)
@@ -170,17 +170,22 @@ function getState(){
 			addHouse();
 			population -= 2;
 			population_ajoute += 2;
+
+			if(population < 0) population = 0;
 			updatePopulation();
 		}
 		if(global_state == 4 && json["NbImmeubles"] != nbMa){
 			addBuilding();
 			population -= 10;
 			population_ajoute += 10;
+
+			if(population < 0) population = 0;
 			updatePopulation();
 		}
 		nbIm = json["NbImmeubles"];
 		nbMa = json["NbMaisons"];
-	})
+	});
+
 	return global_state;
 }
 
