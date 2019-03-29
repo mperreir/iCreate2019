@@ -24,7 +24,24 @@
 				</div>
 
 				<script>
-				let connexion = new WebSocket('ws://192.168.43.67:8025/musee');
+				function toggleFullscreen(event) {
+					var element = document.body;
+
+					if (event instanceof HTMLElement) {
+						element = event;
+					}
+
+					var isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
+
+					element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () { return false; };
+					document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () { return false; };
+
+					isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+				}
+				document.addEventListener('click', toggleFullscreen);
+
+
+				let connexion = new WebSocket('ws://192.168.8.102:8025/musee');
 
 				connexion.onopen = function (event) {
 					connexion.send("Bonjour cher serveur !");
