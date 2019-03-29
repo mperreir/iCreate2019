@@ -167,20 +167,20 @@ async function getState(){
 		console.log(json)
 		global_state = json["Etat"];
 		if(global_state == 4 && json["NbMaisons"] != nbMa){
-			await addHouse();
+			addHouse();
 			population -= 2;
 			population_ajoute += 2;
 
 			if(population < 0) population = 0;
-			await updatePopulation();
+			updatePopulation();
 		}
 		if(global_state == 4 && json["NbImmeubles"] != nbIm){
-			await addBuilding();
+			addBuilding();
 			population -= 10;
 			population_ajoute += 10;
 
 			if(population < 0) population = 0;
-			await updatePopulation();
+			updatePopulation();
 		}
 		nbIm = json["NbImmeubles"];
 		nbMa = json["NbMaisons"];
