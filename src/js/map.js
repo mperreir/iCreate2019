@@ -111,7 +111,7 @@ function getYearInformation(state){
   return data[annee];
 }
 
-async function expansionV2(scene, state, speed=1, rand=1){
+async function expansionV2(scene, state, speed=1, rand=1, steps=4){
   let annee = getYearInformation(state);
 
   // let add_model = async (pos,new_model,zone) => {
@@ -139,6 +139,7 @@ async function expansionV2(scene, state, speed=1, rand=1){
   //     await sleep(Math.random() * 50 * speed);
   //   }
   // }
+  let compteur = 0;
   for(zone in DISTRICTS){
     for(m in DISTRICTS[zone].models){
       let old_model = DISTRICTS[zone].models[m];
@@ -147,7 +148,8 @@ async function expansionV2(scene, state, speed=1, rand=1){
         new_model = replaceElement(old_model, new_model, true);
         DISTRICTS[zone].models[m] = new_model;
       }
-      await sleep(Math.random() * 50 * speed);
+      compteur++;
+      if(compteur % steps == 0) await sleep(Math.random() * 50 * speed);
     }
   }
 }
