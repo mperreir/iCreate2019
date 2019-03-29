@@ -9,7 +9,7 @@ let rotationCamera = -0.45;
 let local_state = -1;
 let nbIm = 0;
 let nbMa = 0;
-let global_state = 0; // For the tests
+let global_state = -1; // For the tests
 let population = 0;
 let population_ajoute = 0;
 let sound;
@@ -154,6 +154,7 @@ function getState(){
 	fetch(url).then(function(reponse){
 		return reponse.json()
 	}).then(function(json){
+		csonsole.log(json)
 		global_state = json["Etat"];
 		if(global_state == 3 && json["NbMaisons"] != nbMa){
 			addHouse();
