@@ -52,9 +52,12 @@ class ArduReader(threading.Thread):
                                 GLOBALSTATE["Etat"] = 1
 
                         if(GLOBALSTATE["Etat"] == 4):
+                            print("state 4")
                             if(tab["A4"] > SEUIL_MINIMAL):
+                                print("addMa")
                                 GLOBALSTATE["NbMaisons"] += 1
                             if(tab["A5"] > SEUIL_MINIMAL):
+                                print("addIm")    
                                 GLOBALSTATE["NbImmeubles"] += 1
                             time.sleep(3)
 
