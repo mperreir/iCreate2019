@@ -35,7 +35,7 @@ class FenetreQuestion extends PApplet {
   LeapMotion leapF;
   void setup() {
 
-    background(255);
+    background(0);
     right = width;
     bottom0 = height ;
     top1 = bottom0 + 1;
@@ -193,11 +193,11 @@ class FenetreQuestion extends PApplet {
 
     
     transitionText( nfc(etatStats_nbHabitant), 80, col2, (height/2)-160, etatStats_tempA, 15, LEFT, TOP);
-    transitionText("habitant en 2016", 30, col2+20, (height/2)-80, etatStats_tempA, 15, LEFT, TOP);
+    transitionText("habitants en 2016", 30, col2+20, (height/2)-80, etatStats_tempA, 15, LEFT, TOP);
 
 
     shape(terrainShape,col2+50, height-450, etatStats_i, etatStats_i);
-    transitionText("+1,8 stade par jour", 50, col2+300, height-300, etatStats_tempA, 15, LEFT, BOTTOM);
+    transitionText("+1,8 stades par jour", 50, col2+300, height-300, etatStats_tempA, 15, LEFT, BOTTOM);
     
    
     transitionText("Source : observatoire.loire-atlantique.fr", 20, width-5, height-30, etatStats_tempA, 15, RIGHT, BOTTOM);

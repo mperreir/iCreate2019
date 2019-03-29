@@ -17,9 +17,15 @@ PGraphics shapeArbre;
 
 Arbre arbre;
 
+float lampX = -10;
+float lampY = 10;
+int lampW = 820;
+int lampH = 1380;
+
 PImage carte;
 PImage carte1999;
 PImage carte2016;
+PImage lampadaire;
 
 LeapMotion leap;
 
@@ -38,24 +44,26 @@ void settings() {
 
 
 void setup() {
-  
+
   texte = loadStrings("Score.txt");
   frameRate(30);
   Fisica.init(this);
-  textureArbre = loadImage("img/texturearbre.jpg");
-  textureArbre.resize(width, height);
 
   world = new FWorld();
   arbre = new Arbre(world);
 
   leap = new LeapMotion(this).allowGestures("swipe");  // Leap detects only swipe gestures
 
-  
-   //carte = loadImage("carte.png");
-   //carte1999 = loadImage("carte 1999.png");
-   //carte2016 = loadImage("carte 2016.png");
-  
-  
+  lampadaire = loadImage("lampadaire.png");
+  lampadaire.resize(lampW, lampH);
+  carte = loadImage("carte.png");
+  carte1999 = loadImage("carte1999.png");
+  carte2016 = loadImage("carte2016.png");
+  carte1999.resize(width/2, height/4);
+  carte2016.resize(width/2, height/4);
+  carte.resize(width/2, height/4);
+
+
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
   fenetreQuestion.logoLA = loadImage("logola.png");
   q= new Questionnaire();
@@ -65,20 +73,34 @@ void setup() {
     }
     , fenetreQuestion);
 }
-
+int etatTranstionCarte = 300;
 void draw() {
-  background(255);
+  background(0);
   //shape(shapeArbre,0,0);
   //image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   arbre.draw();
   world.draw();
-  
-  //image(carte, 0, 0);
-  //image(carte1999, 0, 0);
-  //image(carte2016, 0, 0);
-  
+
+  if (fenetreQuestion.etat == 4) {
+    image(lampadaire, lampX, lampY);
+    if (etatTranstionCarte> 0) {
+      image(carte1999, 0, 0);
+      etatTranstionCarte--;
+    }
+    if (etatTranstionCarte >200) {
+
+      image(carte, 0, 0);
+    } else if (etatTranstionCarte >100) {
+      image(carte1999, 0, 0);
+    } else {
+      image(carte2016, 0, 0);
+    }
+  }
+
+
+
   fenetreQuestion.hands = leap.getHands();
 }
 
@@ -86,11 +108,86 @@ void mousePressed() {
   //arbre.feuillage(mouseX,mouseY,mouseX+100, mouseY+100);
   arbre.setTimeFrame(50);
   arbre.destroyLeaf(10);
-  
 }
 
 void keyPressed() {
+  println(keyCode);
   //arbre.reset();
+  //traitementLampadaire();
+  if (keyCode == 37) {
+    println("Gauche");
+    arbre.setTimeFrame(50);
+    if (fenetreQuestion.etat == 2) {
+      fenetreQuestion.etatQuestion_choix = 1;
+      arbre.destroyLeaf((q.repondre(2)*100)/140);
+      fenetreQuestion.setEtat(3);
+    }
+  }
+
+  if (keyCode == 39) {
+    println("Droite ");
+    arbre.setTimeFrame(50);
+    //arbre.destroyLeaf(20);
+    if (fenetreQuestion.etat == 2) {
+      fenetreQuestion.etatQuestion_choix = 2;
+      arbre.destroyLeaf((q.repondre(1)*100)/140);
+      fenetreQuestion.setEtat(3);
+    }
+  }
+
+  if (keyCode == 38) {
+    println("Haut");
+    if (fenetreQuestion.etat == 1) {
+      lancerQuestionnaire();
+    }
+  }
+  //down to go down sizebrush 
+  if (keyCode == 40) {
+    println("Bas");
+    if (fenetreQuestion.etat==4) {          
+      q.stockScore();
+      arbre.reset();
+      etatTranstionCarte = 300;
+      fenetreQuestion.setEtat(1);
+    }
+  }
+}
+
+void traitementLampadaire() {
+  if (keyCode == 38) {
+    lampY += 10;
+  }
+  //down to go down sizebrush 
+  if (keyCode == 40) {
+    lampY -= 10;
+  }
+  if (keyCode == 37) {
+    lampX -= 10;
+  }
+
+  if (keyCode == 39) {
+    lampX += 10;
+  }
+
+  //size
+  if (key == 'd') {
+    lampW += 10;
+  }
+
+  if (key == 'q') {
+    lampW -= 10;
+  }
+
+  if (key == 'z') {
+    lampH -= 10;
+  }
+
+  if (key == 's') {
+    lampH += 10;
+  }
+  println(keyCode);
+  lampadaire.resize(lampW, lampH);
+  println(lampX, lampY, lampW, lampH);
 }
 
 PShape loadShapeFromJson(String file) {
@@ -165,6 +262,7 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
       println("SwipeGesture: " + direction);
       if (direction.x > 60) { //droite 
         println("Droite ");
+        arbre.setTimeFrame(50);
         //arbre.destroyLeaf(20);
         if (fenetreQuestion.etat == 2) {
           fenetreQuestion.etatQuestion_choix = 2;
@@ -173,6 +271,7 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
         }
       } else if (direction.x < -50) { //gauche 
         println("Gauche");
+        arbre.setTimeFrame(50);
         if (fenetreQuestion.etat == 2) {
           fenetreQuestion.etatQuestion_choix = 1;
           arbre.destroyLeaf((q.repondre(2)*100)/140);
@@ -186,8 +285,10 @@ void leapOnSwipeGesture(SwipeGesture g, int state) {
         }
       } else if (direction.y < -80) { //gauche 
         println("Bas");
-        if(fenetreQuestion.etat==4){          
+        if (fenetreQuestion.etat==4) {          
           q.stockScore();
+          arbre.reset();
+          etatTranstionCarte = 300;
           fenetreQuestion.setEtat(1);
         }
       }

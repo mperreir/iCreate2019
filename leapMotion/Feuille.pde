@@ -51,12 +51,13 @@ class Branch {
   PGraphics drawBranch(int nColor) {
     PGraphics g = createGraphics(width, height);
     g.beginDraw();
+    
     for (int i = 1; i < points.size(); i++) {
       g.strokeWeight(points.size()-i);
-      g.stroke(nColor);
+      g.stroke(45,37,0);
       g.line(points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y);
       g.strokeWeight(points.size()-i);
-      g.stroke(nColor);
+      g.stroke(45,37,0);
       g.line(points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y);
     }
     g.endDraw();
@@ -68,7 +69,7 @@ class Branch {
     g.beginDraw();
     for (int i = 3; i < points.size(); i++) {
       g.strokeWeight(1.5 * (points.size()-i));
-      g.stroke(nColor);
+       g.stroke(255,255,255);
       g.curve(points.get(i-3).x, points.get(i-3).y, points.get(i-2).x, points.get(i-2).y, points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y);
       if (i >= points.size()-1) {
         g.curve(points.get(i-2).x, points.get(i-2).y, points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y, points.get(i).x, points.get(i).y);
