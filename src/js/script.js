@@ -113,7 +113,6 @@ async function startGame(event){
 				break;
 			case 4:
 				updateDate(2019,5);
-				await moveCamera(0,50,130,-0.17,20,100);
 
 				await expansionV2(scene, 3, global_speed);
 				await sleep(2000);
@@ -124,6 +123,7 @@ async function startGame(event){
 				document.getElementById('people').style.opacity = 1;
 				let old_population = 0;
 				let grow_speed = 1;
+				await moveCamera(0,50,130,-0.17,20,100);
 
 					let actualisationState = async () => {
 						while(true){
