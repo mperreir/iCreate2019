@@ -112,6 +112,8 @@ async function startGame(event){
 				break;
 			case 3:
 				updateDate(2019,5);
+				await moveCamera(0,50,130,-0.10,20,100);
+
 				await expansionV2(scene, 3, global_speed);
 				await sleep(4000);
 				document.getElementById('housePopulation').style.fontSize = '3em';
