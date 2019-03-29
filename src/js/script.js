@@ -152,9 +152,10 @@ function getState(){
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
 	fetch(url).then(function(reponse){
+		console.log(reponse)
 		return reponse.json()
 	}).then(function(json){
-		csonsole.log(json)
+		console.log(json)
 		global_state = json["Etat"];
 		if(global_state == 3 && json["NbMaisons"] != nbMa){
 			addHouse();
