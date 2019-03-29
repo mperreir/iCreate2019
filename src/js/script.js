@@ -111,21 +111,19 @@ async function startGame(event){
 			case 3:
 				updateDate(2019,5);
 				await expansionV2(scene, 3, global_speed);
-
-				document.addEventListener('keypress', interactionEvent);
-				document.getElementById('personnes').style.opacity = 1;
-				document.getElementById('people').style.opacity = 1;
-
 				await sleep(4000);
 				document.getElementById('housePopulation').style.fontSize = '3em';
 				await sleep(3000);
 				document.getElementById('housePopulation').style.fontSize = '0em';
+				document.addEventListener('keypress', interactionEvent);
+				document.getElementById('personnes').style.opacity = 1;
+				document.getElementById('people').style.opacity = 1;
 				let old_population = 0;
 				let grow_speed = 1;
 				while(population_ajoute < 150){
 					population += Math.round(Math.random() * grow_speed);
 					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
-					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 5;
+					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 10;
 					await sleep(1000);
 					if(old_population < 50 && population_ajoute > 50) tempGlitch(300);
 					if(old_population < 80 && population_ajoute > 80) tempGlitch(300);
@@ -137,6 +135,7 @@ async function startGame(event){
 					old_population = population_ajoute;
 				};
 				active_renderer = glitch_renderer;
+				setTimeout(()=>{document.getElementById('outro').style.opacity = 1}, 5000);
 				break;
 		}
 		local_state = temp_state;
