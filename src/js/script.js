@@ -66,12 +66,12 @@ async function init() {
 	await treeMap(scene, models3D);
 	startGame();
 
-	await sleep(5000);
-	global_state++;
-	await sleep(5000);
-	global_state++;
-	await sleep(5000);
-	global_state++;
+	// await sleep(5000);
+	// global_state++;
+	// await sleep(5000);
+	// global_state++;
+	// await sleep(5000);
+	// global_state++;
 }
 
 async function startGame(event){
