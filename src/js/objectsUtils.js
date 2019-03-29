@@ -88,7 +88,7 @@ function createLocalModels(models3D){
 	models3D.high_house.position.y += 2;
 
 
-	let fields =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/fields.png");
+	let fields =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/fields3.png");
 	fields.magFilter = THREE.LinearFilter;
 	fields.anisotropy = renderer.getMaxAnisotropy();
 	materialArray = [
@@ -99,7 +99,7 @@ function createLocalModels(models3D){
 			new THREE.MeshBasicMaterial( { color: 0x874620 } ),
 			new THREE.MeshBasicMaterial( { color:0x874620  } ),
 	];
-	geometry = new THREE.BoxGeometry(4, 0.2, 4);
+	geometry = new THREE.BoxGeometry(4, 0.1, 4);
 	cube = new THREE.Mesh(geometry, materialArray);
 	models3D.field = cube;
 	models3D.field.position.y += 0.2;
