@@ -1,11 +1,15 @@
-# iCreate2019
+# La DeadPool pour iCreate2019
+
+Ce projet est réalisable sur n'importe quelle structure en forme d'arbre, il faut mapper le tronc et les branches pour chaque nouvelle structure.
+
 ## Matériel nécessaire
 1. Un vidéoprojecteur
 2. Un écran 24 pouces (pour qu'il rentre dans la structure faite à cet usage)
 3. Un ordinateur ayant deux sortie vidéo et avec 8Gb de ram
-4. Une structure sur laquelle projeter
+4. Une structure en forme d'arbre sur laquelle projeter
 5. Cable et rallonge à prévoir
 6. Leapmotion
+
 
 ## Logiciels nécessaires et procédure d'installation
 ### Logiciels et librairies nécessaires :
@@ -37,7 +41,9 @@ Vous disposez des touches suivantes pour controler le visuel des branches et l'e
 - `x` supprime la branche en cours et revient à la branche précédente
 - `y` active l'effet de vent
 
-#### Lancement du leapMotion
+
+## Procédures de montage et de lancement du projet
+### Lancement du leapMotion
 Lancement du leapMotion
 ```bash
 sudo leapd
@@ -45,6 +51,6 @@ sudo leapd
 >>> 
 Si le leapMotion ne fonctionne pas bien on peut répondre aux questions avec les touches du clavier
 
- 
+Lancer le skecth leapMotion 
 
-Source code of the different groups of iCreate project 2019
+
