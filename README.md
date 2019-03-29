@@ -48,8 +48,7 @@ Lancement du leapMotion
 ```bash
 sudo leapd
 ```
->>> 
-Si le leapMotion ne fonctionne pas bien on peut répondre aux questions avec les touches du clavier
+> Si le leapMotion ne fonctionne pas bien on peut répondre aux questions avec les touches du clavier
 
 Lancer le skecth leapMotion 
 
