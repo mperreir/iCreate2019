@@ -162,18 +162,17 @@ function getState(){
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
 	fetch(url).then(function(reponse){
-		console.log(reponse)
 		return reponse.json()
 	}).then(function(json){
 		console.log(json)
 		global_state = json["Etat"];
-		if(global_state == 3 && json["NbMaisons"] != nbMa){
+		if(global_state == 4 && json["NbMaisons"] != nbMa){
 			addHouse();
 			population -= 2;
 			population_ajoute += 2;
 			updatePopulation();
 		}
-		if(global_state == 3 && json["NbImmeubles"] != nbMa){
+		if(global_state == 4 && json["NbImmeubles"] != nbMa){
 			addBuilding();
 			population -= 10;
 			population_ajoute += 10;
