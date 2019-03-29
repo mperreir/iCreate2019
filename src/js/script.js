@@ -20,6 +20,7 @@ function animate() {
 	requestAnimationFrame(animate);
 	active_renderer.render(scene, camera);
 };
+
 init();
 
 async function init() {
@@ -39,7 +40,6 @@ async function init() {
 	renderer.gammaFactor = 2.2;
 	renderer.shadowMap.enabled= true;
 	active_renderer = renderer;
-	div.appendChild(renderer.domElement);
 
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
@@ -50,15 +50,17 @@ async function init() {
 	makeLight();
 	makeSky();
 	await createMap();
+	div.appendChild(renderer.domElement);
 	renderer.render(scene, camera);
 	// Postproduction
 	setShaders();
 
 	animate();
 	// Starting the game
+	cloudySky();
 	await loadEveryModels(models_paths, models3D);
 	buildDistricts();
-	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
+	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 4000);
 	updateDate(1500,1);
 	await treeMap(scene, models3D);
 	startGame();
@@ -255,4 +257,29 @@ let tempGlitch = async (temp) => {
 	active_renderer = glitch_renderer;
 	await sleep(temp);
 	active_renderer = saturation_renderer;
+}
+
+async function cloudySky(){
+	var geometry = new THREE.BoxGeometry(13, 4, 8);
+	var material = new THREE.MeshBasicMaterial({color: 0xFFFFFF, transparent:true, opacity:0.8});
+	var cube = new THREE.Mesh(geometry, material);
+	cloud = cube;
+	cloud.position.y = 80;
+
+	let animCloud = async (c) => {
+		while (true) {
+			if(c.position.x < -300)	c.position.x = 300;
+			c.position.x -= 1;
+			await sleep(25);
+		}
+	}
+
+	for(let i = 0; i < 20; i++){
+		let new_cloud = await cloud.clone();
+		new_cloud.position.x = 300;
+		new_cloud.position.z = Math.random() * 150 - 75;
+		scene.add(new_cloud);
+		animCloud(new_cloud);
+		await sleep(Math.random() * 600);
+	}
 }
