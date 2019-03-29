@@ -55,6 +55,7 @@ async function init() {
 	// Postproduction
 	setShaders();
 
+	document.addEventListener('keypress', interactionEvent);
 	animate();
 	// Starting the game
 	cloudySky();
@@ -119,7 +120,6 @@ async function startGame(event){
 				document.getElementById('housePopulation').style.fontSize = '3em';
 				await sleep(3000);
 				document.getElementById('housePopulation').style.fontSize = '0em';
-				document.addEventListener('keypress', interactionEvent);
 				document.getElementById('personnes').style.opacity = 1;
 				document.getElementById('people').style.opacity = 1;
 				let old_population = 0;
@@ -174,7 +174,8 @@ function getState(){
 }
 
 function interactionEvent(event){
-	if(population > 0){
+	console.log(event.code)
+	if(population > 0 || true){
 		if(event.code === 'KeyQ'){
 			addHouse();
 			population -= 2;

@@ -253,7 +253,7 @@ function addHouse() {
   for(zone in DISTRICTS){
     for(m in DISTRICTS[zone].models){
       let old_model = DISTRICTS[zone].models[m];
-      if(isSuperieur(models3D.little_house, old_model.userData.name)){
+      if(isSuperieur(models3D.little_house.userData.name, old_model.userData.name)){
         new_model = replaceElement(old_model, models3D.little_house);
         DISTRICTS[zone].models[m] = new_model;
         return true;
