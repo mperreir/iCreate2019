@@ -1,4 +1,4 @@
-from serial import *
+import serial
 import json
 import numpy as np
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ class ArduReader(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        with Serial(port="COM5", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
+        with serial.Serial(port="COM4", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
             if port_serie.isOpen():
                 while port_serie.isOpen():
                     val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
