@@ -25,6 +25,7 @@ SEUIL_MINIMAL = 50
 class ArduReader(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        print("init")
 
     def run(self):
         with serial.Serial(port="COM4", baudrate=9600, timeout=1, writeTimeout=1) as port_serie:
@@ -57,7 +58,7 @@ class ArduReader(threading.Thread):
                                 print("addMa")
                                 GLOBALSTATE["NbMaisons"] += 1
                             if(tab["A5"] > SEUIL_MINIMAL):
-                                print("addIm")    
+                                print("addIm")
                                 GLOBALSTATE["NbImmeubles"] += 1
                             time.sleep(3)
 
