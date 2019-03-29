@@ -134,18 +134,18 @@ async function startGame(event){
 
 					actualisationState();
 
-				while(population_ajoute < 150){
+				while(population_ajoute < 250){
 					population += Math.round(Math.random() * grow_speed);
-					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
-					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 10;
+					(population_ajoute + population < 15) ? updatePopulation(true) : updatePopulation();
+					(population_ajoute + population < 15) ? grow_speed = 1 : grow_speed = 10;
 					await sleep(1000);
-					if(old_population < 50 && population_ajoute > 50) tempGlitch(300);
-					if(old_population < 80 && population_ajoute > 80) tempGlitch(300);
-					if(old_population < 100 && population_ajoute > 100){
+					if(old_population < 100 && population_ajoute > 100) tempGlitch(300);
+					if(old_population < 130 && population_ajoute > 130) tempGlitch(300);
+					if(old_population < 180 && population_ajoute > 180){
 						tempGlitch(300);
 						diminutionSaturation();
 					}
-					if(old_population < 120 && population_ajoute > 120) tempGlitch(300);
+					if(old_population < 150 && population_ajoute > 150) tempGlitch(300);
 					old_population = population_ajoute;
 				};
 				active_renderer = glitch_renderer;
