@@ -64,7 +64,7 @@ function makeSky(){
 
 async function createMap(){
 	texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture.jpg");
-	material = new THREE.MeshLambertMaterial({ map: texture});
+	material = new THREE.MeshLambertMaterial({map: texture});
 	plane = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), material);
 	plane.material.side = THREE.DoubleSide;
 	plane.position.x = 10;

@@ -1,4 +1,5 @@
 let CONTAINER = [];
+let DISTRICTS = [];
 
 function getCirclePitSteps(width, length, object_width, object_length){
   let normalized_width = width / object_width;
@@ -13,7 +14,7 @@ function getCirclePitSteps(width, length, object_width, object_length){
   let counter = 0;
   let counter_limit = 9;
 
-  var res = [[]];
+  let res = [[]];
 
   while(counter < normalized_width * normalized_length){
     if(dx > 0){
@@ -53,12 +54,24 @@ function getCirclePitSteps(width, length, object_width, object_length){
   return res;
 }
 
+function circle (radius, steps, centerX, centerY, limitY=85){
+    let xValues = [centerX];
+    let yValues = [centerY];
+    inter=[];
+    for (let i = 1; i < steps; i++) {
+        xValues = (centerX + radius * Math.cos(Math.PI * i / steps*2-Math.PI/2));
+        yValues = (centerY + radius * Math.sin(Math.PI * i / steps*2-Math.PI/2));
+        if(yValues < limitY && yValues > -limitY) inter.push({'x':xValues,'y':yValues})
+   }
+   return inter;
+}
+
+
 function makeCircle(rayonmax, padding_max){
-  var res = [[]];
+  let res = [[]];
   rayon = padding_max;
   while (rayon < rayonmax){
     steps = 2 * rayon * Math.PI / padding_max;
-
     res.push(circle(rayon, steps, 0, 0));
     inter=[];
     rayon+=padding_max;
@@ -66,38 +79,114 @@ function makeCircle(rayonmax, padding_max){
   return res;
 }
 
-async function expansion(models, scene, speed=1, width=300, length=300, rand=2, padding=2){
+function buildDistricts(padding=1.5, size=130){
+  let max = getHugestObject(Object.values(models3D));
+  // TODO: Adapter pour un rayon plus grand
+  let steps = makeCircle(size, Math.max(max.userData.length, max.userData.width) + padding);
+  for(let i=0;i<10;i++) DISTRICTS.push({positions:[],models:[]});
+  for(let s of steps){
+    for(let pos of s){
+      let zone = getZone(pos.x + (max.userData.width/2), pos.y+(max.userData.length/2));
+      DISTRICTS[zone-1].positions.push(pos);
+    }
+  }
+}
+
+function getYearInformation(state){
+  let annee = 1500;
+  switch(state){
+    case 0:
+      annee = 1850;
+      break;
+    case 1:
+      annee = 1950;
+      break;
+    case 2:
+      annee = 1999;
+      break;
+    case 3:
+      annee = 2019;
+      break;
+  }
+  return data[annee];
+}
+
+async function expansionV2(scene, state, speed=1, rand=1, steps=4){
+  let annee = getYearInformation(state);
+
+  // let add_model = async (pos,new_model,zone) => {
+  //   let x = pos.x + Math.random() * rand;
+  //   let y =  pos.y + Math.random() * rand;
+  //   let z = new_model.position.y;
+  //
+  //   let rotation =  Math.PI * Math.random();
+  //   let bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,rotation);
+  //   if(bo === false){
+  //     new_model.position.set(x, z, y);
+  //     new_model.rotation.set(0, rotation, 0);
+  //     let scale = 1 + ((Math.random() * 0.2) - 0.2);
+  //     new_model.scale.set(scale, scale, scale);
+  //     scene.add(new_model);
+  //     CONTAINER.push(new_model);
+  //     replaceElement(new_model)
+  //   }
+  // };
+
+  // for(zone in DISTRICTS){
+  //   for(pos of DISTRICTS[zone].positions){
+  //     let m = await getModelbyZone(pos.x,pos.y,state);
+  //     add_model(pos, m, zone);
+  //     await sleep(Math.random() * 50 * speed);
+  //   }
+  // }
+  let compteur = 0;
+  for(zone in DISTRICTS){
+    for(m in DISTRICTS[zone].models){
+      let old_model = DISTRICTS[zone].models[m];
+      let new_model = await getModelbyZone(old_model.position.x, old_model.position.y, state);
+      if(isSuperieur(new_model.userData.name, old_model.userData.name)){
+        new_model = replaceElement(old_model, new_model, true);
+        DISTRICTS[zone].models[m] = new_model;
+      }
+      compteur++;
+      if(compteur % steps == 0) await sleep(Math.random() * 50 * speed);
+    }
+  }
+}
+
+async function expansion(models, scene, speed=1, rand=2, padding=2){
   let max = getHugestObject(models);
   steps = makeCircle(100,max.userData.length + padding);
-  //getCirclePitSteps(width, length, max.userData.length + padding,
-      //max.userData.width + padding);
-  let add_model = async () => {
-    var x = pos.x + Math.random() * rand;
-    var y =  pos.y + Math.random() * rand;
-    let new_model = await getModelbyZone(x,y);
-    var z = new_model.position.y;
-    var alpha =  Math.PI * Math.random();
-    var bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
+
+  let add_model = async (pos, zone) => {
+    let x = pos.x + Math.random() * rand;
+    let y =  pos.y + Math.random() * rand;
+    let new_model = (models[Math.floor(Math.random() * models.length)]).clone();
+    let z = new_model.position.y;
+    let alpha =  Math.PI * Math.random();
+    let bo = await regionOccupated(x,y,new_model.userData.width,new_model.userData.length,alpha);
     if(bo === false){
       new_model.position.set(x,z,y);
       new_model.rotation.set(0,alpha, 0);
       // console.log(await getZone(x,y))
       await sleep(Math.random() * 1000 * speed);
-      let scale = 1 + ((Math.random() * 0.3) - 0.3);
+      let scale = 1 + ((Math.random() * 0.1) - 0.1);
       new_model.scale.set(scale, scale, scale);
       scene.add(new_model);
-      CONTAINER.push(new_model);
+      DISTRICTS[zone].models.push(new_model);
     }
   };
 
-  for(var s of steps){
-    for(var pos of s) add_model(pos);
-    await sleep(800*speed);
+  for(zone in DISTRICTS){
+    for(pos of DISTRICTS[zone].positions){
+      add_model(pos, zone);
+      await sleep(Math.random() * 50 * speed);
+    }
   }
 }
 
 async function treeMap(scene, models3D){
-  await expansion([models3D.tree], scene, 0.4, 100, 200, 5, 4);
+  await expansion([models3D.tree, models3D.field], scene, 0.05);
 }
 
 async function houseMap(scene, models3D){
@@ -113,32 +202,22 @@ async function cityMap(scene, models3D){
 
 async function removeMap(scene, models3D){
   let max = CONTAINER.length;
-  for(var i = 0; i < max; i++){
+  for(let i = 0; i < max; i++){
     let temp_object = CONTAINER.shift();
     scene.remove(temp_object);
     await sleep(1);
   }
 }
 
-function circle (radius, steps, centerX, centerY){
-    var xValues = [centerX];
-    var yValues = [centerY];
-    inter=[];
-    for (var i = 1; i < steps; i++) {
-        xValues = (centerX + radius * Math.cos(Math.PI * i / steps*2-Math.PI/2));
-        yValues = (centerY + radius * Math.sin(Math.PI * i / steps*2-Math.PI/2));
-        inter.push({'x':xValues,'y':yValues})
-   }
-   return inter;
-}
-
-function replaceElement(old_model, new_model){
+function replaceElement(old_model, new_model, silent=false){
   //sound2.stop();
-  sound2 = new Howl({
-  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
-  volume: 0.9
-	});
-  sound2.play();
+  if(!silent){
+    sound2 = new Howl({
+    src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
+    volume: 0.9
+  	});
+    sound2.play();
+  }
   new_model = (new_model).clone();
   new_model.rotation.set(0, Math.PI * Math.random(), 0);
   let scale = 1 + ((Math.random() * 0.3) - 0.3);
@@ -146,13 +225,10 @@ function replaceElement(old_model, new_model){
   new_model.position.set(old_model.position.x, new_model.position.y, old_model.position.z);
   scene.add(new_model);
   scene.remove(old_model);
+  return new_model;
 }
 
 function replaceByModel(model){
-  let different_model;
-  let u = 0;
-  while(CONTAINER[u].userData.name === model.userData.name &&
-    u < CONTAINER.length - 1) u++;
 
   if(CONTAINER[u].userData.name !== model.userData.name){
     replaceElement(CONTAINER[u], model);
@@ -161,15 +237,33 @@ function replaceByModel(model){
 }
 
 function addBuilding() {
-  replaceByModel(models3D.building);
+  for(zone in DISTRICTS){
+    for(m in DISTRICTS[zone].models){
+      let old_model = DISTRICTS[zone].models[m];
+      if(old_model.userData.name !== 'building'){
+        new_model = replaceElement(old_model, models3D.building);
+        DISTRICTS[zone].models[m] = new_model;
+        return true;
+      }
+    }
+  }
 };
 
 function addHouse() {
-  replaceByModel(models3D.little_house);
+  for(zone in DISTRICTS){
+    for(m in DISTRICTS[zone].models){
+      let old_model = DISTRICTS[zone].models[m];
+      if(isSuperieur(models3D.house, old_model.userData.name)){
+        new_model = replaceElement(old_model, models3D.house);
+        DISTRICTS[zone].models[m] = new_model;
+        return true;
+      }
+    }
+  }
 };
 
 async function regionOccupated(x,y,lar,lon,alpha){
-  var maxX,maxY,minX,minY;
+  let maxX,maxY,minX,minY;
   if(alpha < Math.PI/2 ){
     maxX = x + Math.cos(alpha) * lar + Math.cos(alpha - Math.PI/2) * lon;
     minX = x ;
@@ -191,9 +285,9 @@ async function regionOccupated(x,y,lar,lon,alpha){
     maxY = y;
     minY = y + Math.sin(alpha - Math.PI/2) * lon + Math.sin(alpha) * lar;
   }
-	for (var i = Math.round(minX); i <= Math.round(maxX+0.1) ;i++) {
-		for (var j = Math.round(minY); j <=Math.round(maxY+0.1); j++ ){
-			var bo = await isOccupated(i,j)
+	for (let i = Math.round(minX); i <= Math.round(maxX+0.1) ;i++) {
+		for (let j = Math.round(minY); j <=Math.round(maxY+0.1); j++ ){
+			let bo = await isOccupated(i,j)
 			if(bo == true){
 				return true;
 			}
@@ -203,8 +297,8 @@ async function regionOccupated(x,y,lar,lon,alpha){
 }
 
 async function isOccupated(x,y){
-	var rx = x + 200 - 10;
-	var ry = y + 200 + 30;
+	let rx = x + 200 - 10;
+	let ry = y + 200 + 30;
 
 	if(rx > 400 || ry > 400 || rx < 0 || ry < 0){
 		console.log('Out of bounds');
@@ -220,14 +314,11 @@ async function isOccupated(x,y){
 }
 
 function getZone(x,y){
-	var rx = x + 400 + 200 - 10;
-	var ry = y + 200 + 30;
-  var pixel = context.getImageData(rx,ry,1,1).data;
-  var r = pixel[0];
-  var v = pixel[1];
-
-
-
+	let rx = x + 400 + 200 - 10;
+	let ry = y + 200 + 30;
+  let pixel = context.getImageData(rx,ry,1,1).data;
+  let r = pixel[0];
+  let v = pixel[1];
 
   if(r < 50){
     r = 0;
@@ -252,7 +343,6 @@ function getZone(x,y){
   }else{
     v = 255;
   }
-
 
   switch(r){
     case 232:
@@ -297,12 +387,9 @@ function getZone(x,y){
         return 9;
       }
     break;
-
   }
 
-
   return 99;
-
 	// 3 = (0,82,38)
 	// 4 = (0,128,128)
 	// 5 = (128,128,128)
@@ -312,44 +399,23 @@ function getZone(x,y){
 	// 9 = (255,0,0)
 	// 10 = (0,255,0)
 	// 11 = (0,0,255)
-
 }
 
-
-
-async function getModelbyZone(x,y){
+async function getModelbyZone(x,y,state){
   x = Math.round(x);
   y = Math.round(y);
-  var zoneType = getZone(x,y);
-  var annee  = 1850;
-  switch(global_state){
-    case 0:
-      annee = 1850;
-      break;
-    case 1:
-      annee = 1950;
-      break;
-    case 2:
-      annee = 1999;
-      break;
-    case 3:
-      annee = 2016;
-      break;
-  }
-
-  var value = Math.random() * 100;
-  var i = 0;
+  let zoneType = getZone(x,y);
+  let year = getYearInformation(state);
+  let value = Math.random() * 100;
+  let i = 0;
   while(value >= 0 && i < 6){
-    value -= data[annee][zoneType][i];
+    value -= year[zoneType][i];
     i++;
     //console.log(data[annee][zoneType])
   }
-
-
-
   //aletaoire
   // console.log("model = "+i);
-  return models3D[batNamemanager[i]].clone();
+  return models3D[batNamemanager[i]];
 }
 //Données json
 

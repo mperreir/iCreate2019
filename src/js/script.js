@@ -20,6 +20,7 @@ function animate() {
 	requestAnimationFrame(animate);
 	active_renderer.render(scene, camera);
 };
+
 init();
 
 async function init() {
@@ -39,7 +40,6 @@ async function init() {
 	renderer.gammaFactor = 2.2;
 	renderer.shadowMap.enabled= true;
 	active_renderer = renderer;
-	div.appendChild(renderer.domElement);
 
 	// Scene, lightning and camera organisation
 	scene = new THREE.Scene();
@@ -50,17 +50,24 @@ async function init() {
 	makeLight();
 	makeSky();
 	await createMap();
+	div.appendChild(renderer.domElement);
 	renderer.render(scene, camera);
 	// Postproduction
 	setShaders();
 
-	// Starting the game
 	animate();
+	// Starting the game
+	cloudySky();
 	await loadEveryModels(models_paths, models3D);
+	buildDistricts();
+	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 4000);
+	updateDate(1500,1);
+	await treeMap(scene, models3D);
 	startGame();
 
-	await sleep(10000);
-	console.log("etat 2");
+	await sleep(5000);
+	global_state++;
+	await sleep(5000);
 	global_state++;
 	await sleep(5000);
 	global_state++;
@@ -69,57 +76,58 @@ async function init() {
 async function startGame(event){
 
 	let temp_state = getState();
-
+	let global_speed = 0.001;
 
 	if(temp_state !== local_state){
 		//await moveCamera(0,10,50,-0.05,20,100);
 
 		switch(temp_state) {
 			case 0:
-				console.log("etat 1")
-				updateDate(1500,5);
-				setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
-
-				await treeMap(scene, models3D);
+				updateDate(1900,5);
+				await expansionV2(scene, 0, global_speed);
 				break;
 			case 1:
-				console.log("etat 1 1 1")
 				sound.stop();
 				sound = new Howl({
-				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
-				volume: 0.9,
-				loop : true
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
+					volume: 0.9,
+					loop : true
 				});
 				sound.play();
-
+				updateDate(1950,5);
+				await expansionV2(scene, 1, global_speed);
 				removeMap(scene, models3D);
 				break;
 			case 2:
-				updateDate(2019,15);
 				sound.stop();
 				sound = new Howl({
-				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
-				volume: 0.9,
-				loop : true
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
+					volume: 0.9,
+					loop : true
 				});
 				sound.play();
-
-				await cityMap(scene, models3D);
+				updateDate(1999,5);
+				await expansionV2(scene, 2, global_speed);
 				//await moveCamera(0,10,50,-0.1,20,100);
-				document.addEventListener('keypress', interactionEvent);
-				document.getElementById('personnes').style.opacity = 1;
-				document.getElementById('people').style.opacity = 1;
+				break;
+			case 3:
+				updateDate(2019,5);
+				await moveCamera(0,50,130,-0.17,20,100);
 
+				await expansionV2(scene, 3, global_speed);
 				await sleep(4000);
 				document.getElementById('housePopulation').style.fontSize = '3em';
 				await sleep(3000);
 				document.getElementById('housePopulation').style.fontSize = '0em';
+				document.addEventListener('keypress', interactionEvent);
+				document.getElementById('personnes').style.opacity = 1;
+				document.getElementById('people').style.opacity = 1;
 				let old_population = 0;
 				let grow_speed = 1;
 				while(population_ajoute < 150){
 					population += Math.round(Math.random() * grow_speed);
 					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
-					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 5;
+					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 10;
 					await sleep(1000);
 					if(old_population < 50 && population_ajoute > 50) tempGlitch(300);
 					if(old_population < 80 && population_ajoute > 80) tempGlitch(300);
@@ -130,11 +138,8 @@ async function startGame(event){
 					if(old_population < 120 && population_ajoute > 120) tempGlitch(300);
 					old_population = population_ajoute;
 				};
-				global_state++;
-				break;
-			case 3:
 				active_renderer = glitch_renderer;
-				//await moveCamera(0,10,50,-0.15,20,100);
+				setTimeout(()=>{document.getElementById('outro').style.opacity = 1}, 5000);
 				break;
 		}
 		local_state = temp_state;
@@ -150,8 +155,20 @@ function getState(){
 		return reponse.json()
 	}).then(function(json){
 		global_state = json["Etat"];
+		if(global_state == 3 && json["NbMaisons"] != nbMa){
+			addHouse();
+			population -= 2;
+			population_ajoute += 2;
+			updatePopulation();
+		}
+		if(global_state == 3 && json["NbImmeubles"] != nbMa){
+			addBuilding();
+			population -= 10;
+			population_ajoute += 10;
+			updatePopulation();
+		}
 		nbIm = json["NbImmeubles"];
-		nbMa = json["NbMaisons"]
+		nbMa = json["NbMaisons"];
 	})
 	return global_state;
 }
@@ -217,7 +234,6 @@ async function updateDate(limit, delay=10){
 async function updatePopulation(detail=false,delay=30){
 	let popu = document.getElementById('personnes');
 	let current_population = parseInt(popu.textContent);
-	console.log(detail);
 	if(detail && current_population !== population) document.getElementById('inhabitant').style.fontSize = '2.5em';
 	while(current_population !== population){
 		if(current_population < population) current_population++;
@@ -234,7 +250,7 @@ async function updatePopulation(detail=false,delay=30){
 let diminutionSaturation = async () => {
 	let saturation = saturation_renderer.passes[1].uniforms.saturation;
 	while(saturation.value > 0.1){
-		saturation_renderer.passes[1].uniforms.saturation.value -= 0.01
+		saturation_renderer.passes[1].uniforms.saturation.value -= 0.01;
 		await sleep(20);
 	};
 }
@@ -243,4 +259,29 @@ let tempGlitch = async (temp) => {
 	active_renderer = glitch_renderer;
 	await sleep(temp);
 	active_renderer = saturation_renderer;
+}
+
+async function cloudySky(){
+	var geometry = new THREE.BoxGeometry(13, 4, 8);
+	var material = new THREE.MeshBasicMaterial({color: 0xFFFFFF, transparent:true, opacity:0.8});
+	var cube = new THREE.Mesh(geometry, material);
+	cloud = cube;
+	cloud.position.y = 80;
+
+	let animCloud = async (c) => {
+		while (true) {
+			if(c.position.x < -300)	c.position.x = 300;
+			c.position.x -= 1;
+			await sleep(25);
+		}
+	}
+
+	for(let i = 0; i < 20; i++){
+		let new_cloud = await cloud.clone();
+		new_cloud.position.x = 300;
+		new_cloud.position.z = Math.random() * 150 - 75;
+		scene.add(new_cloud);
+		animCloud(new_cloud);
+		await sleep(Math.random() * 600);
+	}
 }
