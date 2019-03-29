@@ -54,10 +54,10 @@ class ArduReader(threading.Thread):
                         if(GLOBALSTATE["Etat"] == 4):
                             if(tab["A4"] > SEUIL_MINIMAL):
                                 GLOBALSTATE["NbMaisons"] += 1
-                                time.sleep(0.5)
+                                time.sleep(2)
                             if(tab["A5"] > SEUIL_MINIMAL):
                                 GLOBALSTATE["NbImmeubles"] += 1
-                                time.sleep(0.5)
+                                time.sleep(2)
 
 
 
