@@ -1,6 +1,6 @@
 # SM'ART SOUND SYSTEM
 
-- Partenaire : Musée d'art de nantes
+- Partenaire : Musée d'Art de Nantes
 
 - Etudiants : 
 
@@ -9,7 +9,7 @@
 	- Montagné Clara
 	- Manoury Jules
 	- Sannequin Violette
-	- Guillaume Graff
+	- Graff Guillaume
 
 
 - Technologie d'entrée : Capteurs de téléphone
@@ -40,12 +40,12 @@ Les programmes qui composent ce projet permettent de mettre en place 5 énigmes 
 - Sortir le téléphone d'un endroit sombre (boîte au centre d'une pièce)
 - Scanner un tag NFC posé de préférence sur une guitare puis agiter le téléphone afin de jouer un son de guitare.
 - Scanner 4 tags NFCs répartis sur divers objets (avec des tags piégés)
-- Recomposer un code de cadenas diffusé de façon séquentiel via des sons spatialisés
+- Recomposer un code de cadenas diffusé de façon séquentielle via des sons spatialisés
 - Retrouver l'auteur du tableau en *swapant* de gauche à droite des portraits et en reposant le téléphone dans un endroit sombre pour valider et terminer le jeu.
 
 Chaque énigme est entrecoupée de séquences narratives audio permettant de faire avancer l'histoire.
 Il y a également divers sons d'ambiance lors de la résolution d'énigme en lien avec l'énigme et l'histoire du tableau.
-On peut participer à l'escape game seul ou en groupe jusqu'à 3 personnes (dans la limite de la place disponible dans la pièce).
+On peut participer à l'escape game seul ou en groupe jusqu'à 5 personnes (dans la limite de la place disponible dans la pièce).
 
 ## Guide de réalisation et d’installation du projet
 
@@ -57,8 +57,8 @@ Pour cette partie rendez-vous dans le dossier ```SM_ART_SERVER/```.
 
 Le serveur a été conçu pour fonctionner avec des enceintes 5.1 (Creative T6300 pour nos tests). Normalement les enceintes sont automatiquement détectées et utilisées en 5.1.
 
-Si ce n'est pas le cas ou si les enceintes fonctionnent seulement en stéréo, rendez-vous sur ce [site](https://kcat.strangesoft.net/openal.html) afin de télécharger l'archive nomée *openal-soft-1.19.1-bin*.
-Extraire les fichiers de l'archive et lancez dans une invite de commande Windows l'exécutable *openal-info64.exe*. Celui-ci va lister les périphériques audio disponibles, repérez alors vos enceintes. La ligne correspondante aux enceinte est de la forme ```OpenAL Soft on Haut-parleurs (USB Sound Device        )```.
+Si ce n'est pas le cas ou si les enceintes fonctionnent seulement en stéréo, rendez-vous sur ce [site](https://kcat.strangesoft.net/openal.html) afin de télécharger l'archive nommée *openal-soft-1.19.1-bin*.
+Extraire les fichiers de l'archive et lancez dans une invite de commande Windows l'exécutable *openal-info64.exe*. Celui-ci va lister les périphériques audio disponibles, repérez alors vos enceintes. La ligne correspondante aux enceintes est de la forme ```OpenAL Soft on Haut-parleurs (USB Sound Device        )```.
 Copiez la ligne associée et dans le fichier ```server.py``` effectuez les changements suivants :
 
 ```python
@@ -79,7 +79,7 @@ Pour lancer le serveur, executez la commande suivante.
 ```bash
 python3 server.py
 ```
-L'adresse IP et le port sur lequel écoute le serveur va s'afficher, utilisez ces information pour configurer le client (l'application mobile).
+L'adresse IP et le port sur lequel écoute le serveur vont s'afficher, utilisez ces informations pour configurer le client (l'application mobile).
 
 ### Application android
 
@@ -93,7 +93,7 @@ Afin d'installer l'application vous pouvez utiliser directement l'APK fourni dan
 
 ##### Si vous êtes sur votre smartphone
 
-Vous poouvez directement télécharger et installer l'application via ce [lien](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/apk/app-release.apk).
+Vous pouvez directement télécharger et installer l'application via ce [lien](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/apk/app-release.apk).
 
 Attention, votre téléphone doit être muni de la technologie NFC.
 
@@ -101,7 +101,7 @@ Attention, votre téléphone doit être muni de la technologie NFC.
 
 Si vous souhaitez construire l'application par vous même il vous faut d'abord vous procurer [node js](https://nodejs.org/en/).
 
-Ensuite ans le [dossier de l'application](./SM_ART), lancer la commande suivante :
+Ensuite dans le [dossier de l'application](./SM_ART), lancer la commande suivante :
 ```bash
 npm install
 ```

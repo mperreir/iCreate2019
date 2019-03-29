@@ -28,15 +28,15 @@
   "ghost": {
     "sound1": {
       "path": "ghost_breaths.wav",
-      "position": [-3,0,3]
+      "position": [-1,0,1]
     },
     "sound2": {
       "path": "ghost_door.wav",
-      "position": [4,0,-4]
+      "position": [3,0,-3]
     },
     "sound3": {
       "path": "ghost_noise.wav",
-      "position": [5,0,5]
+      "position": [3,0,3]
     },
     "sound4": {
       "path": "ghost_piano.wav",
@@ -44,25 +44,25 @@
     },
     "sound5": {
       "path": "ghost_whispers.wav",
-      "position": [0,0,5]
+      "position": [0,0,3]
     }
   },
   "cadenas": {
     "sound1": {
       "path": "bip1_1.wav",
-      "position": [-5,0,-5]
+      "position": [-2,0,-2]
     },
     "sound2": {
       "path": "bip2_7.wav",
-      "position": [-5,0,5]
+      "position": [-2,0,2]
     },
     "sound3": {
       "path": "bip3_5.wav",
-      "position": [5,0,5]
+      "position": [2,0,2]
     },
     "sound4": {
       "path": "bip4_7.wav",
-      "position": [3,0,-3]
+      "position": [2,0,-2]
     }
   }
 }
