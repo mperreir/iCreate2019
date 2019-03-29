@@ -1,7 +1,7 @@
 
 
 class FenetreQuestion extends PApplet {
-  color[] palette = new color[]{  0xff009E4F, 0xff009f00, 0xff006332, 0xff000f00, 0x00000000};
+  color[] palette = new color[]{  0xff000000, 0xff161616, 0xff262626, 0xff363636, 0xff464646};
   color currentStroke = palette[0];
   int bottom0;
   int bottom1;
@@ -26,7 +26,7 @@ class FenetreQuestion extends PApplet {
 
 
   void settings() {
-    fullScreen(1);
+    fullScreen(2);
     //size(900,600);
   }
   PShape terrainShape;

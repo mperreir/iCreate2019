@@ -17,10 +17,16 @@ PGraphics shapeArbre;
 
 Arbre arbre;
 
-float lampX = -10;
-float lampY = 10;
-int lampW = 820;
-int lampH = 1380;
+//float lampX = -10;
+//float lampY = 10;
+//int lampW = 820;
+//int lampH = 1380;
+
+float lampX = 50;
+float lampY = -150;
+int lampW = 900;
+int lampH = 1700;
+float angle = 0.05;
 
 PImage carte;
 PImage carte1999;
@@ -39,7 +45,7 @@ int [] scoreTrie;
 
 
 void settings() {
-  fullScreen(2);
+  fullScreen(3);
 }
 
 
@@ -59,9 +65,11 @@ void setup() {
   carte = loadImage("carte.png");
   carte1999 = loadImage("carte1999.png");
   carte2016 = loadImage("carte2016.png");
-  carte1999.resize(width/2, height/4);
-  carte2016.resize(width/2, height/4);
-  carte.resize(width/2, height/4);
+  int cw =750;
+  int ch =400;
+  carte1999.resize(cw, ch);
+  carte2016.resize(cw-50, ch);
+  carte.resize(cw-50, ch);
 
 
   fenetreQuestion.terrainShape = loadShape("terrain.svg");
@@ -75,32 +83,31 @@ void setup() {
 }
 int etatTranstionCarte = 300;
 void draw() {
-  background(0);
+  background(255);
   //shape(shapeArbre,0,0);
   //image(textureArbre, 0, 0);
   arbre.step();
   world.step();
   arbre.draw();
   world.draw();
-
   if (fenetreQuestion.etat == 4) {
+    rotate(angle);
     image(lampadaire, lampX, lampY);
     if (etatTranstionCarte> 0) {
-      image(carte1999, 0, 0);
-      etatTranstionCarte--;
+      etatTranstionCarte=etatTranstionCarte-5;
     }
     if (etatTranstionCarte >200) {
-
-      image(carte, 0, 0);
+       image(carte, 80, 400);
     } else if (etatTranstionCarte >100) {
-      image(carte1999, 0, 0);
+      image(carte1999, 50, 400);
     } else {
-      image(carte2016, 0, 0);
+      image(carte2016, 95, 400);
     }
   }
 
-
-
+//  rotate(angle);
+//  image(lampadaire, lampX, lampY);
+  
   fenetreQuestion.hands = leap.getHands();
 }
 
@@ -114,6 +121,7 @@ void keyPressed() {
   println(keyCode);
   //arbre.reset();
   //traitementLampadaire();
+  
   if (keyCode == 37) {
     println("Gauche");
     arbre.setTimeFrame(50);
@@ -151,6 +159,7 @@ void keyPressed() {
       fenetreQuestion.setEtat(1);
     }
   }
+  
 }
 
 void traitementLampadaire() {
