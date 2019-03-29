@@ -9,7 +9,7 @@ class Questionnaire {
   Questionnaire() {
     questions = new ArrayList<Question>();
     questions.add(new Question("En zone rurale ou agglomération ?", "En agglomération", 30,1, "En zone rurale", 10,1));
-    questions.add(new Question("Vous préferrez vivre :", "En colocation", 20,2, "Seul", 10,2));
+    questions.add(new Question("Vous préferez vivre :", "En colocation", 20,2, "Seul", 10,2));
     questions.add(new Question("Comment vous déplacez-vous?", "En voiture", 5,3, "En transport en commun", 10,3));
     questions.add(new Question("Préférez vous un appartement ou une maison ?", "Un appartement", 30,4 ,"Une maison", 10,6));
     questions.add(new Question("Une maison isolée ou mitoyenne ?", "Isolée", 10,5, "Mitoyenne", 20,5));

@@ -62,6 +62,15 @@ class Arbre {
       imageBranches.image(graphicBranches.get(i), 0, 0);
     }
     imageBranches.endDraw();
+    
+    textureArbre = loadImage("img/texturearbre.jpg");
+    textureArbre.resize(width, height);
+    textureArbre.mask(imageBranches);
+    PGraphics copy = createGraphics(width, height);
+    copy.beginDraw();
+    copy.image(textureArbre, 0, 0);
+    copy.endDraw();
+    imageBranches = copy;
   }
 
   void brancheFeuille() {
