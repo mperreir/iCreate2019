@@ -32,9 +32,9 @@ class ArduReader(threading.Thread):
             if port_serie.isOpen():
                 while port_serie.isOpen():
                     val = port_serie.readline().decode('utf8').strip('\n').strip('\r')
-                    print("read val")
                     if(val != '' and val[0] == "{" and val[len(val)-1] == "}"):
                         tab = json.loads(val)
+                        print("read val")
                         # if(signalDetected(tab)):
 
                         if(GLOBALSTATE["Etat"] == 3):
