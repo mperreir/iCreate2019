@@ -1,0 +1,68 @@
+{
+  "chasse": {
+    "sound1": {
+      "path": "chasse_dogs.wav",
+      "position": [0,0,0]
+    },
+    "sound2": {
+      "path": "chasse_gunshot.wav",
+      "position": [2,0,-2]
+    },
+    "sound3": {
+      "path": "chasse_gunshot_distant.wav",
+      "position": [2,0,2]
+    },
+    "sound4": {
+      "path": "chasse_gunshot_short.wav",
+      "position": [-2,0,2]
+    },
+    "sound5": {
+      "path": "chasse_horses.wav",
+      "position": [0,0,-2]
+    },
+    "sound6": {
+      "path": "chasse_forest_footsteps.wav",
+      "position": [0,-1,0]
+    }
+  },
+  "ghost": {
+    "sound1": {
+      "path": "ghost_breaths.wav",
+      "position": [-3,0,3]
+    },
+    "sound2": {
+      "path": "ghost_door.wav",
+      "position": [4,0,-4]
+    },
+    "sound3": {
+      "path": "ghost_noise.wav",
+      "position": [5,0,5]
+    },
+    "sound4": {
+      "path": "ghost_piano.wav",
+      "position": [0,0,0]
+    },
+    "sound5": {
+      "path": "ghost_whispers.wav",
+      "position": [0,0,5]
+    }
+  },
+  "cadenas": {
+    "sound1": {
+      "path": "bip1_1.wav",
+      "position": [-5,0,-5]
+    },
+    "sound2": {
+      "path": "bip2_7.wav",
+      "position": [-5,0,5]
+    },
+    "sound3": {
+      "path": "bip3_5.wav",
+      "position": [5,0,5]
+    },
+    "sound4": {
+      "path": "bip4_7.wav",
+      "position": [3,0,-3]
+    }
+  }
+}
