@@ -26,7 +26,7 @@ var models_paths = {
 
 
 
-let data = {1850 :{
+let data = {1850:{
 		1:[60,10,0,0,30,0],
 		2:[30,20,0,0,30,10],
 		3:[10,30,0,0,40,20],
@@ -51,9 +51,9 @@ let data = {1850 :{
 		10:[0,30,10,20,30,40]
 	},
 	1999 :{
-		1 :  [60,0,0,40,0,0],
-		2:  [60,0,0,40,0,0],
-		3:  [50,10,0,30,10,0],
+		1:[60,0,0,40,0,0],
+		2:[60,0,0,40,0,0],
+		3:[50,10,0,30,10,0],
 		4:[40,40,0,20,0,0],
 		5:[40,30,20,10,0,0],
 		6:[10,60,20,0,10,0],
@@ -62,10 +62,10 @@ let data = {1850 :{
 		9:[10,50,20,0,10,10],
 		10:[20,40,20,0,10,10]
 	},
-	2016 :{
-		1 : [40,0,0,60,0,0],
-		2: [40,0,0,60,0,0],
-		3: [50,10,0,50,0,0],
+	2019:{
+		1:[30,20,0,50,0,0],
+		2:[30,20,0,50,0,0],
+		3:[50,10,0,50,0,0],
 		4:[50,10,0,40,0,0],
 		5:[60,10,20,30,0,0],
 		6:[30,30,20,20,0,0],
@@ -77,4 +77,31 @@ let data = {1850 :{
 }
 
 
-let batNamemanager = {1:"high_house",2:"little_house",3:"house_mitoyenne",4:"building",5:"tree", 6:"field"}
+let batNamemanager = {1:"high_house",2:"little_house",3:"house_mitoyenne",4:"building",5:"tree", 6:"field"};
+
+function ordre(name){
+	switch (name) {
+		case "building":
+			return 5
+			break;
+		case "high_house":
+			return 4
+			break;
+		case "house_mitoyenne":
+			return 3
+			break;
+		case "little_house":
+			return 2
+			break;
+		case "tree":
+			return 1
+			break;
+		case "field":
+			return 1
+			break;
+	}
+}
+
+function isSuperieur(new_model, old_model){
+	return (ordre(new_model) > ordre(old_model)) ? true : false;
+}

@@ -54,13 +54,18 @@ async function init() {
 	// Postproduction
 	setShaders();
 
-	// Starting the game
 	animate();
+	// Starting the game
 	await loadEveryModels(models_paths, models3D);
+	buildDistricts();
+	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
+	updateDate(1500,1);
+	await treeMap(scene, models3D);
 	startGame();
 
-	await sleep(10000);
-	console.log("etat 2");
+	await sleep(5000);
+	global_state++;
+	await sleep(5000);
 	global_state++;
 	await sleep(5000);
 	global_state++;
@@ -69,43 +74,44 @@ async function init() {
 async function startGame(event){
 
 	let temp_state = getState();
-
+	let global_speed = 0.001;
 
 	if(temp_state !== local_state){
 		//await moveCamera(0,10,50,-0.05,20,100);
 
 		switch(temp_state) {
 			case 0:
-				console.log("etat 1")
-				updateDate(1500,5);
-				setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
-
-				await treeMap(scene, models3D);
+				updateDate(1900,5);
+				await expansionV2(scene, 0, global_speed);
 				break;
 			case 1:
-				console.log("etat 1 1 1")
 				sound.stop();
 				sound = new Howl({
-				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
-				volume: 0.9,
-				loop : true
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
+					volume: 0.9,
+					loop : true
 				});
 				sound.play();
-
+				updateDate(1950,5);
+				await expansionV2(scene, 1, global_speed);
 				removeMap(scene, models3D);
 				break;
 			case 2:
-				updateDate(2019,15);
 				sound.stop();
 				sound = new Howl({
-				src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
-				volume: 0.9,
-				loop : true
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
+					volume: 0.9,
+					loop : true
 				});
 				sound.play();
-
-				await cityMap(scene, models3D);
+				updateDate(1999,5);
+				await expansionV2(scene, 2, global_speed);
 				//await moveCamera(0,10,50,-0.1,20,100);
+				break;
+			case 3:
+				updateDate(2019,5);
+				await expansionV2(scene, 3, global_speed);
+
 				document.addEventListener('keypress', interactionEvent);
 				document.getElementById('personnes').style.opacity = 1;
 				document.getElementById('people').style.opacity = 1;
@@ -130,11 +136,7 @@ async function startGame(event){
 					if(old_population < 120 && population_ajoute > 120) tempGlitch(300);
 					old_population = population_ajoute;
 				};
-				global_state++;
-				break;
-			case 3:
 				active_renderer = glitch_renderer;
-				//await moveCamera(0,10,50,-0.15,20,100);
 				break;
 		}
 		local_state = temp_state;
