@@ -38,6 +38,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'grabStrength')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.set_gain(0.1)
 
@@ -58,6 +60,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'pinchStrength')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         play(join(BLA_DIR, f'{trackno}.flac'), until_end=True)
         trackno += 1
@@ -75,6 +79,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=BACK)
         play(join(SFX_DIR, 'rouages.flac'), until_end=True, left_center_right=RIGHT, back_center_front=FRONT)
@@ -93,6 +99,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'handDetected')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         play(join(SFX_DIR, 'opening.flac'), until_end=True)
 
@@ -106,6 +114,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
@@ -124,6 +134,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
@@ -142,6 +154,8 @@ async def main_procedure():
             data = json.loads(data)
             actionPerformed = read_action_from_leap(data, 'moveLeft')
         await websocket.send(unsub)
+        while await websocket.recv():
+            pass
         play(join(SFX_DIR, 'confirm.flac'), until_end=True)
         ambiant.stop()
 
