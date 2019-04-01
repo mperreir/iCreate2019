@@ -59,13 +59,14 @@ html, body{
   bottom: 16px;
   height: 100px;
   opacity: 0;
+	text-align: center;
   transition: all linear 0.5s;
 }
 
-#container #housePopulation{
+#container .info{
   transition: all linear 0.3s;
   width: 100%;
-  top: 37%;
+  top: 35%;
   opacity: 1;
   font-size: 0em;
   text-align: center;

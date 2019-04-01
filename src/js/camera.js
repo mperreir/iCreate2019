@@ -29,6 +29,7 @@ function increment(start,end,incr){
 
 }
 async function moveCamera(x_end, y_end,z_end,newangle,time,nb_transition){
+	let rotationCamera = -0.45;
 	var incrx = Math.abs(camera.position.x-x_end) / nb_transition;
 	var incry = Math.abs(camera.position.y-y_end)/ nb_transition;
 	var incrz = Math.abs(camera.position.z-z_end) / nb_transition;

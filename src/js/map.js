@@ -169,24 +169,25 @@ async function expansion(models, scene, speed=1, rand=2, padding=2){
       new_model.position.set(x,z,y);
       new_model.rotation.set(0,alpha, 0);
       // console.log(await getZone(x,y))
-      await sleep(Math.random() * 1000 * speed);
+      await sleep(Math.random() * 50 * speed);
       let scale = 1 + ((Math.random() * 0.1) - 0.1);
       new_model.scale.set(scale, scale, scale);
       scene.add(new_model);
       DISTRICTS[zone].models.push(new_model);
     }
   };
-
+  let compteur = 0;
   for(zone in DISTRICTS){
     for(pos of DISTRICTS[zone].positions){
       add_model(pos, zone);
-      await sleep(Math.random() * 50 * speed);
+      if(compteur % 5 == 0) await sleep(Math.random() * 70 * speed);
+      compteur++;
     }
   }
 }
 
-async function treeMap(scene, models3D){
-  await expansion([models3D.tree, models3D.field], scene, 0.05);
+async function treeMap(scene, models3D, speed){
+  await expansion([models3D.tree, models3D.field], scene, speed);
 }
 
 async function houseMap(scene, models3D){

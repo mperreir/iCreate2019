@@ -1,15 +1,16 @@
 let renderer, scene, camera, projector, state, glitch_renderer, active_renderer, saturation_renderer;
 let models3D = {};
 let sound2;
-
 let div = document.getElementById('container');
-let mouse = new THREE.Vector2();
-let rotationCamera = -0.45;
+var is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
 
+let global_speed = 0.01;
 let local_state = -1;
+let global_state = 0;
+
+let current_date = 1500;
 let nbIm = 0;
 let nbMa = 0;
-let global_state = -1; // For the tests
 let population = 0;
 let population_ajoute = 0;
 let sound;
@@ -24,7 +25,8 @@ function animate() {
 init();
 
 async function init() {
-	fetch('http://localhost:5002/reset');
+	// Web adaptation
+	// fetch('http://localhost:5002/reset');
 
 	sound = new Howl({
   src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/init.mp3"],
@@ -45,47 +47,41 @@ async function init() {
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.2, 25000);
 	camera.position.set(0, 200, 50);
-	camera.rotation.x = rotationCamera * Math.PI;
+	camera.rotation.x = -0.45 * Math.PI;
+	div.appendChild(renderer.domElement);
 	scene.add(camera);
+	active_renderer.render(scene, camera);
 	makeLight();
 	makeSky();
-	await createMap();
-	div.appendChild(renderer.domElement);
-	renderer.render(scene, camera);
-	// Postproduction
 	setShaders();
+	await createMap();
+	// Postproduction
 
-	document.addEventListener('keypress', interactionEvent);
 	animate();
 	// Starting the game
 	cloudySky();
 	await loadEveryModels(models_paths, models3D);
 	buildDistricts();
-	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 4000);
+	setTimeout(()=>{document.getElementById('logo').style.opacity = 0}, 3000);
 	updateDate(1500,1);
-	await treeMap(scene, models3D);
-	startGame();
 
-	// await sleep(5000);
-	// global_state++;
-	// await sleep(5000);
-	// global_state++;
-	// await sleep(5000);
-	// global_state++;
+	await treeMap(scene, models3D, 1);
+	startGame();
+	setTimeout(()=>{global_state++}, 500); // Web adaptation
 }
 
 async function startGame(event){
 
 	let temp_state = await getState();
-	let global_speed = 0.001;
 
 	if(temp_state !== local_state){
 		//await moveCamera(0,10,50,-0.05,20,100);
 
 		switch(temp_state) {
 			case 1:
-				updateDate(1900,5);
+				updateDate(1900,2); // Web adaptation
 				await expansionV2(scene, 0, global_speed);
+				global_state++; // Web adaptation
 				break;
 			case 2:
 				sound.stop();
@@ -98,6 +94,7 @@ async function startGame(event){
 				updateDate(1950,5);
 				await expansionV2(scene, 1, global_speed);
 				removeMap(scene, models3D);
+				global_state++; // Web adaptation
 				break;
 			case 3:
 				sound.stop();
@@ -109,11 +106,11 @@ async function startGame(event){
 				sound.play();
 				updateDate(1999,5);
 				await expansionV2(scene, 2, global_speed);
+				global_state++; // Web adaptation
 				//await moveCamera(0,10,50,-0.1,20,100);
 				break;
 			case 4:
 				updateDate(2019,5);
-
 				await expansionV2(scene, 3, global_speed);
 				await sleep(2000);
 				document.getElementById('housePopulation').style.fontSize = '3em';
@@ -125,27 +122,36 @@ async function startGame(event){
 				let grow_speed = 1;
 				await moveCamera(0,50,130,-0.17,20,100);
 
-					let actualisationState = async () => {
-						while(true){
-							await getState();
-							await sleep(100);
-						};
-					}
+				let actualisationState = async () => {
+					while(true){
+						await getState();
+						await sleep(100);
+					};
+				}
+				// actualisationState(); // Web adaptation
 
-					actualisationState();
+				let explications = (is_mobile) ? 'explicationsMobile': 'explications';
 
-				while(population_ajoute < 250){
+				document.getElementById(explications).style.fontSize = '3em';
+				await sleep(5000);
+				document.getElementById(explications).style.fontSize = '0em';
+
+				document.addEventListener('keypress', interactionEvent);
+				document.addEventListener('touchstart', interactionEventMobile);
+
+				while(population_ajoute < 200 && population < 1000 && current_date < 2500){
 					population += Math.round(Math.random() * grow_speed);
-					(population_ajoute + population < 15) ? updatePopulation(true) : updatePopulation();
-					(population_ajoute + population < 15) ? grow_speed = 1 : grow_speed = 10;
+					(population_ajoute + population < 10) ? updatePopulation(true) : updatePopulation();
+					(population_ajoute + population < 10) ? grow_speed = 1 : grow_speed = 10;
+					if(Math.random() > 0.6) updateDate(current_date + 1, 0);
 					await sleep(1000);
-					if(old_population < 100 && population_ajoute > 100) tempGlitch(300);
-					if(old_population < 130 && population_ajoute > 130) tempGlitch(300);
-					if(old_population < 180 && population_ajoute > 180){
+					if(old_population < 90 && population_ajoute > 90) tempGlitch(300);
+					if(old_population < 120 && population_ajoute > 120) tempGlitch(300);
+					if(old_population < 140 && population_ajoute > 140) tempGlitch(300);
+					if(old_population < 175 && population_ajoute > 175){
 						tempGlitch(300);
 						diminutionSaturation();
 					}
-					if(old_population < 150 && population_ajoute > 150) tempGlitch(300);
 					old_population = population_ajoute;
 				};
 				active_renderer = glitch_renderer;
@@ -154,11 +160,14 @@ async function startGame(event){
 		}
 		local_state = temp_state;
 	}
+
 	setTimeout(startGame, 100);
 }
 
 async function getState(){
-	// TODO: Fontion à relier au serv python
+	// Web adaptation
+	return global_state;
+
 	//127.0.0.1:5002/data
 	const url='http://localhost:5002/data';
 	await fetch(url).then(function(reponse){
@@ -189,8 +198,15 @@ async function getState(){
 	return global_state;
 }
 
+function interactionEventMobile(event){
+	addBuilding();
+	population -= 10;
+	population_ajoute += 10;
+	if(population < 0) population = 0;
+	updatePopulation(false,0);
+}
+
 function interactionEvent(event){
-	console.log(event.code)
 	if(population > 0 || true){
 		if(event.code === 'KeyQ'){
 			addHouse();
@@ -202,7 +218,7 @@ function interactionEvent(event){
 			population_ajoute += 10;
 		}
 		if(population < 0) population = 0;
-		updatePopulation();
+		updatePopulation(false,0);
 	}
 }
 
@@ -210,16 +226,6 @@ function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	active_renderer.setSize(window.innerWidth, window.innerHeight);
 	camera.updateProjectionMatrix();
-};
-
-function onMouseMove(event) {
-	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-	mouseX = event.clientX - window.innerWidth / 2;
-	mouseY = event.clientY - window.innerHeight / 2;
-	camera.position.x += (mouseX - camera.position.x) * 0.001;
-	camera.position.y += (mouseY - camera.position.y) * 0.001;
-	camera.lookAt(scene.position);
 };
 
 async function loadImage(){
@@ -240,8 +246,8 @@ async function loadImage(){
 
 async function updateDate(limit, delay=10){
 	let date = document.getElementById('date');
-	let current_date = parseInt(date.textContent);
-	while(current_date !== limit){
+	current_date = parseInt(date.textContent);
+	while(current_date < limit){
 		current_date++;
 		date.textContent = current_date;
 		await sleep(delay);
@@ -296,9 +302,9 @@ async function cloudySky(){
 	for(let i = 0; i < 20; i++){
 		let new_cloud = await cloud.clone();
 		new_cloud.position.x = 300;
-		new_cloud.position.z = Math.random() * 150 - 75;
+		new_cloud.position.z = Math.random() * 100 - 50;
 		scene.add(new_cloud);
 		animCloud(new_cloud);
-		await sleep(Math.random() * 600);
+		await sleep(Math.random() * 1000);
 	}
 }
