@@ -49,6 +49,12 @@ On peut participer à l'escape game seul ou en groupe jusqu'à 3 personnes (dans
 
 ## Guide de réalisation et d’installation du projet
 
+### Matériel nécessaire
+
+- 1 smartphone sous android
+- 1 ordinateur windows
+- 7 tags NFC ou n'importe quel autre objet disposant d'une puce NFC
+
 ### Serveur de gestion du son
 
 Pour cette partie rendez-vous dans le dossier ```SM_ART_SERVER/```.
