@@ -4,8 +4,8 @@ function createLocalModels(models3D){
 	var textureLoader = new THREE.TextureLoader();
 	let loader = new THREE.TextureLoader();
 
-	let textureMaison2Porte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison2_porte.png");
-	let textureMaison2SansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison2_sansporte.png");
+	let textureMaison2Porte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Maison2_porte.png");
+	let textureMaison2SansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Maison2_sansporte.png");
 	textureMaison2SansPorte.magFilter = THREE.LinearFilter;
 	textureMaison2SansPorte.anisotropy = renderer.getMaxAnisotropy();
 	textureMaison2Porte.magFilter = THREE.LinearFilter;
@@ -25,8 +25,8 @@ function createLocalModels(models3D){
 
 
 
-	let textureMaisonMitoyennePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_porte.png");
-	let textureMaisonMitoyenneSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/MaisonMitoyenne_sansporte.png");
+	let textureMaisonMitoyennePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/MaisonMitoyenne_porte.png");
+	let textureMaisonMitoyenneSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/MaisonMitoyenne_sansporte.png");
 	textureMaisonMitoyenneSansPorte.magFilter = THREE.LinearFilter;
 	textureMaisonMitoyenneSansPorte.anisotropy = renderer.getMaxAnisotropy();
 	textureMaisonMitoyennePorte.magFilter = THREE.LinearFilter;
@@ -46,8 +46,8 @@ function createLocalModels(models3D){
 	models3D.house_mitoyenne.position.y += 0.75;
 
 
-	let textureImmeublePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Immeuble_porte.png");
-	let textureImmeubleSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Immeuble_sansporte.png");
+	let textureImmeublePorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Immeuble_porte.png");
+	let textureImmeubleSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Immeuble_sansporte.png");
 	textureImmeubleSansPorte.magFilter = THREE.LinearFilter;
 	textureImmeubleSansPorte.anisotropy = renderer.getMaxAnisotropy();
 	textureImmeublePorte.magFilter = THREE.LinearFilter;
@@ -67,8 +67,8 @@ function createLocalModels(models3D){
 	models3D.building.position.y+=4;
 
 
-	let textureMaisonPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_porte.png");
-	let textureMaisonSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/Maison_sansporte.png");
+	let textureMaisonPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Maison_porte.png");
+	let textureMaisonSansPorte =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/Maison_sansporte.png");
 	textureMaisonSansPorte.magFilter = THREE.LinearFilter;
 	textureMaisonSansPorte.anisotropy = renderer.getMaxAnisotropy();
 	textureMaisonPorte.magFilter = THREE.LinearFilter;
@@ -88,7 +88,7 @@ function createLocalModels(models3D){
 	models3D.high_house.position.y += 2;
 
 
-	let fields =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/fields3.png");
+	let fields =loader.load("https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/fields3.png");
 	fields.magFilter = THREE.LinearFilter;
 	fields.anisotropy = renderer.getMaxAnisotropy();
 	materialArray = [

@@ -29,7 +29,7 @@ async function init() {
 	// fetch('http://localhost:5002/reset');
 
 	sound = new Howl({
-  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/init.mp3"],
+  src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/ressources/sounds/init.mp3"],
   volume: 0.5
 	});
 
@@ -86,7 +86,7 @@ async function startGame(event){
 			case 2:
 				sound.stop();
 				sound = new Howl({
-					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1850.mp3"],
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/ressources/sounds/1850.mp3"],
 					volume: 0.9,
 					loop : true
 				});
@@ -99,7 +99,7 @@ async function startGame(event){
 			case 3:
 				sound.stop();
 				sound = new Howl({
-					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/1950.mp3"],
+					src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/ressources/sounds/1950.mp3"],
 					volume: 0.9,
 					loop : true
 				});
@@ -233,14 +233,14 @@ async function loadImage(){
 	img.onload = function(){
 		context.drawImage(img, 0, 0);
 	};
-	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_seuil.jpg";
+	img.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/texture_seuil.jpg";
 	img.crossOrigin='anonymous';
 
 	var img2 = new Image();
 	img2.onload = function(){
 		context.drawImage(img2, 400, 0);
 	};
-	img2.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/textures/texture_zones.jpg";
+	img2.src = "https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/textures/texture_zones.jpg";
 	img2.crossOrigin='anonymous';
 }
 

@@ -214,7 +214,7 @@ function replaceElement(old_model, new_model, silent=false){
   //sound2.stop();
   if(!silent){
     sound2 = new Howl({
-    src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/src/ressources/sounds/chantier.ogg"],
+    src: ["https://raw.githubusercontent.com/morvan-s/iCreate2019/master/archives-departementales/Teker/src/ressources/sounds/chantier.ogg"],
     volume: 0.9
   	});
     sound2.play();
