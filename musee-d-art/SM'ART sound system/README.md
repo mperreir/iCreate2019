@@ -47,6 +47,8 @@ Chaque énigme est entrecoupée de séquences narratives audio permettant de fai
 Il y a également divers sons d'ambiance lors de la résolution d'énigme en lien avec l'énigme et l'histoire du tableau.
 On peut participer à l'escape game seul ou en groupe jusqu'à 5 personnes (dans la limite de la place disponible dans la pièce).
 
+Si vous souhaitez avoir un aperçu des vues de l'application vous pouvez consulter le [README de l'application](./SM_ART/README.md)
+
 ## Guide de réalisation et d’installation du projet
 
 ### Matériel nécessaire
