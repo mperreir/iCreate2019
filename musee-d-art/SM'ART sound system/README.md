@@ -51,8 +51,8 @@ On peut participer à l'escape game seul ou en groupe jusqu'à 5 personnes (dans
 
 ### Matériel nécessaire
 
-- 1 smartphone sous android
-- 1 ordinateur windows
+- 1 smartphone sous Android
+- 1 ordinateur Windows
 - 7 tags NFC ou n'importe quel autre objet disposant d'une puce NFC
 
 ### Serveur de gestion du son
@@ -95,7 +95,7 @@ L'application peut être retrouvée sous ce [dossier](./SM_ART/).
 *L'application n'a été testé que sur des appareils android*.
 ##### Si vous êtes sur un ordinateur
 
-Afin d'installer l'application vous pouvez utiliser directement l'APK fourni dans le [dossier correspondant](./SM_ART/apk), ensuite vous pouvez suivre le tutoriel [suivant](https://www.wondershare.com/fr/mobile-phone/installer-android-application.html) pour l'installer sur un téléphone  .
+Afin d'installer l'application vous pouvez utiliser directement l'APK fourni dans le [dossier correspondant](./SM_ART/apk), ensuite vous pouvez suivre le tutoriel [suivant](https://www.wondershare.com/fr/mobile-phone/installer-android-application.html) pour l'installer sur un téléphone.
 
 ##### Si vous êtes sur votre smartphone
 
@@ -124,4 +124,4 @@ Après avoir installé les programmes nécessaires et mis en place la scène, su
 - Lancez le serveur  via la commande ```python3 server.py``` sur un ordinateur puis relevez l'adresse IP affichée dans la console.
 - Lancez l'application et utilisez le menu de configuration pour entrer l'adresse IP du serveur, vous devez aussi reconfigurer les IDs des tags NFC liés aux énimges via le menu *Tags*.
 - Ensuite vous pouvez lancer directement la partie via le bouton "lancer la partie", attention , une fois lancé vous avez 3 secondes pour placer le téléphone dans l'endroit sombre de la première étape.
-- Le jeu boucle sur lui même, une fois la dernière étape réalisé, le jeu retournera à la première étape.
+- Le jeu boucle sur lui même, une fois la dernière étape réalisée, le jeu retournera à la première étape.
