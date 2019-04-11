@@ -7,7 +7,7 @@ L'application gère chaque énigme comme une sous vues avec ses propres événem
 
 Vous pouvez également consultez ce schéma pour avoir un aperçu des vues, et les fichiers qui leurs correspondent.
 
-![Schéma des vues](./vues_enchaînement.svg)
+![Schéma des vues](./schéma.png)
 
 - T : vue de transition : [](./components/breathingView.js)
 - M1-M5 : menus : [](./menuView.js)
