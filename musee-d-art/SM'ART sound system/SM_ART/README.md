@@ -11,8 +11,8 @@ Vous pouvez également consultez ce schéma pour avoir un aperçu des vues, et l
 
 - T : [vue de transition](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/breathingView.js)
 - M1-M5 : [menus](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/menuView.js)
-- E1 : [Enigme de luminosité](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/lumenView.js)
-- E2 : [Enigme de la guitare](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/guitarView.js)
-- E3 : [Enigme de la chasse et des tags](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/fillingCircleView.js)
-- E4 : [Enigme du cadenas](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/soundView.js)
-- E5 : [Enigme des portraits](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/swaperView.js)
+- E1 : [Enigme de luminosité](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/enigmas/lumenView.js)
+- E2 : [Enigme de la guitare](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/enigmas/guitarView.js)
+- E3 : [Enigme de la chasse et des tags](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/enigmas/fillingCircleView.js)
+- E4 : [Enigme du cadenas](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/enigmas/soundView.js)
+- E5 : [Enigme des portraits](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/components/enigmas/swaperView.js)
