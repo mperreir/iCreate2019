@@ -29,7 +29,7 @@ Le Musée d'Art de Nantes nous a confié ce projet en nous proposant de répondr
 
 *Comment attirer et motiver les enfants et les adolescent à venir au musée pendant leur temps libre tout en leur permettant d'apprendre des choses sur l'art ?*
 
-Ce projet a vu le jour lors du [ICreate 2019](https://projeticreate2019.wixsite.com/icreate19?fbclid=IwAR3sZtT69xuDUp60zoIqp_Ut2Em7cNhtB9y3uWBsRF6w7pOj3tiniH10_LM), une compétition de créativité et de développement rassemblant des élèves de l'école Polytechnique de l'Université de Nantes, de L'école de Design Nantes Atlantique ainsi qu'Audencia SciencesCom.
+Ce projet a vu le jour lors du [ICreate 2019](https://projetICreate2019-1.wixsite.com/icreate19?fbclid=IwAR3sZtT69xuDUp60zoIqp_Ut2Em7cNhtB9y3uWBsRF6w7pOj3tiniH10_LM), une compétition de créativité et de développement rassemblant des élèves de l'école Polytechnique de l'Université de Nantes, de L'école de Design Nantes Atlantique ainsi qu'Audencia SciencesCom.
 
 ### Objectifs et énigmes proposés
 
@@ -101,7 +101,7 @@ Afin d'installer l'application vous pouvez utiliser directement l'APK fourni dan
 
 ##### Si vous êtes sur votre smartphone
 
-Vous pouvez directement télécharger et installer l'application via ce [lien](https://github.com/CuadrosNicolas/ICreate2019/raw/master/SM_ART/apk/app-release.apk).
+Vous pouvez directement télécharger et installer l'application via ce [lien](https://github.com/CuadrosNicolas/ICreate2019-1/raw/master/SM_ART/apk/app-release.apk).
 
 Attention, votre téléphone doit être muni de la technologie NFC.
 
