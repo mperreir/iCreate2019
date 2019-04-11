@@ -7,6 +7,10 @@ import {app,Tags,TagsHandler} from './enigmaBase';
 import {InterView} from './interView';
 import {play_sound,stop_sound, play_ambiance,stop_ambiance} from '../../communications';
 var { height, width } = Dimensions.get('window');
+/**
+ * Vue pour l'énigme de la guitare
+ * Attend le scan du tag de la guitare pour autoriser les secousses et jouer une musique.
+ */
 export class GuitarView extends Component {
 	constructor(props) {
 		super(props)
@@ -19,6 +23,8 @@ export class GuitarView extends Component {
 		TagsHandler.addTagHandler(Tags.guitare,()=>{
 			this.setState({printBack:true});
 			TagsHandler.removeTagHandler(Tags.guitare);
+			//Joue la musique quand une secousse est en cours
+			//Doit être effectué pendant 6 secondes pour passer à l'étape suivante.
 			this.shakingHandler = ShakingHandler(6,17,()=>
 			{
 				play_sound("bambino");

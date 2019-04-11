@@ -5,6 +5,10 @@ import { Image, View, StyleSheet, Animated } from 'react-native'
 import { ShakingHandler } from '../../events';
 import { app, Tags, TagsHandler } from './enigmaBase';
 import { play_sound, stop_sound, play_ambiance, stop_ambiance } from '../../communications';
+/**
+ * Vue pour l'énigme de la chasse
+ * Chaque bon tag scané fait avancé le compteur à l'écran.
+ */
 export class FillingCircleView extends Component {
 	constructor(props) {
 		super(props)
@@ -32,12 +36,14 @@ export class FillingCircleView extends Component {
 			}
 		).start(() => {
 			this.tagHandler = TagsHandler;
+			//Screamer ou son en cas de mauvais tag
 			this.tagHandler.setUnknownHandler(() => {
 				if((Math.random()*4)>2)
 					play_sound("screamer");
 				else
 					play_sound("wrong")
 			});
+			//Gestions des tags nécessaires.
 			Object.getOwnPropertyNames(Tags).map(l => {
 				if (l.includes("chasse_")) {
 					this.tagHandler.addTagHandler(Tags[l], () => {

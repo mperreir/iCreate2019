@@ -5,12 +5,18 @@ import { Animated,Image, View, Text,StyleSheet } from 'react-native'
 import { play_sound, stop_sound, play_ambiance, stop_ambiance,setMessageHandler } from '../../communications';
 import { gyroscopeHandler, lightHandler } from '../../events';
 import { app,Tags,TagsHandler} from './enigmaBase'
+/**
+ * Vue pour l'énigme des portraits
+ * Les mouvements de rotations gauche et droite permettent
+ * de changer de portrait et de lancer une description du portrait.
+ */
 export class SwaperView extends Component {
 	constructor(props) {
 		super(props)
 		this.threshold = 5;
 		this.solution = 2;
 		this.previous = -1;
+		//Animation pour les changements de portraits
 		this.state = {
 			fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
 			sizeAnim: new Animated.Value(150),
@@ -18,6 +24,7 @@ export class SwaperView extends Component {
 			animInProgress:true,
 			continue : false
 		}
+		//Chargement des portraits
 		this.picture = [require("./001-066.jpg"),require("./arton70.jpg"),
 		require("./JBG.jpg"),
 		require("./Jean-Philippe_Rameau_by_Jacques_Aved.jpg"),
@@ -33,6 +40,7 @@ export class SwaperView extends Component {
 		).start(()=>this.setState({animInProgress:false}));
 	}
 	componentDidMount() {
+		//Gestionnaire des rotations.
 		this.gyroHandler = gyroscopeHandler((x, y, z) => {
 			if (z > this.threshold) {
 				this.left()
@@ -42,6 +50,8 @@ export class SwaperView extends Component {
 			}
 		});
 		this.tagHandler = TagsHandler;
+		//Arrête le changement de portrait au contact du tag final
+		//Attend que le téléphone soit dans le noir pour finir la partie.
 		this.tagHandler.addTagHandler(Tags.portrait, () => {
 			try {
 				this.gyroHandler.stop();
@@ -62,6 +72,7 @@ export class SwaperView extends Component {
 		});
 		this.setPicture();
 	}
+	//Change le portrait en cours
 	setPicture()
 	{
 		this.setState({ actualPiture: this.picture[this.state.num] });
@@ -69,6 +80,7 @@ export class SwaperView extends Component {
 			stop_sound("auteur"+(this.previous+1));
 		play_sound("auteur"+(this.state.num+1));
 	}
+	//Animation de déplacement à droite
 	anim_right() {
 		this.state.animInProgress = true;
 		Animated.sequence([
@@ -139,6 +151,7 @@ export class SwaperView extends Component {
 		}); 
 
 	}
+	//Animation de déplacement à gauche
 	anim_left()
 	{
 		this.state.animInProgress = true;
@@ -221,6 +234,9 @@ export class SwaperView extends Component {
 		if (!this.state.animInProgress)
 			this.anim_right();
 	}
+	//Fonction final
+	//Si le portrait est bon -> lancement du son de victoire
+	//Sinon son de défaite.
 	next()
 	{
 		if(this.state.continue)

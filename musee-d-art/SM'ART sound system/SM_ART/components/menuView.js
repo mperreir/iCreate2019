@@ -5,6 +5,11 @@ import { BackgroundView } from './backgroundView';
 import { setIp, load,getIp,stopall } from '../communications'
 import { Tags, setTags, loadTags, TagsHandler } from './enigmas/enigmaBase'
 import {isNFCEnabled} from '../events'
+/**
+ *
+ * Component gérant le menu de l'application
+ * Chauqe sous menu est un component intégré dans le tableau des vues
+ */
 export class MenuView extends Component {
 	//Application first screen
 	//Allow to access the configuration menu

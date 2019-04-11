@@ -2,7 +2,9 @@ import React, {
 	Component,
 } from 'react';
 import { Animated, View } from 'react-native'
-
+/**
+ * Component pour afficher un point d'interrogation battant pour montrer l'attente d'un événement.
+ */
 export class InterView extends Component {
 	state = {
 		fadeAnim: new Animated.Value(1),  // Initial value for opacity: 0

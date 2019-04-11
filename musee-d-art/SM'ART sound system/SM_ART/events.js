@@ -1,8 +1,24 @@
+/**
+ * Fichier contenant les différents types d'événements utilisés.
+ *
+ *
+ * */
 import React, {
 	DeviceEventEmitter // will emit events that you can listen to
 } from 'react-native';
 import { SensorManager } from 'NativeModules';
 import NfcManager, { NfcAdapter } from 'react-native-nfc-manager'
+
+/**
+ *
+ *	Fonction permettant de créer un gestionaire d'événement pour des secousses de téléphone
+ *
+ * @param {*} time Temps de secousse nécessaire
+ * @param {*} threshold Seuil de force (somme des forces selon les axes x,y et de l'accéléromètre)
+ * @param {*} activation Foncion lancé au début d'une secousse
+ * @param {*} stop  Fonction lancé à la fin d'une secouse
+ * @param {*} callback  Evénement à lancer quand l'événement s'est bien réalisé
+ */
 export function ShakingHandler(time,threshold,activation,stop,callback)
 {
 	var begin = false;
@@ -36,16 +52,32 @@ export function ShakingHandler(time,threshold,activation,stop,callback)
 	this.stop = () => { SensorManager.stopAccelerometer();}
 	return this;
 }
+/**
+ * Retourne si le NFC est activé sur le téléphone
+ */
 export function isNFCEnabled()
 {
 	return NfcManager.isEnabled();
 }
+/**
+ * Créer un gestionaire de tag
+ * @param {*} unknownHandler Fonction par défaut pour un tag inconnu
+ */
 export function tagHandler(unknownHandler)
 {
 	this.tagMap = {};
 	this.unknownHandler = unknownHandler;
+	/**
+	 * Fonction permettant de rajouter un événement à un tag
+	 */
 	this.addTagHandler = function(tag,handler){this.tagMap[tag]=handler;};
+	/**
+	 * Retire un tag de la liste des tags
+	 */
 	this.removeTagHandler = function(tag){delete this.tagMap[tag]};
+	/**
+	 * Définit l'événement par défaut
+	 */
 	this.setUnknownHandler = function(handler){this.unknownHandler = handler};
 	this.stop = function(){NfcManager.unregisterTagEvent()};
 	NfcManager.registerTagEvent(
@@ -69,6 +101,9 @@ export function tagHandler(unknownHandler)
 	);
 	return this;
 }
+/**
+ * Désactive le gestionaire d'événement de luminosité
+ */
 function stopLight() {
 	SensorManager.stopLightSensor();
 	DeviceEventEmitter.removeAllListeners('LightSensor');
@@ -76,6 +111,10 @@ function stopLight() {
 var lH = {
 	"stop": stopLight
 }
+/**
+ * Définit un gestionaire d'évenment de luminosité
+ * @param {*} callback Fonction d'événement prenant en paramètre la luminosité.
+ */
 export function lightHandler(callback)
 {
 	SensorManager.startLightSensor(100);	DeviceEventEmitter.addListener('LightSensor', function (data) {
@@ -85,22 +124,17 @@ export function lightHandler(callback)
 	return lH;
 }
 
-function orientationHandler(callback)
-{
-	DeviceEventEmitter.addListener('Orientation', function (data) {
-		callback(data.azimuth,data.pitch,data.roll);
-	}
-	);
-	SensorManager.startOrientation(100);
-	this.stop = () => { SensorManager.stopOrientation(); }
-	return this;
-}
+
 function stop(){
 	SensorManager.stopGyroscope();
 }
 var gyroHandler = {
 	"stop":stop
 }
+/**
+ * Définit un gestionaire d'évenment de rotation
+ * @param {*} callback Fonction d'événement prenant en paramètre les axes du gyroscope (x,y,z)
+ */
 export function gyroscopeHandler(callback) {
 	SensorManager.startGyroscope(100);
 	DeviceEventEmitter.addListener('Gyroscope', function (data) {
@@ -108,14 +142,4 @@ export function gyroscopeHandler(callback) {
 	}
 	);
 	return gyroHandler;
-}
-
-function AccelerometerHandler(callback) {
-	DeviceEventEmitter.addListener('Accelerometer', function (data) {
-		callback(data.x, data.y, data.z);
-	}
-	);
-	SensorManager.startAccelerometer(100);
-	this.stop = () => { SensorManager.stopAccelerometer(); }
-	return this;
 }

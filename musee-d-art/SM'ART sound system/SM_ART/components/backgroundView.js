@@ -2,6 +2,9 @@ import React,{
 	Component,
 } from 'react';
 import {Animated} from 'react-native'
+/**
+ * Fond de base de l'application
+ */
 export class BackgroundView extends React.Component {
 	state = {
 		colorAnim: new Animated.Value(0.9),  // Initial value for opacity: 0

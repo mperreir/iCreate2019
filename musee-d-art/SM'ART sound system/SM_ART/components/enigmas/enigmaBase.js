@@ -1,11 +1,17 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {tagHandler} from '../../events';
+/**
+ * Fichier gérant les données stockés par l'application
+ */
 export var app = null;
 export function setApp(a) {
 	app = a;
 }
 export var Tags = {}
 export var TagsHandler = tagHandler(()=>{});
+/**
+ * Chargement de la liste des tags
+ */
 export function loadTags() {
 	Tags =  {
 			guitare: "045983A2BC5980",
@@ -50,6 +56,11 @@ export function loadTags() {
 	_testData();
 	_retrieveData();
 }
+/**
+ * Assignation d'un tag avec un nom d'événement.
+ * @param {A} name
+ * @param {*} id 
+ */
 export function setTags(name, id) {
 
 	Tags[name] = id;

@@ -5,7 +5,9 @@ import { Animated ,View} from 'react-native'
 import { app } from './enigmaBase';
 import { setMessageHandler } from '../../communications';
 import { play_sound, stop_sound, play_ambiance, stop_ambiance } from '../../communications';
-
+/**
+ * Vue de transition pour les dialogues et temps d'attentes
+ */
 export class BreathingView extends Component {
 	/**
 	 * 

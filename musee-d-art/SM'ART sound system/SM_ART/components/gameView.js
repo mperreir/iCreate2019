@@ -19,11 +19,10 @@ import { setApp } from './enigmas/enigmaBase';
 import { load } from '../communications';
 import {isNFCEnabled} from '../events';
 
-/*
-			<GuitarView></GuitarView>,
-			<FillingCircleView></FillingCircleView>,
-			<SoundView></SoundView>,
-	**/
+/**
+ * Vue principal du jeu affichant le component lié à l'énigme en cours.
+ * Chaque énigme résolu fait progresser la vue dans la sous vue suivante.
+ */
 export class GameView extends Component {
 	constructor(props) {
 		super(props);
@@ -31,6 +30,9 @@ export class GameView extends Component {
 		this.setViews();
 		this.state = { step: 0 };
 	}
+	/**
+	 * Méthode pour passer à l'énigme suivante
+	 */
 	next() {
 		this.setState({ step: this.state.step + 1 });
 	}
@@ -49,6 +51,9 @@ export class GameView extends Component {
 			}
 		});
 	}
+	/**
+	 * Active le tableau des énigmes
+	 */
 	setViews()
 	{
 		this.seqView = [
@@ -64,10 +69,18 @@ export class GameView extends Component {
 		this.setViews();
 		this.setState({ step: 0 });
 	}
+	/**
+	 * Transition de vue d'une durée T
+	 */
 	nextTimed(duration) {
 		this.seqView.splice(this.state.step + 1, 0, <BreathingView duration={duration}></BreathingView>)
 		this.setState({ step: this.state.step + 1 });
 	}
+	/**
+	 *Transition avec le lancement d'un son
+	 La vue transite après la fin du son
+	 * @param {*} sound
+	 */
 	nextSound(sound) {
 		this.seqView.splice(this.state.step + 1, 0, <BreathingView sound={sound}></BreathingView>)
 		this.setState({ step: this.state.step + 1 });
