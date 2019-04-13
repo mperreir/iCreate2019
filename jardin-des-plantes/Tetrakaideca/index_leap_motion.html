@@ -1,0 +1,722 @@
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/101/three.min.js"></script>
+    <script src="leap-0.6.4.js"></script>
+    <script src="leap-plugins-0.1.11pre.js"></script>
+    <script src="leap-widgets-0.1.0.js"></script>
+    <script src="OrbitControls.js"></script>
+
+    <style>
+    @font-face {
+        font-family: 'amatic_bold';
+        src: url('./Amatic_SC/amaticsc-bold-webfont.woff2') format('woff2'),
+        url('./Amatic_SC/amaticsc-bold-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'amatic_reg';
+        src: url('./Amatic_SC/amaticsc-regular-webfont.woff2') format('woff2'),
+        url('./Amatic_SC/amaticsc-regular-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    body {
+        background-color: #003029;
+    }
+    canvas.leap-boneHand{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #video{
+        margin: auto;
+        display: block;
+        border-radius: 50px 50px;
+        width: 70%;
+        height: auto;
+        margin-top: 50px;
+    }
+    #videoNantes {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    h1{
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+        color: #003029;
+    }
+    ul.liste{
+        list-style-type: none;
+        padding: 0 10px;
+    }
+    li{
+        border-color: #003029;
+        border-width: 10px;
+    }
+    article{
+        border-radius: 50px 50px;
+    }
+    article.detail{
+        display: block;
+        float : left;
+        background-color: #003029;
+        color: white;
+        width: 80%;
+        height: 1000px;
+
+    }
+    article.commandes{
+        background-color: white;
+        float: right;
+        width: 20%;
+        margin-right: 0px;
+    }
+    li p:first-child{
+        color: #003029;
+        font-weight: bold;
+        font-size : 25px;
+    }
+    p{
+        font-family: "amatic_reg", sans-serif;
+        font-size: 20px;
+    }
+    </style>
+
+</head>
+<body>
+    <video id="video">
+        <source src="start.mp4" type="video/mp4">
+            Sorry, your browser doesn't support embedded videos.
+        </video>
+        <article class="commandes" id="article">
+            <h1> COMMANDES </h1>
+            <ul class="liste">
+                <li>
+                    <p> BAKU </p>
+                    <p>Azerbaijan National Academy of sciences</p>
+                    <p> 40 graines de ... </p>
+                </li>
+                <li>
+                    <p> KYOTO </p>
+                    <p>The Kyoto Botanical Garden</p>
+                    <p> 60 graines de ... </p>
+                </li>
+                <li>
+                    <p> MOSCOU </p>
+                    <p>Garden of rare plants of Mickail Diev</p>
+                    <p> 20 graines de ... </p>
+                </li>
+                <li>
+                    <p> SEATTLE </p>
+                    <p>Medicinal Herb Garden</p>
+                    <p> 30 graines de ... </p>
+                </li>
+            </ul>
+        </article>
+        <video id="videoNantes">
+            <source src="nantes.mp4" type="video/mp4">
+                Sorry, your browser doesn't support embedded videos.
+            </video>
+        </body>
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+        'use strict';
+
+        /* Master client */
+
+        // Creation of the socket
+        var socket = io.connect('http://localhost:8080');
+
+        // We send it to the server
+        socket.emit('identifiant', 0);
+
+        // We load the Nantes video and make it invisible
+        var videoNantes = document.getElementById('videoNantes');
+        videoNantes.style.display = 'none';
+
+        var article = document.getElementById("article");
+        article.style.display = 'none';
+
+        // We set 2 counters to check if the receiving and sending
+        // activities are done
+        var send_cmpt = 0;
+        var receiving_cmpt = 0;
+
+        // Loading background music and playing it
+        var waterfall = new Audio('waterfall.mp3');
+        waterfall.volume = 0.5;
+        waterfall.play();
+
+        // Loading musics
+        var jeopardy = new Audio('Jeopardy-theme-song.mp3');
+        var minecraft = new Audio('Minecraft-death-sound.mp3');
+        var yeah = new Audio('Yeah.mp3');
+        var happy_sound = new Audio('Happy-sound.mp3');
+
+        // Loading voices
+        var starting = new Audio('Starting.mp3');
+        var envoi = new Audio('Envoi.mp3');
+        var reception = new Audio('Reception.mp3');
+        var envoi_reception = new Audio('Envoi-Reception.mp3');
+        starting.play();
+
+        // We display an alert box when we receive a message
+        socket.on('messageFrom', function(id, message) {
+            alert(id + ' says : ' + message);
+        });
+
+        // Playing video when fullScreen is activated
+        socket.on('fullScreenAndPlay', function() {
+            var video = document.getElementById("video");
+            video.requestFullscreen();
+            video.play();
+        });
+
+        /* Setting up the Leap motion plugins */
+
+        Leap.loop({host:"localhost", port: 6437, background: true})
+        .use('transform', {
+            vr: 'desktop' // Switch to meters.
+        })
+        .use('boneHand', {
+            targetEl: document.body,
+            jointColor: new THREE.Color(0xffffff),
+            rendererOps: {antialias: true}
+        })
+        .use('proximity');
+
+        /* Setting up the scenes */
+
+        // Creating boolean for button activation
+        var etat_button_1 = true;  //Bouton start
+        var etat_button_2 = true;  //Bouton envoie
+        var etat_button_3 = true;  //Bouton reception
+        var etat_button_4 = false;  //bouton retour envoie
+        var etat_button_5 = false;  //bouton retour reception
+
+        var kyotoButton = false;
+        var bakuButton = false;
+        var moscouButton = false;
+        var seattleButton = false;
+        var shanghaiButton = false;
+        var sydneyButton = false;
+        var newdelhiButton = false;
+        var montrealButton = false;
+
+        // Setting the scene and camera
+        var scene = Leap.loopController.plugins.boneHand.scene;
+        var camera = Leap.loopController.plugins.boneHand.camera;
+        var renderer = Leap.loopController.plugins.boneHand.renderer;
+
+        var controls = new THREE.OrbitControls( camera );
+        camera.position.set( -0.005728908559571243, 0.7880342973053321, 0.6507559104013013 );
+        camera.rotation.set(-0.6725851224264334, -0.005850987326104082, -0.004660078695855423);
+
+        // Loading textures of start and return buttons
+        var texture_Bstart = new THREE.TextureLoader().load( 'boutons_start.bmp' );
+        var material_Bstart = new THREE.MeshBasicMaterial( { map: texture_Bstart } );
+
+        var texture_retour = new THREE.TextureLoader().load( 'commandes_retour.bmp' );
+        var material_retour = new THREE.MeshBasicMaterial( { map: texture_retour } );
+
+        // Loading start, send and receive buttons
+        var planeGeo2 = new THREE.PlaneGeometry(0.2, 0.2);
+        var material = new THREE.MeshPhongMaterial();
+        var start_button = new THREE.Mesh(planeGeo2, material);
+        var send_button = new THREE.Mesh(planeGeo2, material);
+        var receive_button = new THREE.Mesh(planeGeo2, material);
+
+        start_button = new THREE.Mesh(planeGeo2, material_Bstart);
+        start_button.name = "Bouton Start";
+
+        start_button.position.set(0, 0.30, -0.1);
+
+        scene.add(start_button);
+
+        var video = document.getElementById('video');
+        // Checking if the video reached the end
+        function checkTime() {
+            if (video.currentTime >= video.duration) {
+                video.style.display = 'none';
+                init_menu();
+                envoi_reception.play();
+                jeopardy.volume = 0.2;
+                jeopardy.play();
+                // We check if the video has reach the end
+            } else {
+                // We call checkTime every tenth of a second
+                setTimeout(checkTime, 100);
+            }
+        }
+
+        var roundButton = new PushButton(
+            new InteractablePlane(start_button, Leap.loopController, {moveX: false, moveY: false})
+        ).on('press', function(mesh){
+            if (etat_button_1 == true){
+                scene.remove(start_button);
+                video.play();
+                checkTime();
+                etat_button_1 = false;
+            }
+        });
+
+        // Initial menu containing the receiving and sending buttons
+        var init_menu = function () {
+
+            //Send button (right)
+            var texture_Bsend = new THREE.TextureLoader().load( 'boutons_send.bmp' );
+            var material_Bsend = new THREE.MeshBasicMaterial( { map: texture_Bsend } );
+            send_button = new THREE.Mesh(planeGeo2, material_Bsend);
+            send_button.name = "round button2";
+            send_button.position.set(-0.18, 0.30, -0.1);
+
+            var roundButton2 = new PushButton(
+                new InteractablePlane(send_button, Leap.loopController, {moveX: false, moveY: false})
+            ).on('press', function(mesh) {
+                if (etat_button_2 == true) {
+                    etat_button_2 = false;
+                    etat_button_3 = false;
+                    etat_button_4 = true;
+                    scene.remove(send_button);
+                    scene.remove(receive_button);
+                    init_send();
+                    article.style.display = 'none';
+                    jeopardy.pause();
+                    envoi.play();
+                }
+            });
+
+            // Receive button (left)
+            var texture_Breceive = new THREE.TextureLoader().load( 'boutons_receive.bmp' );
+            var material_Breceive = new THREE.MeshBasicMaterial( { map: texture_Breceive } );
+            receive_button = new THREE.Mesh(planeGeo2, material_Breceive);
+            receive_button.name = "round button3";
+            receive_button.position.set(0.18, 0.30, -0.1);
+
+            var roundButton3 = new PushButton(
+                new InteractablePlane(receive_button, Leap.loopController, {moveX: false, moveY: false})
+            ).on('press', function(mesh) {
+                if (etat_button_3 == true) {
+                    etat_button_2 = false;
+                    etat_button_3 = false;
+                    etat_button_5 = true;
+                    scene.remove(send_button);
+                    scene.remove(receive_button);
+                    init_receive();
+                    videoNantes.style.display = 'block';
+                    jeopardy.pause();
+                    reception.play();
+                }
+            });
+
+            scene.add(send_button);
+            scene.add(receive_button);
+
+        }
+
+        // Function loading the button of the sending part of the app
+        var init_send = function () {
+
+            // Setting the camera position
+            camera.position.x = -0.01277407163293038
+            camera.position.y =  0.36586118377710586
+            camera.position.z = 0.3720672011106677
+
+            camera.rotation.set(-0.3223601177795472,-0.018055250263568353,-0.006030247182173142);
+
+            // Loading the buttons textures
+            var texture1 = new THREE.TextureLoader().load( 'boutons2.bmp' );
+            var material1 = new THREE.MeshBasicMaterial( { map: texture1 } );
+
+            var texture2 = new THREE.TextureLoader().load( 'boutons.bmp' );
+            var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
+
+            var texture3 = new THREE.TextureLoader().load( 'boutons4.bmp' );
+            var material3 = new THREE.MeshBasicMaterial( { map: texture3 } );
+
+            var texture4 = new THREE.TextureLoader().load( 'boutons3.bmp' );
+            var material4 = new THREE.MeshBasicMaterial( { map: texture4 } );
+
+            var texture5 = new THREE.TextureLoader().load( 'boutons5.bmp' );
+            var material5 = new THREE.MeshBasicMaterial( { map: texture5 } );
+
+            var texture6 = new THREE.TextureLoader().load( 'boutons6.bmp' );
+            var material6 = new THREE.MeshBasicMaterial( { map: texture6 } );
+
+            var texture7 = new THREE.TextureLoader().load( 'boutons7.bmp' );
+            var material7 = new THREE.MeshBasicMaterial( { map: texture7 } );
+
+            var texture8 = new THREE.TextureLoader().load( 'boutons8.bmp' );
+            var material8 = new THREE.MeshBasicMaterial( { map: texture8 } );
+
+            // Return button
+            var planeGeo3 = new THREE.PlaneGeometry(0.1, 0.05);
+            var buttonMesh_retour = new THREE.Mesh(planeGeo3, material_retour.clone());
+            buttonMesh_retour.name = "Bouton retour";
+            buttonMesh_retour.position.set(0, 0.35, -0.1);
+            scene.add(buttonMesh_retour);
+
+            var bouton_retour = new PushButton(
+                new InteractablePlane(buttonMesh_retour, Leap.loopController, {moveX: false, moveY: false})
+            ).on('press', function(mesh) {
+                if (etat_button_4 == true) {
+                    scene.remove(buttonMesh_retour);
+                    article.style.display = 'none';
+                    etat_button_4 = false;
+                    etat_button_2 = true;
+                    etat_button_3 = true;
+                    scene.remove(base);
+                    scene.remove(base2);
+                    scene.remove(base3);
+                    scene.remove(base4);
+                    scene.remove(planeMesh_Ville1);
+                    scene.remove(planeMesh_Ville2);
+                    scene.remove(planeMesh_Ville3);
+                    scene.remove(planeMesh_Ville4);
+                    scene.add(send_button);
+                    scene.add(receive_button);
+                    camera.position.set( -0.005728908559571243,  0.7880342973053321, 0.6507559104013013 );
+                    camera.rotation.set(-0.6725851224264334,-0.005850987326104082,-0.004660078695855423);
+                }
+            });
+
+            // Loading interactable planes
+            var planeGeo = new THREE.PlaneGeometry(0.075, 0.075);
+            var bakuPlane = new THREE.Mesh(planeGeo, material5);
+            bakuPlane.position.setX(0.05);
+            bakuPlane.position.setY(0.1);
+            bakuPlane.name = "bakuPlane";
+            var longThrow = 0.05;
+            var base = new THREE.Mesh(new THREE.BoxGeometry(0.075, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base.position.set(-0.17, 0.1, -0.15);
+            bakuPlane.position.set(0,bakuPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base.add(bakuPlane);
+            scene.add(base);
+
+            var kyotoPlane = new THREE.Mesh(planeGeo, material6);
+            kyotoPlane.position.setX(0.05);
+            kyotoPlane.position.setY(0.1);
+            kyotoPlane.name = "kyotoPlane";
+            longThrow = 0.05;
+            var base2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base2.position.set(-0.06, 0.1, -0.15);
+            kyotoPlane.position.set(0,kyotoPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base2.add(kyotoPlane);
+            scene.add(base2);
+
+            var moscouPlane = new THREE.Mesh(planeGeo, material7);
+            moscouPlane.position.setX(0.05);
+            moscouPlane.position.setY(0.1);
+            moscouPlane.name = "moscouPlane";
+            longThrow = 0.05;
+            var base3 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base3.position.set(0.06, 0.1, -0.15);
+            moscouPlane.position.set(0,moscouPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base3.add(moscouPlane);
+            scene.add(base3);
+
+            var seattlePlane = new THREE.Mesh(planeGeo, material8);
+            seattlePlane.position.setX(0.05);
+            seattlePlane.position.setY(0.1);
+            seattlePlane.name = "seattlePlane";
+            longThrow = 0.05;
+            var base4 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base4.position.set(0.17, 0.1, -0.15);
+            seattlePlane.position.set(0,seattlePlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base4.add(seattlePlane);
+            scene.add(base4);
+
+            // Loading simple planes
+            var planeMesh_Ville1 = new THREE.Mesh(planeGeo, material1);
+            planeMesh_Ville1.position.setX(0.17);
+            planeMesh_Ville1.position.setY(0.25);
+            planeMesh_Ville1.position.setZ(-0.15);
+            planeMesh_Ville1.name = "planeMesh_Ville1";
+            scene.add(planeMesh_Ville1);
+
+            var planeMesh_Ville2 = new THREE.Mesh(planeGeo, material2);
+            planeMesh_Ville2.position.setX(0.06);
+            planeMesh_Ville2.position.setY(0.25);
+            planeMesh_Ville2.position.setZ(-0.15);
+            planeMesh_Ville2.name = "planeMesh_Ville2";
+            scene.add(planeMesh_Ville2);
+
+            var planeMesh_Ville3 = new THREE.Mesh(planeGeo, material3);
+            planeMesh_Ville3.position.setX(-0.06);
+            planeMesh_Ville3.position.setY(0.25);
+            planeMesh_Ville3.position.setZ(-0.15);
+            planeMesh_Ville3.name = "planeMesh_Ville2";
+            scene.add(planeMesh_Ville3);
+
+            var planeMesh_Ville4 = new THREE.Mesh(planeGeo, material4);
+            planeMesh_Ville4.position.setX(-0.17);
+            planeMesh_Ville4.position.setY(0.25);
+            planeMesh_Ville4.position.setZ(-0.15);
+            planeMesh_Ville4.name = "planeMesh_Ville4";
+            scene.add(planeMesh_Ville4);
+
+            var plane = new InteractablePlane(bakuPlane, Leap.loopController).on('release', function(mesh){
+                if (bakuPlane.position.x>-0.1 && bakuPlane.position.y >0.16 && bakuPlane.position.x<0.1){
+                    if (bakuButton == false) {
+                        bakuButton = true;
+                        yeah.play();
+                        socket.emit('getVideo', '1');
+                        socket.emit('playVideo', '1', 32);
+                        scene.remove(base);
+                        send_cmpt += 1;
+                        if (send_cmpt == 4) {
+                            happy_sound.play();
+                        }
+                    }
+                }
+            });
+
+            var plane2 = new InteractablePlane(kyotoPlane, Leap.loopController).on('release', function(mesh){
+                if (kyotoPlane.position.x>-0.1 && kyotoPlane.position.y >0.16 && kyotoPlane.position.x<0.1){
+                    if (kyotoButton == false) {
+                        kyotoButton = true;
+                        yeah.play();
+                        socket.emit('getVideo', '2');
+                        socket.emit('playVideo', '2', 32);
+                        scene.remove(base2);
+                        send_cmpt += 1;
+                        if (send_cmpt == 4) {
+                            happy_sound.play();
+                        }
+                    }
+                }
+            });
+
+            var plane3 = new InteractablePlane(moscouPlane, Leap.loopController).on('release', function(mesh){
+                if (moscouPlane.position.x<0.1 && moscouPlane.position.y >0.16 && moscouPlane.position.x>-0.1){
+                    if (moscouButton == false) {
+                        moscouButton = true;
+                        yeah.play();
+                        socket.emit('getVideo', '3');
+                        socket.emit('playVideo', '3', 32);
+                        scene.remove(base3);
+                        send_cmpt += 1;
+                        if (send_cmpt == 4) {
+                            happy_sound.play();
+                        }
+                    }
+                }
+            });
+
+            var plane4 = new InteractablePlane(seattlePlane, Leap.loopController).on('release', function(mesh){
+                if (seattlePlane.position.x>-0.1 && seattlePlane.position.y >0.16 && moscouPlane.position.x<0.1){
+                    if (seattleButton == false) {
+                        seattleButton = true;
+                        yeah.play();
+                        socket.emit('getVideo', '4');
+                        socket.emit('playVideo', '4', 32);
+                        scene.remove(base4);
+                        send_cmpt += 1;
+                        if (send_cmpt == 4) {
+                            happy_sound.play();
+                        }
+                    }
+                } else {
+                    minecraft.volume = 0.5;
+                    minecraft.play();
+                }
+            });
+        }
+
+        // Function loading the button of the receiving part of the app
+        var init_receive = function () {
+
+            // Setting the camera position
+            camera.position.set(  0.01860741379685839, 0.40411551676253543, 0.4014448303206948 );
+            camera.rotation.set(-0.3069928817796159,-0.010695442938718422,-0.003390538294902778);
+
+            // Loading the buttons textures
+            var texture_R1 = new THREE.TextureLoader().load( 'boutons_r_1.bmp' );
+            var material_R1 = new THREE.MeshBasicMaterial( { map: texture_R1 } );
+
+            var texture_R2 = new THREE.TextureLoader().load( 'boutons_r_2.bmp' );
+            var material_R2 = new THREE.MeshBasicMaterial( { map: texture_R2 } );
+
+            var texture_R3 = new THREE.TextureLoader().load( 'boutons_r_3.bmp' );
+            var material_R3 = new THREE.MeshBasicMaterial( { map: texture_R3 } );
+
+            var texture_R4 = new THREE.TextureLoader().load( 'boutons_r_4.bmp' );
+            var material_R4 = new THREE.MeshBasicMaterial( { map: texture_R4 } );
+
+            var planeGeo4 = new THREE.PlaneGeometry(0.1, 0.05);
+            //var circleGeo = new THREE.CircleGeometry(0.1, 32);
+            var buttonMesh_retour2 = new THREE.Mesh(planeGeo4, material_retour.clone());
+            buttonMesh_retour2.name = "Bouton retour";
+            buttonMesh_retour2.position.set(0, 0.35, -0.1);
+            scene.add(buttonMesh_retour2);
+
+            var bouton_retour2 = new PushButton(
+                new InteractablePlane(buttonMesh_retour2, Leap.loopController, {moveX: false, moveY: false})
+            ).on('press', function(mesh){
+                if (etat_button_5 == true){
+                    scene.remove(buttonMesh_retour2);
+                    videoNantes.style.display = 'none';
+                    etat_button_5 = false;
+                    etat_button_2 = true;
+                    etat_button_3 = true;
+                    scene.remove(base);
+                    scene.remove(base2);
+                    scene.remove(base3);
+                    scene.remove(base4);
+                    scene.add(send_button);
+                    scene.add(receive_button);
+                    camera.position.set( -0.005728908559571243,  0.7880342973053321, 0.6507559104013013 );
+                    camera.rotation.set(-0.6725851224264334,-0.005850987326104082,-0.004660078695855423);
+                }
+            });
+
+            // Loading interactable planes
+            var planeGeo = new THREE.PlaneGeometry(0.1, 0.1);
+            var sydneyPlane = new THREE.Mesh(planeGeo, material_R4);
+            sydneyPlane.position.setX(0.05);
+            sydneyPlane.position.setY(0.1);
+            sydneyPlane.name = "sydneyPlane";
+            var longThrow = 0.05;
+            var base = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base.position.set(-0.15, 0.25, -0.2);
+            sydneyPlane.position.set(0,sydneyPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base.add(sydneyPlane);
+            scene.add(base);
+
+            var montrealPlane = new THREE.Mesh(planeGeo, material_R1);
+            montrealPlane.position.setX(0.05);
+            montrealPlane.position.setY(0.1);
+            montrealPlane.name = "montrealPlane";
+            longThrow = 0.05;
+            var base2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base2.position.set(-0.15, 0.1, -0.2);
+            montrealPlane.position.set(0,montrealPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base2.add(montrealPlane);
+            scene.add(base2);
+
+            var newdelhiPlane = new THREE.Mesh(planeGeo, material_R2);
+            newdelhiPlane.position.setX(0.05);
+            newdelhiPlane.position.setY(0.1);
+            newdelhiPlane.name = "newdelhiPlane";
+            longThrow = 0.05;
+            var base3 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base3.position.set(0.15, 0.25, -0.2);
+            newdelhiPlane.position.set(0,newdelhiPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base3.add(newdelhiPlane);
+            scene.add(base3);
+
+            var shanghaiPlane = new THREE.Mesh(planeGeo, material_R3);
+            shanghaiPlane.position.setX(0.05);
+            shanghaiPlane.position.setY(0.1);
+            shanghaiPlane.name = "shanghaiPlane";
+            longThrow = 0.05;
+            var base4 = new THREE.Mesh(new THREE.BoxGeometry(0.1, longThrow, longThrow), new THREE.MeshPhongMaterial({color: 0x222222}));
+            base4.position.set(0.15, 0.1, -0.2);
+            shanghaiPlane.position.set(0,shanghaiPlane.geometry.parameters.height / 2 - longThrow / 2,longThrow / 2 + 0.0002);
+            base4.add(shanghaiPlane);
+            scene.add(base4);
+
+            // Function that plays a video for a choosed time
+            function playVideo(vid, startTime, playTime) {
+                function checkTime2() {
+                    if (vid.currentTime >= playTime) {
+                        vid.pause();
+                        // We check if the video has reach the end to reload it
+                    } else if (vid.currentTime == vid.duration) {
+                        videoNantes.src = "nantes.mp4";
+                    } else {
+                        // call checkTime every tenth of a second
+                        setTimeout(checkTime2, 100);
+                    }
+                }
+                // We check if the video has reach the end
+                if (vid.currentTime != vid.duration) {
+                    vid.currentTime = startTime;
+                    vid.play();
+                    checkTime2();
+                    // if so, we set it back to 0 to start the video over
+                } else {
+                    vid.currentTime = 0;
+                }
+            }
+
+            var plane = new InteractablePlane(sydneyPlane, Leap.loopController).on('release', function(mesh){
+                if (sydneyButton == false) {
+                    sydneyButton = true;
+                    var startTime = videoNantes.currentTime;
+                    var endTime = parseInt(startTime) + 6;
+                    playVideo(videoNantes, startTime, endTime);
+                    socket.emit('getVideo', '12');
+                    socket.emit('playVideo', '2', 10);
+                    scene.remove(base);
+                    receiving_cmpt += 1;
+                    if (receiving_cmpt == 4) {
+                        happy_sound.play();
+                    }
+                }
+            });
+
+            var plane2 = new InteractablePlane(montrealPlane, Leap.loopController).on('release', function(mesh){
+                if (montrealButton == false) {
+                    montrealButton = true;
+                    var startTime = videoNantes.currentTime;
+                    var endTime = startTime + 6;
+                    playVideo(videoNantes, startTime, endTime);
+                    socket.emit('getVideo', '11');
+                    socket.emit('playVideo', '1', 10);
+                    scene.remove(base2);
+                    receiving_cmpt += 1;
+                    if (receiving_cmpt == 4) {
+                        happy_sound.play();
+                    }
+                }
+            });
+
+            var plane3 = new InteractablePlane(newdelhiPlane, Leap.loopController).on('release', function(mesh){
+                if (newdelhiButton == false) {
+                    newdelhiButton = true;
+                    var startTime = videoNantes.currentTime;
+                    var endTime = startTime + 6;
+                    playVideo(videoNantes, startTime, endTime);
+                    socket.emit('getVideo', '13');
+                    socket.emit('playVideo', '3', 10);
+                    scene.remove(base3);
+                    receiving_cmpt += 1;
+                    if (receiving_cmpt == 4) {
+                        happy_sound.play();
+                    }
+                }
+            });
+
+            var plane4 = new InteractablePlane(shanghaiPlane, Leap.loopController).on('release', function(mesh){
+                if (shanghaiButton == false) {
+                    shanghaiButton = true;
+                    var startTime = videoNantes.currentTime;
+                    var endTime = startTime + 6;
+                    playVideo(videoNantes, startTime, endTime);
+                    socket.emit('getVideo', '14');
+                    socket.emit('playVideo', '4', 10);
+                    scene.remove(base4);
+                    receiving_cmpt += 1;
+                    if (receiving_cmpt == 4) {
+                        happy_sound.play();
+                    }
+                }
+            });
+
+        }
+
+        </script>
+
+</html>
