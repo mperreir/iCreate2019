@@ -1,9 +1,6 @@
 var express = require('express');
 const path = require('path');
 var osc = require("osc");
-const child_process = require("child_process");
-var sleep = require('sleep');
-
 var app = express();
 
 var server = require('http').Server(app);
@@ -16,21 +13,21 @@ var client;					// Un seul socket client est accepté
 var niveau;					// Niveau actuel
 var oldLevel;				// Niveau précédent
 var isConnected = false;	// Indique si un socket s'est déjà connecté ou non
-var song;		// Indique si un morceau est en cours
+var soundToPlay;			// Indique le chemin vers le fichier de son à jouer
 
+// Création d'un fondu sonore
 var fade = [90,80,60,30,10,5,3,2,2,1,1,1,0,0,0];
 function fadeout(){
   fade.forEach( (i) => {
     player.setVolume(i);
     j=0;
-    console.log(i);
     while (j<20000000){
       j++;
     }
   });
 }
 
-//static files link
+// Lien vers les fichiers statiques
 app.use(express.static(__dirname + '/public'));
 
 // Page principale
@@ -41,7 +38,7 @@ app.get('/', function(req, res){
 // Quand un client se connecte, on l'enregistre
 io.sockets.on('connection', function (socket) {
 	client = socket;
-  console.log("adihfejaokoa");
+	console.log("[LOG] Connexion d'un client");
 	oldLevel = '';
 	isConnected = true;
 });
@@ -67,47 +64,40 @@ udpPort.on("message", function (oscMsg) {
 	switch(nfc){
         case "$)ï¿½Wï¿½" :
             niveau = '0';
-            fadeout();
-            player.play('./sons/niveau0.mp3');
-            player.exec('loop 999999');
+			soundToPlay = './sons/niveau0.mp3';
             break;
         case "ï¿½Pbï¿½Wï¿½" :
             niveau = '1';
-            fadeout();
-            player.play('./sons/niveau1.mp3');
-            player.exec('loop 999999');
+			soundToPlay = './sons/niveau1.mp3';
             break;
         case "@ï¿½IZï¿½" :
             niveau = '2';
-            fadeout();
-            player.play('./sons/niveau2.mp3');
-            player.exec('loop 999999');
+			soundToPlay = './sons/niveau2.mp3';
             break;
         case "(ï¿½Wï¿½" :
             niveau = '3';
-            fadeout();
-            player.play('./sons/niveau3.mp3');
-            player.exec('loop 999999');
+			soundToPlay = './sons/niveau3.mp3';
             break;
         case "<\"ï¿½ï¿½Yï¿½":
             niveau = '4';
-            fadeout();
-            player.play('./sons/niveau4.mp3');
-            player.exec('loop 999999');
+			soundToPlay = './sons/niveau4.mp3';
             break;
         default :
-            niveau = '0';
-            fadeout();
-			      player.play('./sons/niveau0.mp3');
-            player.exec('loop 999999');
+			niveau = '0';
+			soundToPlay = './sons/niveau0.mp3';
             break;
     }
 
-  console.log("Niveau : ",niveau);
-	// Envoie d'un message si un client est connecté et qu'on ne lui a pas déjà envoyé ce niveau
+	console.log("[LOG] Niveau : ",niveau);
+
+	// Envoi d'un message si un client est connecté et qu'on ne lui a pas déjà envoyé ce niveau
 	if(isConnected && oldLevel !== niveau){
 		client.emit('message', niveau);
 		oldLevel = niveau;
+		// Lancement du fichier son
+		fadeout();
+		player.play(soundToPlay);
+        player.exec('loop 999999');
 	}
 
 });
