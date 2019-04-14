@@ -22,11 +22,11 @@
 
 - Technologie de sortie : Projection sur objet (Mapping)
 
-## Nom de l'installation (à remplacer)
+## Nom de l'installation : Et quand vient la nuit...
 
 ### Description
 
-Cette installation….
+Cette installation a pour but de faire découvrir le métier d’astronome et l'existence des exoplanètes à travers une expérience interactive de découverte de l'univers. 
 
 ### Guide de réalisation et d’installation du projet
 
