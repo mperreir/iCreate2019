@@ -27,7 +27,8 @@ Cette installation….
 
 Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
 
-### ...
+### Partie Design
+...
 
 
 ### Partie informatique
