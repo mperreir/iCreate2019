@@ -1,21 +1,33 @@
-# Nom de groupe (a remplacer)
+# Projet ICreate
 
-- Partenaire : 
+## Nom de groupe : Apollo 7
 
-- Etudiants : 
+- Partenaire : Observatoire de Paris
 
-- Technologie d'entrée : 
+- Etudiants :
 
-- Technologie de sortie : 
+  - De La Tribouille Agathe
 
-  
+  - Deschiens Clara
 
-# Nom de l'installation (à remplacer)
+  - Lenepveu Louise
 
-## Description
+  - Houssais Aymeric
 
-Cette installation….
+  - Plantier Guillaume
 
-## Guide de réalisation et d’installation du projet
+  - Pham Kenny
 
-Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
+- Technologie d'entrée : Capteur piezo
+
+- Technologie de sortie : Projection sur objet (Mapping)
+
+## Nom de l'installation : Et quand vient la nuit...
+
+### Description
+
+Cette installation a pour but de faire découvrir le métier d’astronome et l'existence des exoplanètes à travers une expérience interactive de découverte de l'univers. 
+
+### Guide de réalisation et d’installation du projet
+
+Le guide du projet a été réalisé dans un fichier externe qui est situé dans le dossier rapport.
