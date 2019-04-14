@@ -42,10 +42,11 @@ Here is the list of the different devices you need to run the project :
 
 #### General
 
-First, the repository needs to be cloned with the following command on a bash type interpreter :
+First, the repository needs to be cloned with the following command on a bash type interpreter and then you need to position yourself in the repositoryS :
 
 ```bash
 git clone https://github.com/Bouhbouh/tetrakaideca.git
+cd tetrakaideca
 ```
 
 Then we will need to install all the node packages required for the project by using the following command :
@@ -60,7 +61,14 @@ To install the Leap Motion on your desktop, please refer to the [documentation](
 
 After that, there is two possible configuration :
 - If you want to use our program on the same device that the one the leap is connected to, you have nothing to change.
-- If you want to connect the Leap Motion on a computer and display our program on a tablet for example, you first need to connect the two device to the same LAN network, then on the device that is connected to the leap, you need to modify the line 28 of *pont.py* to remplace the IP by the one of the device and run it. Then you need to modify *index_leap_motion.html* on line 188 to remplace localhost and the port by the one in the line 28 of *pont.py*. Now you can run *index_leap_motion.html* on any device that is connected to the LAN on the Leap's computer.
+- If you want to connect the Leap Motion on a computer and display our program on a tablet for example, you first need to connect the two device to the same LAN network, then on the device that is connected to the leap, you need to modify the line 28 of *pont.py* to remplace the IP by the one of the device. Then you need to modify *index_leap_motion.html* on line 188 to replace localhost and the port by the one in the line 28 of *pont.py*.
+
+Now you need to open a second bash type interpreter, to position yourself in the tetrakaideca directory, and to run pont.py :
+```bash
+python3 pont.py
+```
+
+You might be getting an error if the '*websocket*' module is not installed. In that case, please look up online for how to install this module depending on if you are using conda or not.
 
 #### Setup the environment and have fun
 
