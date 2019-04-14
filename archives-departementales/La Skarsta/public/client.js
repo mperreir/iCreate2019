@@ -1,5 +1,5 @@
 /* Filename: client.js */
-const views = 
+const views =
 	[
 		{
 			paragraphe: "Vous avez décidé de rendre l’étalement urbain maximal. La population est heureuse \
@@ -50,10 +50,10 @@ function render0(){
 	$("#back_image").attr('src','img0.svg');
 
 	//Affichage animée du texte
-	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
+	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "left"});
 	$(".text").show('slow');
 	$(".text").text(views[0].paragraphe);
-	
+
 	//Placement de chaque point
 	$("#1").css({"position":"absolute","top":"10.8em","left":"14.8em"});
 	$("#2").css({"position":"absolute","top":"20.1em","left":"22.8em"});
@@ -63,17 +63,17 @@ function render0(){
 	$("#6").css({"position":"absolute","top":"41.9em","left":"22.8em"});
 	//Affichage animée des points
 	$(".circle").show('slow');
-	
+
 }
 
 function render1(){
 
 	// Affichage de l'image de fond
 	$("#back_image").attr('src','img1.svg');
-	
+
 	//Affichage animée du texte
-	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
-	$(".text").toggle('slow');
+	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "left"});
+	$(".text").show('slow');
 	$(".text").text(views[1].paragraphe);
 
 	//Placement de chaque point
@@ -84,8 +84,8 @@ function render1(){
 	$("#5").css({"position":"absolute","top":"36.4em","left":"26.2em"});
 	$("#6").css({"position":"absolute","top":"41.9em","left":"26.2em"});
 	//Affichage animée des points
-	$(".circle").toggle('slow');
-	
+	$(".circle").show('slow');
+
 }
 
 
@@ -93,10 +93,10 @@ function render2(){
 
 	// Affichage de l'image de fond
 	$("#back_image").attr('src','img2.svg');
-	
+
 	//Affichage animée du texte
-	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
-	$(".text").toggle('slow');
+	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "left"});
+	$(".text").show('slow');
 	$(".text").text(views[2].paragraphe);
 
 	//Placement de chaque point
@@ -107,8 +107,8 @@ function render2(){
 	$("#5").css({"position":"absolute","top":"36.4em","left":"29.5em"});
 	$("#6").css({"position":"absolute","top":"41.9em","left":"29.5em"});
 	//Affichage animée des points
-	$(".circle").toggle('slow');
-	
+	$(".circle").show('slow');
+
 }
 
 
@@ -116,10 +116,10 @@ function render3(){
 
 	// Affichage de l'image de fond
 	$("#back_image").attr('src','img3.svg');
-	
+
 	//Affichage animée du texte
-	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"18px", "text-align": "justify"});
-	$(".text").toggle('slow');
+	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"18px", "text-align": "left"});
+	$(".text").show('slow');
 	$(".text").text(views[3].paragraphe);
 
 	//Placement de chaque point
@@ -130,8 +130,8 @@ function render3(){
 	$("#5").css({"position":"absolute","top":"36.4em","left":"32.6em"});
 	$("#6").css({"position":"absolute","top":"41.9em","left":"32.6em"});
 	//Affichage animée des points
-	$(".circle").toggle('slow');
-	
+	$(".circle").show('slow');
+
 }
 
 
@@ -139,9 +139,9 @@ function render4(){
 
 	// Affichage de l'image de fond
 	$("#back_image").attr('src','img4.svg');
-	
+
 	//Affichage animée du texte
-	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "justify"});
+	$(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"320px","right":"70px", "font-size":"19px", "text-align": "left"});
 	$(".text").show('slow');
 	$(".text").text(views[4].paragraphe);
 
@@ -154,7 +154,7 @@ function render4(){
 	$("#6").css({"position":"absolute","top":"41.9em","left":"35.9em"});
 	//Affichage animée des points
 	$(".circle").show('slow');
-	
+
 }
 
 // Cache les composants ajoutés dynamiquement sur l'image de fond
@@ -165,13 +165,13 @@ function clear(){
 
 // Au lancement de la page
 $(document).ready(function() {
-	
+
 	// Création d'un socket client
-	var socket = io.connect('http://localhost:8080');
-	
+	var socket = io.connect('http://192.168.137.1:8080');
+
 	// Stocke le niveau affiché à l'écran
 	var currentLevel;
-	
+
 	// A la réception d'un message du serveur
 	socket.on('message', function(niveau) {
 		if(niveau >= 0 && niveau < views.length){
@@ -187,5 +187,5 @@ $(document).ready(function() {
 			currentLevel = niveau;
 		}
 	});
-   
+
   });

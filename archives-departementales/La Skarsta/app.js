@@ -24,7 +24,7 @@ function fadeout(){
     player.setVolume(i);
     j=0;
     console.log(i);
-    while (j<50000000){
+    while (j<20000000){
       j++;
     }
   });
