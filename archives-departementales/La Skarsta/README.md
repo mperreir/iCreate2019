@@ -63,7 +63,9 @@ Configurez l'application Sensors2C en indiquant dans les paramètres de cette ap
 ##### Configuration serveur
 
 - Modifiez le fichier public/client.js pour y indiquer l'adresse IP du futur serveur web sous la forme suivante :
+
 // Création d'un socket client
+
 var socket = io.connect('http://[ADRESSE_IP_SERVEUR]:8080');
 
 - Sur l'ordinateur jouant le rôle de serveur, placez-vous à la racine du projet (où se trouve ce README), puis lancez les commandes suivantes : 
