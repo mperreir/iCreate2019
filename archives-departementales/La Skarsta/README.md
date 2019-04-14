@@ -45,8 +45,8 @@ Les trois équipements doivent se trouver sur le même réseau (accès au même 
 ##### Logiciels
 
 Sur l'ordinateur devra être installé : 
-- NodeJS (v11.12.0) - https://nodejs.org/fr/
-- Le lecteur multimédia MPlayer - https://sourceforge.net/projects/mplayerwin/
+- NodeJS (v11.12.0) - https://nodejs.org/fr/ et son gestionnaire de paquets officiels : npm.
+- Le lecteur multimédia MPlayer - https://sourceforge.net/projects/mplayerwin/. Puis ajoutez dans la variable d'environnement PATH de votre système, le chemin du répertoire d'installation de ce lecteur.
 	
 Sur le téléphone devra être installé :
 - L'application mobile Sensors2C pour permettre l'envoi de requêtes OSC au serveur - https://sensors2.org/osc/
@@ -54,11 +54,11 @@ Sur le téléphone devra être installé :
 #### Etapes d'installation
 
 ##### Configuration Smartphone
-- Configurez l'application Sensors2C en indiquant dans les paramètres de cette application :
-- L'adresse IP de l'ordinateur (champ Host).
+Configurez l'application Sensors2C en indiquant dans les paramètres de cette application :
+- L'adresse IP de l'ordinateur (champ Host). Pour la récupérer, sous Windows par exemple, ouvrez un invité de commandes et tapez la commande ipconfig pour récupérer l'adresse IPv4 associée à votre poste. Même démarche dans une console Linux avec la commande ifconfig ou ip addr.
 - Le port qui sera écouté par le serveur pour transmettre les informations relatives aux tags NFC scannés depuis le téléphone. Indiquez le port 9912.
-- Un taux d'envoi des données au serveur (champ Sensor Rate). Vous pouvez indiquer ici un taux "normal (slowest)".
-- Puis, toujours dans cette application, dans la fenêtre principale, activez la récupération des données NFC puis la transmission des données ("Send data").
+- Un taux d'envoi des données au serveur (champ Sensor Rate). Vous pouvez indiquer ici un taux "normal (slowest)". A noter que plus il est élevé, et plus votre smartphone se déchargera vite.
+- Puis, toujours dans cette application, dans la fenêtre principale, activez la récupération des données NFC ("Near Field Communication") puis la transmission des données ("Send data"). Si vous ne voyez pas le protocole NFC dans la liste, vérifiez l'activation du NFC dans les paramètres de votre smartphone. 
 		
 ##### Configuration serveur
 
