@@ -1,4 +1,0 @@
-class Carte {
-  Carte() {
-  }
-}
