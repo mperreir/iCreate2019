@@ -120,6 +120,10 @@ Et finalement si vous souhaitez produire une version signée de l'application vo
 
 ### Scène
 
+![Alt text](img/inventaire_materiel.jpg?raw=true "Inventaire matériel")
+![Alt text](img/ameublement_et_installation_technique.jpg?raw=true "Ameublement et installation technique")
+![Alt text](img/placement_des_objets.jpg?raw=true "Placement des objets")
+
 ### Utilisation
 
 Après avoir installé les programmes nécessaires et mis en place la scène, suivez les étapes suivantes afin de démarrer l'escape game :
