@@ -21,4 +21,4 @@ Le but de cette installation est de simuler le métier d'astronome donc la struc
 Le guide de réalisation et d'installation du projet peut être trouvé dans les documents PDF du projet.
 
 Dans le cas où un problème se poserait, Mr.Matthieu PERREIRA DA SILVA a été ajouté à notre projet sur GitLab au cas où, afin d'y avoir les mêmes accès.
-De plus, la dernière version de tout nos codes se trouvent, en plus, dans l'archive déposée à la racine, ainsi que le build du jeu.
+Notamment pour le téléchargement du build, qui n'a pas l'air possible sur cette plateforme, sûrement en vue de sa taille (>200MO).
