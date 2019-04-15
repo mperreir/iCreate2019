@@ -2,12 +2,13 @@
 
 - Partenaire : Musée d'art de Nantes
 
-- Etudiants : 	* Margaux Boutin
-				* Fiona Bernaerts
-				* Robin Pierre
-				* Lorenz Hoyet
-				* Dimitri Fort
-				* Xingchen Tan
+- Etudiants : 
+* Margaux Boutin
+* Fiona Bernaerts
+* Robin Pierre
+* Lorenz Hoyet
+* Dimitri Fort
+* Xingchen Tan
 
 - Technologie d'entrée : Webcam
 
