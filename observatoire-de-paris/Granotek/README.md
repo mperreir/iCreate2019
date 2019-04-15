@@ -1,21 +1,21 @@
-# Nom de groupe (a remplacer)
+# Granotek
 
-- Partenaire : 
+- Partenaire : Observatoire de Paris
 
-- Etudiants : 
+- Etudiants :
+  + EDNA : Anais BRUNE, Déborah BUESING, Florian GALLOU
+  + Polytech : Lorenzo ARMANDIN, Adrien GIDE, Corentin GOINARD
 
-- Technologie d'entrée : 
+- Technologie d'entrée : Webcam
 
-- Technologie de sortie : 
+- Technologie de sortie : Périphérique mobile
 
-  
 
-# Nom de l'installation (à remplacer)
+
+# Découvre ta planète
 
 ## Description
 
-Cette installation….
-
-## Guide de réalisation et d’installation du projet
-
-Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
+Voyage dans l'espace pour trouver l'exoplanète qui te correspond ! Saute le plus haut possible pour traverser l'univers ! Écarte grand les bras pour accueillir une planète ÉNORME !  
+À travers une expérience ludique et immersive, découvre ce que sont les exoplanètes et ce qui les rend si particulières.  
+L'équipe Granotek vous invite à vous mettre dans la peau d'un astronome et à utiliser le télescope de son observatoire pour en apprendre plus sur ces fameuses exoplanètes.
