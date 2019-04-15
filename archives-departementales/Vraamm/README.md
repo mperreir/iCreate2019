@@ -10,7 +10,7 @@
 
   
 
-# HomePicking
+# HomePicking Game
 
 ## Description
 
