@@ -18,3 +18,13 @@ Projet iCreate 2019
   - Caroline Bertin
   - Lola Bourasseau
   - Pauline Motel
+
+## Organisation du répertoire
+
+- rapport icreate.pdf : rapport de projet
+- guide icreate.pdf : guide d'installation
+- MuseeArduino : code à installer sur la carte Arduino
+- MuseeServeur : code à installer sur le Raspberry Pi
+- MuseeClient : code à installer sur la tablette
+- MuseeArduinoProcessing : ancien code de test
+- MuseeClientAncien : ancien code client en Processing
