@@ -1,21 +1,28 @@
-# Nom de groupe (a remplacer)
+# La Skarsta
 
-- Partenaire : 
+- **Partenaire** : Département de Loire Atlantique
 
-- Etudiants : 
+- **Etudiants** : 
+	- COUGNAUD Julien
+	- CRÉQUER Kilian
+	- DUFOUR Laureline
+	- MOITEAUX Quentin
+	- MULTON Justine
+	- PAPILLON Guillaume
+	- PARAIRE Léa
 
-- Technologie d'entrée : 
+- **Technologie d'entrée** : Capteurs téléphone mobile
 
-- Technologie de sortie : 
+- **Technologie de sortie** : Périphérique mobile
+ 
 
-  
-
-# Nom de l'installation (à remplacer)
+# De l'horizontal au vertical
 
 ## Description
 
-Cette installation….
+Cette installation a pour objectif de sensibiliser le public sur l’impact de la hauteur des bâtiments
+(utilitaires ou résidentiels) sur l’étalement urbain et ses conséquences sur l'environnement.
 
 ## Guide de réalisation et d’installation du projet
 
-Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
+Ce guide est intégré au fichier PDF appelé "rapport_skarsta" présent dans le même répertoire que ce README.

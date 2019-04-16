@@ -1,0 +1,58 @@
+<html>
+   <head>
+        <title>The jQuery Example</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
+
+        <script type = "text/javascript" 
+            src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+		
+        <script type = "text/javascript" language = "javascript">
+            $(document).ready(function() {
+                //Affichage animée du texte
+                $(".text").css({"position":"absolute", "color":"white","width":"260px", "top":"310px","right":"70px", "font-size":"18px"});
+                $(".text").toggle('slow');
+
+                //Placement de chaque point
+                $("#1").css({"position":"absolute","top":"10.8em","left":"24.7em"});
+                $("#2").css({"position":"absolute","top":"20.1em","left":"32.6em"});
+                $("#3").css({"position":"absolute","top":"25.6em","left":"26.2em"});
+                $("#4").css({"position":"absolute","top":"31em","left":"26.2em"});
+                $("#5").css({"position":"absolute","top":"36.4em","left":"32.6em"});
+                $("#6").css({"position":"absolute","top":"41.9em","left":"32.6em"});
+                //Affichage animée des points
+                $(".circle").toggle('slow');
+            });
+        </script>
+   </head>
+	
+   <body>
+        <p style="display:none; font-family: Montserrat" class="text">
+            L’étalement urbain est moindre. La population vit dans des appartements avec balcons. 
+            La surface agricole est optimale et permet un bon développement économique. 
+            Votre population peut se permettre d’aller à pied au travail et aux services publics.
+            Une dynamique propre à la collectivité s’est instaurée, et pour apprécier des moments 
+            calmes, beaucoup profitent des espaces naturels à portée des transports en communs.
+        </p>
+        <svg style="display:none" width="30" height="30" class="circle" id="1">
+            <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <svg style="display:none" width="30" height="30" class="circle" id="2">
+            <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <svg style="display:none" width="30" height="30" class="circle" id="3">
+            <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <svg style="display:none" width="30" height="30" class="circle" id="4">
+            <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <svg style="display:none" width="30" height="30" class="circle" id="5">
+           <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <svg style="display:none" width="30" height="30" class="circle" id="6">
+            <circle cx="15" cy="15" r="10" fill="white" />
+        </svg>
+        <img src = "img3.svg" alt = "jQuery" class="image"/>
+   </body>
+</html>
