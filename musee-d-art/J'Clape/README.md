@@ -1,21 +1,30 @@
-# Nom de groupe (a remplacer)
+# J'CLAPE
 
-- Partenaire : 
+Projet iCreate 2019
 
-- Etudiants : 
+## Présentation du projet
 
-- Technologie d'entrée : 
+- **Porteur de projet** : Musée d'Arts de Nantes
+- **Technologie d'entrée** : Capteurs piézo-électriques
+- **Technologie de sortie** : Périphériques mobiles
 
-- Technologie de sortie : 
+## Membres de l'équipe
 
-  
+- **Polytech Nantes**
+  - Antoine Boursin
+  - Emilie Lethu
+  - Jiarui Li
+- **L'École de Design de Nantes Atlantique**
+  - Caroline Bertin
+  - Lola Bourasseau
+  - Pauline Motel
 
-# Nom de l'installation (à remplacer)
+## Organisation du répertoire
 
-## Description
-
-Cette installation….
-
-## Guide de réalisation et d’installation du projet
-
-Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
+- rapport icreate.pdf : rapport de projet
+- guide icreate.pdf : guide d'installation
+- MuseeArduino : code à installer sur la carte Arduino
+- MuseeServeur : code à installer sur le Raspberry Pi
+- MuseeClient : code à installer sur la tablette
+- MuseeArduinoProcessing : ancien code de test
+- MuseeClientAncien : ancien code client en Processing
