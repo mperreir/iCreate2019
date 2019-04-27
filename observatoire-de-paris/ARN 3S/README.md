@@ -1,21 +1,78 @@
-# Nom de groupe (a remplacer)
+# iCreate2019
 
-- Partenaire : 
+## L'équipe ARN-3S
 
-- Etudiants : 
+* Anaïs Barreaud
+* Nathan Rossard
+* Rémi Taunay
+* Samuele Da Silva
+* Selma Duran
+* Simon Paugam
 
-- Technologie d'entrée : 
+## Technologies
 
-- Technologie de sortie : 
+Entrée **-->** Sortie  
+Leap Motion **-->** Son Spatialisé
 
-  
+## Contact de l'organisme porteur de projet
 
-# Nom de l'installation (à remplacer)
+Lucie Leboulleux, de l'Observatoire de Paris.
+ 
+# Installation
 
-## Description
+## Montage et démontage de la structure
 
-Cette installation….
+**TODO**
 
-## Guide de réalisation et d’installation du projet
+## Logiciel
 
-Comprend les aspects matériels et logiciels (toute l'installation, pas que la partie informatique !). A faire en commun avec les designers. Peut être intégré au README ou faire l'objet d'un PDF externe.
+### Driver de la carte son StarTech ICUSBAUDIO7D
+
+[Ce driver](https://sgcdn.startech.com/005329/media/sets/C-Media-CM6206_Drivers/[CMedia%20CM6206]%20Windows%20USB%207.1%20Audio%20Adapter.zip) est disponible sous Windows uniquement.  
+Le télécharger puis l'installer.   
+
+### Branchements physiques
+
+Effectuer le branchement des différents périphériques.  
+* leap motion
+* carte son et ses enceintes 5.1
+
+### Configuration du surround 5.1
+
+Dans la zone de notification, ouvrir l'utilitaire du driver "USB Multi-Channel Audio Device" et régler sur 6 (5.1CH) la sortie analogique, dans l'onglet "Param. principal".
+
+Toujours dans la zone de notification, clic droit sur l'icône du son > "Son" > "Lecture". Vérifier la présence des hauts-parleurs carte son et de sa sortie numérique. "Configurer" les hauts-parleurs de la carte son externe et régler sur "Surround 5.1". "Suivant"x3 puis "Terminer". 
+
+### Installation du driver du Leap Motion
+
+**TODO**
+
+### Récupération des sources
+
+```bash
+$ git clone http://github.com/S0nzero/iCreate2019.git/ icreate
+$ cd icreate
+```
+
+### Environnement d'exécution
+
+Télécharger puis installer et configurer [conda](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe).
+
+```bash
+$ conda update conda
+$ conda config --add channels conda-forge
+```
+
+Créer et activer l'environnement virtuel python.
+```bash
+$ conda create -n icreate python=3.7
+$ . activate icreate
+$ pip install websockets pyopenal pyogg 
+```
+
+### Lancement de l'application
+
+```bash
+$ cd src
+$ python main.py
+```
