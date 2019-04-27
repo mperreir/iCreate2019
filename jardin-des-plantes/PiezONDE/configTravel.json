@@ -1,0 +1,54 @@
+{
+  "brazil":{
+    "start": {
+      "x": 2,
+      "y": 0,
+      "z": 0
+    },
+    "end": {
+      "x": -2,
+      "y": 0,
+      "z": 0
+    },
+    "path": "assets/rio.flac"
+  },
+  "russia": {
+    "start":{
+      "x": -2,
+      "y": 0,
+      "z": 0
+    },
+    "end":{
+      "x": 2,
+      "y": 0,
+      "z": 0
+    },
+    "path": "assets/Moscou.flac"
+  },
+  "japan": {
+    "start": {
+      "x": 0,
+      "y": 0,
+      "z": -2
+    },
+    "end": {
+      "x": 0,
+      "y": 0,
+      "z": 2
+    },
+    "path": "assets/kyoto.flac"
+  },
+  "usa": {
+    "start": {
+      "x": 0,
+      "y": 0,
+      "z": 2
+    },
+    "end": {
+      "x": 0,
+      "y": 0,
+      "z": -2
+    },
+    "path": "assets/seattle.flac"
+  }
+}
