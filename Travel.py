@@ -53,6 +53,7 @@ class Travel:
         PLay the information corresponding to the city
         """
         source = self._create_sound_source(self.sound_path, self.end_position)
+        source.set_gain(1.4)
         source.play()
 
         while source.get_state() == AL_PLAYING:

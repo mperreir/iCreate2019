@@ -1,12 +1,14 @@
 import json
 import serial
 from Travel import Travel
+from PlayMusic import PlayMusic
 from SurroundPlayer import SurroundPlayer
 import time
+from history import History
 
 
 class SerialInput:
-    def __init__(self, tty_name, threshold=400) -> None:
+    def __init__(self, tty_name, threshold=100) -> None:
         super().__init__()
         self.ttyName = tty_name
         self.player = SurroundPlayer()
@@ -16,6 +18,7 @@ class SerialInput:
             print("Can't connect to tty")
         self.threshold = threshold
         self.travels = []
+        self.history = History()
 
     def start(self) -> None:
         """
@@ -43,6 +46,9 @@ class SerialInput:
                                     )
                     self.travels.append(travel)
 
+            #self.music = PlayMusic((0, 0, 0), (0, 0, 0),  'assets/voyage.flac', 'music')
+            #self.travels.append(self.music)
+
         except IOError:
             print("Can't read configTravel.json")
 
@@ -59,10 +65,13 @@ class SerialInput:
 
         max_input_name = ""
         max_input_value = -1
+        high_value_number = 0
         for piezo, value in input_data.items():
             if value > max_input_value:
                 max_input_name = piezo
                 max_input_value = value
+            if value > self.threshold:
+                high_value_number += 1
 
         if max_input_value >= self.threshold:
             self.select_instance(max_input_name)
@@ -81,5 +90,8 @@ class SerialInput:
                 print("Let's play " + travel.travel_name)
                 self.player.canplay(False)
                 self.player.play(travel)
+                if self.history.append(activated_piezo):
+                    voyage = PlayMusic((0, 0, -1), 'assets/voyage.flac')
+                    voyage.start()
                 self.player.canplay(True)
                 self.arduinoSerialPort.reset_input_buffer()
