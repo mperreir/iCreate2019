@@ -1,5 +1,20 @@
-# iCreate2019
-Code source pour le groupe PiezeOnde du projet iCreate 2019
+﻿# PiezONDE
+
+- Partenaire : SEVE
+
+- Etudiants : Alma Steinfeld, Nijie Ma, Romane Watrin, Emme Brossaud, Yves Le Palud, Lilian Barreteau
+
+- Technologie d'entrée : Capteurs piezo
+
+- Technologie de sortie : Son spatialisé
+
+  
+
+# De fil en graines
+
+## Guide de réalisation et d’installation du projet
+
+## Cf. le dossier installation pour la structure
 
 ## Matériel nécessaire
 
