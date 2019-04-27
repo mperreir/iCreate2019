@@ -1,0 +1,73 @@
+body
+{
+    background: #eeeeee;
+    font-family: "futura-bold",sans-serif;
+    color: #696867;
+}
+
+h1
+{
+    margin-top: 5%;
+    font-size: 3em;
+    text-align: center;
+}
+
+.boutons
+{
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #960049;
+  padding: 15px 40px 16px 40px;
+  text-decoration: none;
+  border: none;
+  text-align: center;
+  float: right;
+  cursor: pointer;
+}
+
+.boutons:hover
+{
+  background: #ffffff;
+  text-decoration: none;
+  color: #960049;
+}
+
+.boutons:disabled
+{
+  background: lightgrey;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+}
+
+#recommencer
+{
+    position: relative;
+    margin: -10% 15% 0 0;
+}
+
+#nom,#ville,#dispute
+{
+    position: relative;
+    margin: -10% 30% 0 0;
+}
+
+#myVideo
+{
+    margin-left: 3%;
+    margin-top: 8%;
+}
+
+#chrono
+{
+    float: right;
+    position: relative;
+    margin: -23% 10% 0 0;
+    font-size: 2em;
+    font-weight: bold;
+    width: 40%;
+    text-align: center;
+}

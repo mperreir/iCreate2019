@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>iCreate</title>
+	<link rel="stylesheet" href="client.css">
+</head>
+<body>
+	<div>
+		<video controls width="100%" class="video" id="book">
+			<source src="LIVRE_COULEURS.mp4" type="video/mp4">
+				Sorry, your browser doesn't support embedded videos.
+			</video>
+
+			<video controls width="100%" class="video" id="flute">
+				<source src="FLUTE_VANITE.mp4" type="video/mp4">
+					Sorry, your browser doesn't support embedded videos.
+				</video>
+
+				<video controls width="100%" class="video" id="sand">
+					<source src="SABLIER.mp4" type="video/mp4">
+						Sorry, your browser doesn't support embedded videos.
+					</video>
+				</div>
+
+				<script>
+				function toggleFullscreen(event) {
+					var element = document.body;
+
+					if (event instanceof HTMLElement) {
+						element = event;
+					}
+
+					var isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
+
+					element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () { return false; };
+					document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () { return false; };
+
+					isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+				}
+				document.addEventListener('click', toggleFullscreen);
+
+
+				let connexion = new WebSocket('ws://192.168.8.102:8025/musee');
+
+				connexion.onopen = function (event) {
+					connexion.send("Bonjour cher serveur !");
+				};
+
+				let lastSelected = null;
+				let countdown;
+				let book = document.getElementById("book");
+				let flute = document.getElementById("flute");
+				let sand = document.getElementById("sand");
+
+				connexion.onmessage = function (event) {
+					let capteurs = JSON.parse(event.data);
+					console.log(lastSelected);
+
+					if (capteurs.book > 20 && lastSelected != "book") {
+						book.style.display = 'block'
+						flute.style.display = 'none'
+						sand.style.display = 'none'
+						lastSelected = "book";
+						console.log("book");
+						book.currentTime = 0;
+						book.play();
+						flute.pause();
+						sand.pause();
+						clearTimeout(countdown);
+						countdown = setTimeout(function() {lastSelected = null;}, 25000);
+					}
+
+					if (capteurs.flute > 20 && lastSelected != "flute") {
+						book.style.display = 'none'
+						flute.style.display = 'block'
+						sand.style.display = 'none'
+						lastSelected = "flute";
+						console.log("flute");
+						flute.currentTime = 0;
+						book.pause();
+						flute.play();
+						sand.pause();
+						clearTimeout(countdown);
+						countdown = setTimeout(function() {lastSelected = null;}, 25000);
+					}
+
+					if (capteurs.sand > 20 && lastSelected != "sand") {
+						book.style.display = 'none'
+						flute.style.display = 'none'
+						sand.style.display = 'block'
+						lastSelected = "sand";
+						console.log("sand");
+						sand.currentTime = 0;
+						book.pause();
+						flute.pause();
+						sand.play();
+						clearTimeout(countdown);
+						countdown = setTimeout(function() {lastSelected = null;}, 25000);
+					}
+				}
+
+				</script>
+			</body>
+			</html>
